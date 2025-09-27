@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace CINE_PRIME.Models;
 
-public partial class Actore
+public partial class Actor
 {
     public int ActorId { get; set; }
 
