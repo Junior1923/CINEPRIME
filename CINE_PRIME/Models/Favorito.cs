@@ -13,7 +13,8 @@ public partial class Favorito
 
     public DateTime FechaCreacion { get; set; }
 
-    public virtual Pelicula Pelicula { get; set; } = null!;
 
+    //PROPIEDADES DE NAVEGACION
+    public virtual Pelicula Pelicula { get; set; } = null!;
     public virtual Usuario Usuario { get; set; } = null!;
 }

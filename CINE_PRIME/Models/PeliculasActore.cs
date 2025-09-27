@@ -11,7 +11,7 @@ public partial class PeliculasActore
 
     public string? NombrePersonaje { get; set; }
 
-    public virtual Actore Actor { get; set; } = null!;
+    public virtual Actor Actor { get; set; } = null!;
 
     public virtual Pelicula Pelicula { get; set; } = null!;
 }

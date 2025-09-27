@@ -29,5 +29,5 @@ public partial class Pelicula
 
     public virtual ICollection<Trailer> Trailers { get; set; } = new List<Trailer>();
 
-    public virtual ICollection<Genero> Generos { get; set; } = new List<Genero>();
+    public ICollection<PeliculasGenero> PeliculasGeneros { get; set; } = new List<PeliculasGenero>();
 }
