@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Cerrar Sesión";
+}
+
+<div class="container mt-5 text-center">
+    <h2>¿Quieres cerrar sesión?</h2>
+
+    <p>
+        Estás conectado como:
+        <strong>@ViewBag.Usuario</strong>
+    </p>
+
+    <form asp-action="LogoutConfirm" method="post">
+        <button type="submit" class="btn btn-danger">Cerrar sesión</button>
+        <a asp-controller="Home" asp-action="Index" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>

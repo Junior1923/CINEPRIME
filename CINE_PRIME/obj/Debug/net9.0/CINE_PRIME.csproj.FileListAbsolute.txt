@@ -460,3 +460,4 @@ C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\refint\CINE_PR
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\CINE_PRIME.pdb
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\CINE_PRIME.genruntimeconfig.cache
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\ref\CINE_PRIME.dll
+C:\Users\junio\source\repos\CINE_PRIME\CINE_PRIME\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt

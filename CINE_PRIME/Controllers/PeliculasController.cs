@@ -6,14 +6,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using CINE_PRIME.Models;
+using CINE_PRIME.Data;
 
 namespace CINE_PRIME.Controllers
 {
     public class PeliculasController : Controller
     {
-        private readonly cineprimeContext _context;
+        private readonly CinePrimeContext _context;
 
-        public PeliculasController(cineprimeContext context)
+        public PeliculasController(CinePrimeContext context)
         {
             _context = context;
         }

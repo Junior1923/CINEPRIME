@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jeanl\\Source\\Repos\\CINEPRIME\\CINE_PRIME\\CINE_PRIME.csproj": {}
+    "C:\\Users\\junio\\source\\repos\\CINE_PRIME\\CINE_PRIME\\CINE_PRIME.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jeanl\\Source\\Repos\\CINEPRIME\\CINE_PRIME\\CINE_PRIME.csproj": {
+    "C:\\Users\\junio\\source\\repos\\CINE_PRIME\\CINE_PRIME\\CINE_PRIME.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jeanl\\Source\\Repos\\CINEPRIME\\CINE_PRIME\\CINE_PRIME.csproj",
+        "projectUniqueName": "C:\\Users\\junio\\source\\repos\\CINE_PRIME\\CINE_PRIME\\CINE_PRIME.csproj",
         "projectName": "CINE_PRIME",
-        "projectPath": "C:\\Users\\jeanl\\Source\\Repos\\CINEPRIME\\CINE_PRIME\\CINE_PRIME.csproj",
-        "packagesPath": "C:\\Users\\jeanl\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jeanl\\Source\\Repos\\CINEPRIME\\CINE_PRIME\\obj\\",
+        "projectPath": "C:\\Users\\junio\\source\\repos\\CINE_PRIME\\CINE_PRIME\\CINE_PRIME.csproj",
+        "packagesPath": "C:\\Users\\junio\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\junio\\source\\repos\\CINE_PRIME\\CINE_PRIME\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\jeanl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\junio\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -44,7 +44,7 @@
           "auditLevel": "low",
           "auditMode": "direct"
         },
-        "SdkAnalysisLevel": "9.0.300"
+        "SdkAnalysisLevel": "9.0.200"
       },
       "frameworks": {
         "net9.0": {
@@ -90,7 +90,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

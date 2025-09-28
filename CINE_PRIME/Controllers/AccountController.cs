@@ -1,22 +1,20 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using CINE_PRIME.Models;
-using System.Security.Cryptography;
-using System.Text;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using System.Security.Claims;
-using System;
-using System.Threading.Tasks;
-using System.Collections.Generic;
+using System.Text;
+using System.Security.Cryptography;
+using CINE_PRIME.Data;
 
 namespace CINE_PRIME.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly cineprimeContext _context;
+        private readonly CinePrimeContext _context;
 
-        public AccountController(cineprimeContext context)
+        public AccountController(CinePrimeContext context)
         {
             _context = context;
         }
@@ -31,15 +29,15 @@ namespace CINE_PRIME.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(string usuarioId, string correo, string password)
+        public async Task<IActionResult> Register(string nombre, string correo, string password)
         {
-            if (string.IsNullOrEmpty(usuarioId) || string.IsNullOrEmpty(correo) || string.IsNullOrEmpty(password))
+            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(correo) || string.IsNullOrEmpty(password))
             {
                 ModelState.AddModelError("", "Todos los campos son obligatorios.");
                 return View();
             }
 
-            // Verificar si el correo ya existe
+            // Verificar si ya existe el correo
             var usuarioExistente = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == correo);
             if (usuarioExistente != null)
             {
@@ -47,47 +45,51 @@ namespace CINE_PRIME.Controllers
                 return View();
             }
 
+            // Crear hash de contraseña
             var hash = CrearHash(password);
 
+            // Crear usuario
             var nuevoUsuario = new Usuario
             {
-                UsuarioId = usuarioId,
+                UsuarioId = nombre, //  Se guarda el nombre como ID 
                 Correo = correo,
                 ContrasenaHash = hash,
                 FechaRegistro = DateTime.Now
             };
 
-            // Crear el perfil asociado al usuario
+            _context.Usuarios.Add(nuevoUsuario);
+
+            // Crear perfil con datos ingresados
             var perfil = new PerfilesUsuario
             {
-                UsuarioId = usuarioId,
-                NombreMostrar = usuarioId, // puedes cambiar a un nombre real si lo pides en el registro
-                UrlAvatar = null // puedes poner un avatar por defecto
+                UsuarioId = nuevoUsuario.UsuarioId,
+                NombreMostrar = nombre,
+                UrlAvatar = null,
+                FechaCreacion = DateTime.Now
             };
 
-            // Agregar ambos al contexto
-            _context.Usuarios.Add(nuevoUsuario);
             _context.PerfilesUsuarios.Add(perfil);
-
             await _context.SaveChangesAsync();
 
-            // Loguear automáticamente
-            var claims = new List<Claim>
-    {
-        new Claim(ClaimTypes.Name, nuevoUsuario.UsuarioId),
-        new Claim(ClaimTypes.Email, nuevoUsuario.Correo)
-    };
+            // Guardar en sesión
+            HttpContext.Session.SetString("UsuarioId", nuevoUsuario.UsuarioId);
+            HttpContext.Session.SetString("UsuarioCorreo", nuevoUsuario.Correo);
+            HttpContext.Session.SetString("UsuarioNombre", perfil.NombreMostrar ?? nuevoUsuario.Correo);
 
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            // Autenticación con cookies
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Name, nuevoUsuario.UsuarioId),
+                new Claim(ClaimTypes.Email, nuevoUsuario.Correo)
+            };
 
             await HttpContext.SignInAsync(
                 CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity)
+                new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme))
             );
 
             return RedirectToAction("Index", "Home");
         }
-
 
         // ---------------------
         // LOGIN
@@ -110,7 +112,7 @@ namespace CINE_PRIME.Controllers
             var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == correo);
             if (usuario == null)
             {
-                ModelState.AddModelError("", "Este correo no está registrado. Por favor, crea una cuenta.");
+                ModelState.AddModelError("", "Este correo no está registrado.");
                 return View();
             }
 
@@ -121,15 +123,21 @@ namespace CINE_PRIME.Controllers
                 return View();
             }
 
-            // Loguear con cookies
+            var perfil = await _context.PerfilesUsuarios.FirstOrDefaultAsync(p => p.UsuarioId == usuario.UsuarioId);
+
+            // Guardar en sesión
+            HttpContext.Session.SetString("UsuarioId", usuario.UsuarioId);
+            HttpContext.Session.SetString("UsuarioCorreo", usuario.Correo);
+            HttpContext.Session.SetString("UsuarioNombre", perfil?.NombreMostrar ?? usuario.Correo);
+
+            // Autenticación con cookies
             var claims = new List<Claim>
             {
-                
+                new Claim(ClaimTypes.Name, usuario.UsuarioId),
                 new Claim(ClaimTypes.Email, usuario.Correo)
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-
             var authProperties = new AuthenticationProperties
             {
                 IsPersistent = true,
@@ -141,18 +149,32 @@ namespace CINE_PRIME.Controllers
                 new ClaimsPrincipal(claimsIdentity),
                 authProperties
             );
-            
+
             return RedirectToAction("Index", "Home");
         }
 
         // ---------------------
         // LOGOUT
         // ---------------------
-        [HttpPost]
-        public async Task<IActionResult> Logout()
+        [HttpGet]
+        public IActionResult Logout()
         {
+            var correo = HttpContext.Session.GetString("UsuarioCorreo");
+            var nombre = HttpContext.Session.GetString("UsuarioNombre");
+
+            ViewBag.Usuario = nombre ?? correo;
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LogoutConfirm()
+        {
+            // Limpiar sesión y cookies
+            HttpContext.Session.Clear();
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Login");
+
+            return RedirectToAction("Login", "Account");
         }
 
         // ---------------------
@@ -160,12 +182,10 @@ namespace CINE_PRIME.Controllers
         // ---------------------
         private string CrearHash(string input)
         {
-            using (var sha256 = SHA256.Create())
-            {
-                var bytes = Encoding.UTF8.GetBytes(input);
-                var hash = sha256.ComputeHash(bytes);
-                return Convert.ToBase64String(hash);
-            }
+            using var sha256 = SHA256.Create();
+            var bytes = Encoding.UTF8.GetBytes(input);
+            var hash = sha256.ComputeHash(bytes);
+            return Convert.ToBase64String(hash);
         }
     }
 }
