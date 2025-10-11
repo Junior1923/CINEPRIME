@@ -1,11 +1,13 @@
 ﻿using CINE_PRIME.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CINE_PRIME.Data
 {
-    public class CinePrimeContext : DbContext 
+    public class CinePrimeContext : IdentityDbContext<ApplicationUser>
     {
 
+        #region DBSETS
         public virtual DbSet<Actor> Actores { get; set; }
 
         public virtual DbSet<BitacoraAuditorium> BitacoraAuditoria { get; set; }
@@ -34,6 +36,8 @@ namespace CINE_PRIME.Data
 
         public virtual DbSet<Usuario> Usuarios { get; set; }
 
+        #endregion
+
         public CinePrimeContext(DbContextOptions<CinePrimeContext> options)
             : base(options) 
         {
@@ -42,7 +46,10 @@ namespace CINE_PRIME.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Aplica todas las configuraciones del assembly automáticamente
+            // Llama al método base para asegurarse de que las configuraciones de Identity se apliquen correctamente
+            base.OnModelCreating(modelBuilder);
+
+            // Aplica todas las configuraciones del assembly automáticamente (personalizadas)
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CinePrimeContext).Assembly);
 
 

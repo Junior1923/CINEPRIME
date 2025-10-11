@@ -1,4 +1,30 @@
-﻿@{
+﻿@model CINE_PRIME.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Iniciar sesión";
+}
+<h2>Iniciar sesión</h2>
+
+<form asp-action="Login" method="post">
+    <div>
+        <label asp-for="Email">Correo Electrónico</label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <label asp-for="Password">Contraseña</label>
+        <input asp-for="Password" type="password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <input asp-for="RememberMe" />
+        <label asp-for="RememberMe">Recuerdame</label>
+    </div>
+    <button type="submit">Ingresar</button>
+</form>
+
+
+
+@* @{
     ViewData["Title"] = "Login";
 }
 
@@ -29,7 +55,7 @@
     </div>
 }
 
-<hr />
+<hr /> *@
 
 <p>
     ¿No tienes cuenta?

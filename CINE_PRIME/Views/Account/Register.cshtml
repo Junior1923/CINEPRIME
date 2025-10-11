@@ -1,42 +1,49 @@
-﻿@{
+﻿@model CINE_PRIME.ViewModels.RegisterViewModel
+@{
     ViewData["Title"] = "Registro";
 }
+<h2>Crear cuenta</h2>
 
-<h2>Crear Cuenta</h2>
-
-<form method="post" asp-action="Register" asp-controller="Account">
-    <div class="mb-3">
-        <label for="nombre" class="form-label">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" class="form-control" required />
-    </div>
-
-    <div class="mb-3">
-        <label for="correo" class="form-label">Correo:</label>
-        <input type="email" id="correo" name="correo" class="form-control" required />
-    </div>
-
-    <div class="mb-3">
-        <label for="password" class="form-label">Contraseña:</label>
-        <input type="password" id="password" name="password" class="form-control" required />
-    </div>
-
-    <button type="submit" class="btn btn-success">Registrarse</button>
-</form>
-
-<!-- Mostrar errores de validación -->
-@if (!ViewData.ModelState.IsValid)
+@if (ViewBag.SuccessMessage != null)
 {
-    <div class="mt-3 text-danger">
-        <ul>
-            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
-            {
-                <li>@error.ErrorMessage</li>
-            }
-        </ul>
+    <div class="d-flex justify-content-center mt-4">
+        <div class="alert alert-success w-50 text-center shadow-sm" role="alert">
+            <i class="bi bi-check-circle-fill"></i> @ViewBag.SuccessMessage
+        </div>
     </div>
 }
 
+<form asp-action="Register" method="post">
+    <div>
+        <label asp-for="Nombre">Nombres</label>
+        <input asp-for="Nombre" />
+        <span asp-validation-for="Nombre"></span>
+    </div>
+    <div>
+        <label asp-for="Apellido">Apellidos</label>
+        <input asp-for="Apellido" />
+        <span asp-validation-for="Apellido"></span>
+    </div>
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div>
+        <label asp-for="Password"></label>
+        <input asp-for="Password" type="password" />
+        <span asp-validation-for="Password"></span>
+    </div>
+    <div>
+        <label asp-for="ConfirmPassword"></label>
+        <input asp-for="ConfirmPassword" type="password" />
+        <span asp-validation-for="ConfirmPassword"></span>
+    </div>
+    <button type="submit">Registrar</button>
+</form>
+
 <hr />
+
 
 <p>
     ¿Ya tienes cuenta?
