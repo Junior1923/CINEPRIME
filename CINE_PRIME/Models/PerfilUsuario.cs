@@ -5,7 +5,7 @@ namespace CINE_PRIME.Models;
 
 public partial class PerfilUsuario
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string UserId { get; set; }   // FK -> AspNetUsers.Id
     public string? Nombre { get; set; }
     public string? Apellido { get; set; }

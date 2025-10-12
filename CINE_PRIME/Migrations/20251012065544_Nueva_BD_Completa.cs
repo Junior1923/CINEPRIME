@@ -6,27 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CINE_PRIME.Migrations
 {
     /// <inheritdoc />
-    public partial class BD : Migration
+    public partial class Nueva_BD_Completa : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Actores",
-                columns: table => new
-                {
-                    ActorId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Biografia = table.Column<string>(type: "nvarchar(300)", maxLength: 300, nullable: true),
-                    UrlFoto = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    FechaNacimiento = table.Column<DateOnly>(type: "date", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Actores", x => x.ActorId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "AspNetRoles",
                 columns: table => new
@@ -70,67 +54,35 @@ namespace CINE_PRIME.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Generos",
+                name: "PeliculasLocales",
                 columns: table => new
                 {
-                    GeneroId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Nombre = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Generos", x => x.GeneroId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Peliculas",
-                columns: table => new
-                {
-                    PeliculaId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    TmdbMovieId = table.Column<int>(type: "int", nullable: false),
                     Titulo = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Sinopsis = table.Column<string>(type: "nvarchar(2000)", maxLength: 2000, nullable: true),
-                    Anio = table.Column<int>(type: "int", nullable: true),
-                    DuracionMin = table.Column<int>(type: "int", nullable: true),
-                    UrlPoster = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    PromedioCalificacion = table.Column<decimal>(type: "decimal(3,2)", nullable: true),
-                    EsPremium = table.Column<bool>(type: "bit", nullable: false)
+                    ImagenUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    Descripcion = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true),
+                    FechaLanzamiento = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    FechaGuardado = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Peliculas", x => x.PeliculaId);
+                    table.PrimaryKey("PK_PeliculasLocales", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Planes",
                 columns: table => new
                 {
-                    PlanId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
                     Nombre = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    Precio = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    MesesPeriodo = table.Column<int>(type: "int", nullable: false),
-                    MaxListaPendiente = table.Column<int>(type: "int", nullable: true),
-                    CaracteristicasJson = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PrecioMensual = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Descripcion = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Activo = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Planes", x => x.PlanId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Usuarios",
-                columns: table => new
-                {
-                    UsuarioId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    Correo = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    ContrasenaHash = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    FechaRegistro = table.Column<DateTime>(type: "datetime", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Usuarios", x => x.UsuarioId);
+                    table.PrimaryKey("PK_Planes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -240,153 +192,83 @@ namespace CINE_PRIME.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PeliculasActores",
+                name: "BitacorasAuditoria",
                 columns: table => new
                 {
-                    PeliculaId = table.Column<int>(type: "int", nullable: false),
-                    ActorId = table.Column<int>(type: "int", nullable: false),
-                    NombrePersonaje = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PeliculasActores", x => new { x.PeliculaId, x.ActorId });
-                    table.ForeignKey(
-                        name: "FK_PeliculasActores_Actores_ActorId",
-                        column: x => x.ActorId,
-                        principalTable: "Actores",
-                        principalColumn: "ActorId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PeliculasActores_Peliculas_PeliculaId",
-                        column: x => x.PeliculaId,
-                        principalTable: "Peliculas",
-                        principalColumn: "PeliculaId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "PeliculasGeneros",
-                columns: table => new
-                {
-                    PeliculaId = table.Column<int>(type: "int", nullable: false),
-                    GeneroId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PeliculasGeneros", x => new { x.PeliculaId, x.GeneroId });
-                    table.ForeignKey(
-                        name: "FK_PeliculasGeneros_Generos_GeneroId",
-                        column: x => x.GeneroId,
-                        principalTable: "Generos",
-                        principalColumn: "GeneroId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PeliculasGeneros_Peliculas_PeliculaId",
-                        column: x => x.PeliculaId,
-                        principalTable: "Peliculas",
-                        principalColumn: "PeliculaId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Trailers",
-                columns: table => new
-                {
-                    TrailerId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    PeliculaId = table.Column<int>(type: "int", nullable: false),
-                    Titulo = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Descripcion = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    UrlVideo = table.Column<string>(type: "nvarchar(400)", maxLength: 400, nullable: false),
-                    DuracionSeg = table.Column<int>(type: "int", nullable: true),
-                    FechaPublicacion = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Tipo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Trailers", x => x.TrailerId);
-                    table.ForeignKey(
-                        name: "FK_Trailers_Peliculas_PeliculaId",
-                        column: x => x.PeliculaId,
-                        principalTable: "Peliculas",
-                        principalColumn: "PeliculaId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "BitacoraAuditoria",
-                columns: table => new
-                {
-                    LogId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UsuarioId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: true),
                     Accion = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
-                    Entidad = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    EntidadId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "datetime", nullable: false),
-                    Ip = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true)
+                    FechaAccion = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Detalle = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_BitacoraAuditoria", x => x.LogId);
+                    table.PrimaryKey("PK_BitacorasAuditoria", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_BitacoraAuditoria_Usuarios_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "Usuarios",
-                        principalColumn: "UsuarioId");
+                        name: "FK_BitacorasAuditoria_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Favoritos",
                 columns: table => new
                 {
-                    FavoritoId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UsuarioId = table.Column<string>(type: "nvarchar(50)", nullable: false),
-                    PeliculaId = table.Column<int>(type: "int", nullable: false),
-                    FechaCreacion = table.Column<DateTime>(type: "datetime", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    TmdbMovieId = table.Column<int>(type: "int", nullable: false),
+                    FechaAgregado = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Favoritos", x => x.FavoritoId);
+                    table.PrimaryKey("PK_Favoritos", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Favoritos_Peliculas_PeliculaId",
-                        column: x => x.PeliculaId,
-                        principalTable: "Peliculas",
-                        principalColumn: "PeliculaId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Favoritos_Usuarios_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "Usuarios",
-                        principalColumn: "UsuarioId",
+                        name: "FK_Favoritos_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ListaPendientes",
+                name: "HistorialesVisualizacion",
                 columns: table => new
                 {
-                    ListaId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FechaCreacion = table.Column<DateTime>(type: "datetime", nullable: false),
-                    UsuarioId = table.Column<string>(type: "nvarchar(50)", nullable: false),
-                    PeliculaId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    TmdbMovieId = table.Column<int>(type: "int", nullable: false),
+                    FechaVisualizacion = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ListaPendientes", x => x.ListaId);
+                    table.PrimaryKey("PK_HistorialesVisualizacion", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ListaPendientes_Peliculas_PeliculaId",
-                        column: x => x.PeliculaId,
-                        principalTable: "Peliculas",
-                        principalColumn: "PeliculaId",
+                        name: "FK_HistorialesVisualizacion_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ListasPendientes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    TmdbMovieId = table.Column<int>(type: "int", nullable: false),
+                    FechaAgregado = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ListasPendientes", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ListaPendientes_Usuarios_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "Usuarios",
-                        principalColumn: "UsuarioId",
+                        name: "FK_ListasPendientes_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -394,19 +276,21 @@ namespace CINE_PRIME.Migrations
                 name: "PerfilesUsuarios",
                 columns: table => new
                 {
-                    UsuarioId = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    NombreMostrar = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
-                    UrlAvatar = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
-                    FechaCreacion = table.Column<DateTime>(type: "datetime", nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    Nombre = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    Apellido = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    FotoPerfil = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
+                    FechaRegistro = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PerfilesUsuarios", x => x.UsuarioId);
+                    table.PrimaryKey("PK_PerfilesUsuarios", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_PerfilesUsuarios_Usuarios_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "Usuarios",
-                        principalColumn: "UsuarioId",
+                        name: "FK_PerfilesUsuarios_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -414,53 +298,51 @@ namespace CINE_PRIME.Migrations
                 name: "Suscripciones",
                 columns: table => new
                 {
-                    SuscripcionId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UsuarioId = table.Column<string>(type: "nvarchar(50)", nullable: false),
-                    PlanId = table.Column<int>(type: "int", nullable: false),
-                    FechaInicio = table.Column<DateTime>(type: "datetime", nullable: false),
-                    FechaFin = table.Column<DateTime>(type: "datetime", nullable: true),
-                    Estado = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false)
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", maxLength: 450, nullable: false),
+                    PlanId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FechaInicio = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FechaFin = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Estado = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Suscripciones", x => x.SuscripcionId);
+                    table.PrimaryKey("PK_Suscripciones", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Suscripciones_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Suscripciones_Planes_PlanId",
                         column: x => x.PlanId,
                         principalTable: "Planes",
-                        principalColumn: "PlanId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Suscripciones_Usuarios_UsuarioId",
-                        column: x => x.UsuarioId,
-                        principalTable: "Usuarios",
-                        principalColumn: "UsuarioId",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Pagos",
                 columns: table => new
                 {
-                    PagoId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SuscripcionId = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false, defaultValueSql: "NEWID()"),
+                    SuscripcionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Monto = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
                     Moneda = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Proveedor = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     ReferenciaProveedor = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     Estado = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    FechaPago = table.Column<DateTime>(type: "datetime", nullable: true)
+                    FechaPago = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Pagos", x => x.PagoId);
+                    table.PrimaryKey("PK_Pagos", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Pagos_Suscripciones_SuscripcionId",
                         column: x => x.SuscripcionId,
                         principalTable: "Suscripciones",
-                        principalColumn: "SuscripcionId",
+                        principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -504,30 +386,26 @@ namespace CINE_PRIME.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_BitacoraAuditoria_UsuarioId",
-                table: "BitacoraAuditoria",
-                column: "UsuarioId");
+                name: "IX_BitacorasAuditoria_UserId",
+                table: "BitacorasAuditoria",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Favoritos_PeliculaId",
+                name: "IX_Favoritos_UserId_TmdbMovieId",
                 table: "Favoritos",
-                column: "PeliculaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Favoritos_UsuarioId_PeliculaId",
-                table: "Favoritos",
-                columns: new[] { "UsuarioId", "PeliculaId" },
+                columns: new[] { "UserId", "TmdbMovieId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ListaPendientes_PeliculaId",
-                table: "ListaPendientes",
-                column: "PeliculaId");
+                name: "IX_HistorialesVisualizacion_UserId_FechaVisualizacion",
+                table: "HistorialesVisualizacion",
+                columns: new[] { "UserId", "FechaVisualizacion" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ListaPendientes_UsuarioId",
-                table: "ListaPendientes",
-                column: "UsuarioId");
+                name: "IX_ListasPendientes_UserId_TmdbMovieId",
+                table: "ListasPendientes",
+                columns: new[] { "UserId", "TmdbMovieId" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pagos_SuscripcionId",
@@ -535,14 +413,16 @@ namespace CINE_PRIME.Migrations
                 column: "SuscripcionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PeliculasActores_ActorId",
-                table: "PeliculasActores",
-                column: "ActorId");
+                name: "IX_PeliculasLocales_TmdbMovieId",
+                table: "PeliculasLocales",
+                column: "TmdbMovieId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_PeliculasGeneros_GeneroId",
-                table: "PeliculasGeneros",
-                column: "GeneroId");
+                name: "IX_PerfilesUsuarios_UserId",
+                table: "PerfilesUsuarios",
+                column: "UserId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Suscripciones_PlanId",
@@ -550,14 +430,9 @@ namespace CINE_PRIME.Migrations
                 column: "PlanId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Suscripciones_UsuarioId",
+                name: "IX_Suscripciones_UserId",
                 table: "Suscripciones",
-                column: "UsuarioId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Trailers_PeliculaId",
-                table: "Trailers",
-                column: "PeliculaId");
+                column: "UserId");
         }
 
         /// <inheritdoc />
@@ -579,52 +454,37 @@ namespace CINE_PRIME.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "BitacoraAuditoria");
+                name: "BitacorasAuditoria");
 
             migrationBuilder.DropTable(
                 name: "Favoritos");
 
             migrationBuilder.DropTable(
-                name: "ListaPendientes");
+                name: "HistorialesVisualizacion");
+
+            migrationBuilder.DropTable(
+                name: "ListasPendientes");
 
             migrationBuilder.DropTable(
                 name: "Pagos");
 
             migrationBuilder.DropTable(
-                name: "PeliculasActores");
-
-            migrationBuilder.DropTable(
-                name: "PeliculasGeneros");
+                name: "PeliculasLocales");
 
             migrationBuilder.DropTable(
                 name: "PerfilesUsuarios");
 
             migrationBuilder.DropTable(
-                name: "Trailers");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Suscripciones");
 
             migrationBuilder.DropTable(
-                name: "Actores");
-
-            migrationBuilder.DropTable(
-                name: "Generos");
-
-            migrationBuilder.DropTable(
-                name: "Peliculas");
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Planes");
-
-            migrationBuilder.DropTable(
-                name: "Usuarios");
         }
     }
 }

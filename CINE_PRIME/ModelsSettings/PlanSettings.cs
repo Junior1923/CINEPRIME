@@ -11,6 +11,12 @@ namespace CINE_PRIME.ModelsSettings
             // Primary Key
             builder.HasKey(p => p.Id);
 
+            // Configuración para que el GUID se genere automáticamente
+            builder.Property(p => p.Id)
+                   .HasColumnType("uniqueidentifier")
+                   .ValueGeneratedOnAdd()
+                   .HasDefaultValueSql("NEWID()");
+
             // Configuración de propiedades
             builder.Property(p => p.Nombre).IsRequired().HasMaxLength(100);
             builder.Property(p => p.PrecioMensual).HasColumnType("decimal(18,2)");

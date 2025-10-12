@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CINE_PRIME.Migrations
 {
     [DbContext(typeof(CinePrimeContext))]
-    [Migration("20251012052804_Nueva_BD")]
-    partial class Nueva_BD
+    [Migration("20251012065544_Nueva_BD_Completa")]
+    partial class Nueva_BD_Completa
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -103,11 +103,10 @@ namespace CINE_PRIME.Migrations
 
             modelBuilder.Entity("CINE_PRIME.Models.BitacoraAuditoria", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Accion")
                         .IsRequired()
@@ -134,11 +133,10 @@ namespace CINE_PRIME.Migrations
 
             modelBuilder.Entity("CINE_PRIME.Models.Favorito", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<DateTime>("FechaAgregado")
                         .HasColumnType("datetime2");
@@ -161,11 +159,10 @@ namespace CINE_PRIME.Migrations
 
             modelBuilder.Entity("CINE_PRIME.Models.HistorialVisualizacion", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<DateTime>("FechaVisualizacion")
                         .HasColumnType("datetime2");
@@ -187,11 +184,10 @@ namespace CINE_PRIME.Migrations
 
             modelBuilder.Entity("CINE_PRIME.Models.ListaPendiente", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<DateTime>("FechaAgregado")
                         .HasColumnType("datetime2");
@@ -214,19 +210,18 @@ namespace CINE_PRIME.Migrations
 
             modelBuilder.Entity("CINE_PRIME.Models.Pago", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Estado")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<DateTime?>("FechaPago")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime>("FechaPago")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Moneda")
                         .IsRequired()
@@ -245,28 +240,22 @@ namespace CINE_PRIME.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("SuscripcionId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SuscripcionId1")
-                        .HasColumnType("int");
+                    b.Property<Guid>("SuscripcionId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("SuscripcionId");
-
-                    b.HasIndex("SuscripcionId1");
 
                     b.ToTable("Pagos");
                 });
 
             modelBuilder.Entity("CINE_PRIME.Models.PeliculaLocal", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Descripcion")
                         .HasMaxLength(1000)
@@ -300,11 +289,10 @@ namespace CINE_PRIME.Migrations
 
             modelBuilder.Entity("CINE_PRIME.Models.PerfilUsuario", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Apellido")
                         .HasMaxLength(100)
@@ -336,11 +324,10 @@ namespace CINE_PRIME.Migrations
 
             modelBuilder.Entity("CINE_PRIME.Models.Plan", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
@@ -364,11 +351,10 @@ namespace CINE_PRIME.Migrations
 
             modelBuilder.Entity("CINE_PRIME.Models.Suscripcion", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Estado")
                         .HasColumnType("nvarchar(max)");
@@ -379,8 +365,8 @@ namespace CINE_PRIME.Migrations
                     b.Property<DateTime>("FechaInicio")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PlanId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PlanId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -575,14 +561,10 @@ namespace CINE_PRIME.Migrations
             modelBuilder.Entity("CINE_PRIME.Models.Pago", b =>
                 {
                     b.HasOne("CINE_PRIME.Models.Suscripcion", "Suscripcion")
-                        .WithMany()
+                        .WithMany("Pagos")
                         .HasForeignKey("SuscripcionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("CINE_PRIME.Models.Suscripcion", null)
-                        .WithMany("Pagos")
-                        .HasForeignKey("SuscripcionId1");
 
                     b.Navigation("Suscripcion");
                 });

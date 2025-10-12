@@ -2,7 +2,7 @@
 {
     public class PeliculaLocal
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         public int TmdbMovieId { get; set; }   // único por película
         public string? Titulo { get; set; }
         public string? ImagenUrl { get; set; }

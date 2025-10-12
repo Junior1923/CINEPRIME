@@ -1,14 +1,7 @@
-﻿using CINE_PRIME.Data;
-using CINE_PRIME.Models;
+﻿using CINE_PRIME.Models;
 using CINE_PRIME.ViewModels;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace CINE_PRIME.Controllers
 {

@@ -6,7 +6,7 @@ namespace CINE_PRIME.Models;
 
 public partial class BitacoraAuditoria
 {
-    public int Id { get; set; }
+    public Guid Id { get; set; }
     public string? UserId { get; set; }    
     public string Accion { get; set; }
     public DateTime FechaAccion { get; set; } = DateTime.Now;

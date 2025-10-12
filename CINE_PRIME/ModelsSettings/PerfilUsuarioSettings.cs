@@ -15,6 +15,13 @@ namespace CINE_PRIME.ModelsSettings
                    .IsRequired()
                    .HasMaxLength(450); // coincide con AspNetUsers.Id default
 
+
+            // Configuración para que el GUID se genere automáticamente
+            builder.Property(p => p.Id)
+                   .HasColumnType("uniqueidentifier")
+                   .ValueGeneratedOnAdd()
+                   .HasDefaultValueSql("NEWID()");
+
             // Configuración de propiedades
             builder.Property(p => p.Nombre).HasMaxLength(50);
             builder.Property(p => p.Apellido).HasMaxLength(100);

@@ -11,6 +11,12 @@ namespace CINE_PRIME.ModelsSettings
             // Primary Key
             builder.HasKey(l => l.Id);
 
+            // Configuración para que el GUID se genere automáticamente
+            builder.Property(l => l.Id)
+                   .HasColumnType("uniqueidentifier")
+                   .ValueGeneratedOnAdd()
+                   .HasDefaultValueSql("NEWID()");
+
             // Configuración de propiedades
             builder.Property(l => l.UserId).IsRequired().HasMaxLength(450);
             builder.Property(l => l.TmdbMovieId).IsRequired();
@@ -25,8 +31,5 @@ namespace CINE_PRIME.ModelsSettings
                    .HasForeignKey(l => l.UserId)
                    .OnDelete(DeleteBehavior.Cascade);
         }
-
     }
-
-
 }
