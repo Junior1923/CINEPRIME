@@ -5,16 +5,11 @@ namespace CINE_PRIME.Models;
 
 public partial class Favorito
 {
-    public int FavoritoId { get; set; }
+    public int Id { get; set; }
+    public string UserId { get; set; }     // FK -> AspNetUsers.Id
+    public int TmdbMovieId { get; set; }   // ID proveniente de TMDB
+    public DateTime FechaAgregado { get; set; } = DateTime.Now;
 
-    public string UsuarioId { get; set; } = null!;
-
-    public int PeliculaId { get; set; }
-
-    public DateTime FechaCreacion { get; set; }
-
-
-    //PROPIEDADES DE NAVEGACION
-    public virtual Pelicula Pelicula { get; set; } = null!;
-    public virtual Usuario Usuario { get; set; } = null!;
+    // propiedad de navegación
+    public virtual ApplicationUser Usuario { get; set; }
 }

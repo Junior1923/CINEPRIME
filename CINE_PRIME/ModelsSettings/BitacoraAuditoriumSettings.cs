@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace CINE_PRIME.ModelsSettings
 {
-    public class BitacoraAuditoriumSettings : IEntityTypeConfiguration<BitacoraAuditorium>
+    public class BitacoraAuditoriumSettings : IEntityTypeConfiguration<BitacoraAuditoria>
     {
-        public void Configure(EntityTypeBuilder<BitacoraAuditorium> builder)
+        public void Configure(EntityTypeBuilder<BitacoraAuditoria> builder)
         {
 
             builder.HasKey(b => b.LogId);

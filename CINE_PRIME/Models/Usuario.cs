@@ -13,13 +13,13 @@ public partial class Usuario
 
     public DateTime FechaRegistro { get; set; }
 
-    public virtual ICollection<BitacoraAuditorium> BitacoraAuditoria { get; set; } = new List<BitacoraAuditorium>();
+    public virtual ICollection<BitacoraAuditoria> BitacoraAuditoria { get; set; } = new List<BitacoraAuditoria>();
 
     public virtual ICollection<Favorito> Favoritos { get; set; } = new List<Favorito>();
 
     public virtual ICollection<ListaPendiente> ListaPendientes { get; set; } = new List<ListaPendiente>();
 
-    public virtual PerfilesUsuario? PerfilesUsuario { get; set; }
+    public virtual PerfilUsuario? PerfilesUsuario { get; set; }
 
-    public virtual ICollection<Suscripcione> Suscripciones { get; set; } = new List<Suscripcione>();
+    public virtual ICollection<Suscripcion> Suscripciones { get; set; } = new List<Suscripcion>();
 }

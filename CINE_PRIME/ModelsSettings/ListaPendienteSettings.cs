@@ -8,19 +8,22 @@ namespace CINE_PRIME.ModelsSettings
     {
         public void Configure(EntityTypeBuilder<ListaPendiente> builder)
         {
+            // Primary Key
+            builder.HasKey(l => l.Id);
 
-            builder.HasKey(lp => lp.ListaId);
-            builder.Property(lp => lp.FechaCreacion).HasColumnType("datetime");
+            // Configuración de propiedades
+            builder.Property(l => l.UserId).IsRequired().HasMaxLength(450);
+            builder.Property(l => l.TmdbMovieId).IsRequired();
 
-            // Relación con Usuario
-            builder.HasOne(lp => lp.Usuario)
-                   .WithMany(u => u.ListaPendientes) //Usuario tiene ICollection<ListaPendiente>
-                   .HasForeignKey(lp => lp.UsuarioId);
 
-            // Relación con Pelicula
-            builder.HasOne(lp => lp.Pelicula)
-                   .WithMany(p => p.ListaPendientes)//Pelicula tiene ICollection<ListaPendiente>
-                   .HasForeignKey(lp => lp.PeliculaId);
+            // Índice único para evitar duplicados de la misma película en la lista pendiente por usuario
+            builder.HasIndex(l => new { l.UserId, l.TmdbMovieId }).IsUnique();
+
+            // Relación muchos a uno con ApplicationUser
+            builder.HasOne(l => l.Usuario)
+                   .WithMany()
+                   .HasForeignKey(l => l.UserId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
 
     }

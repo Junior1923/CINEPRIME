@@ -10,7 +10,7 @@ namespace CINE_PRIME.Data
         #region DBSETS
         public virtual DbSet<Actor> Actores { get; set; }
 
-        public virtual DbSet<BitacoraAuditorium> BitacoraAuditoria { get; set; }
+        public virtual DbSet<BitacoraAuditoria> BitacoraAuditoria { get; set; }
 
         public virtual DbSet<Favorito> Favoritos { get; set; }
 
@@ -26,11 +26,11 @@ namespace CINE_PRIME.Data
 
         public virtual DbSet<PeliculasActore> PeliculasActores { get; set; }
 
-        public virtual DbSet<PerfilesUsuario> PerfilesUsuarios { get; set; }
+        public virtual DbSet<PerfilUsuario> PerfilesUsuarios { get; set; }
 
-        public virtual DbSet<Plane> Planes { get; set; }
+        public virtual DbSet<Plan> Planes { get; set; }
 
-        public virtual DbSet<Suscripcione> Suscripciones { get; set; }
+        public virtual DbSet<Suscripcion> Suscripciones { get; set; }
 
         public virtual DbSet<Trailer> Trailers { get; set; }
 

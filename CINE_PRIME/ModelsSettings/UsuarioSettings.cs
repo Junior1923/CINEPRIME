@@ -35,7 +35,7 @@ namespace CINE_PRIME.ModelsSettings
             // Relación uno a uno opcional
             builder.HasOne(u => u.PerfilesUsuario)
                 .WithOne(p => p.Usuario)
-                .HasForeignKey<PerfilesUsuario>(p => p.UsuarioId)
+                .HasForeignKey<PerfilUsuario>(p => p.UsuarioId)
                 .OnDelete(DeleteBehavior.Cascade);
 
         }

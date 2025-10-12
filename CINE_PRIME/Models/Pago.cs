@@ -21,5 +21,5 @@ public partial class Pago
 
     public DateTime? FechaPago { get; set; }
 
-    public virtual Suscripcione Suscripcion { get; set; } = null!;
+    public virtual Suscripcion Suscripcion { get; set; } = null!;
 }
