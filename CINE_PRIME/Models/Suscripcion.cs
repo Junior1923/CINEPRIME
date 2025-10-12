@@ -15,4 +15,9 @@ public partial class Suscripcion
     // Propiedades de navegación
     public virtual ApplicationUser Usuario { get; set; }
     public virtual Plan Plan { get; set; }
+
+
+    // Una suscripción puede tener múltiples pagos asociados
+    public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
+
 }

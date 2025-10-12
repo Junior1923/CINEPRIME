@@ -8,7 +8,7 @@ namespace CINE_PRIME.ModelsSettings
     {
         public void Configure(EntityTypeBuilder<Pago> builder)
         {
-            builder.HasKey(p => p.PagoId);
+            builder.HasKey(p => p.Id);
             builder.Property(p => p.Monto).HasColumnType("decimal(18,2)");
 
             builder.Property(p => p.Moneda).HasMaxLength(10);
@@ -19,12 +19,11 @@ namespace CINE_PRIME.ModelsSettings
 
             builder.Property(p => p.FechaPago).HasColumnType("datetime");
 
-            // Relación con Suscripción (1:N)
+            // Relación 1:N con Suscripcion
             builder.HasOne(p => p.Suscripcion)
-                   .WithMany(s => s.Pagos) //Suscripcione tiene ICollection<Pago>
-                   .HasForeignKey(p => p.SuscripcionId);
+                   .WithMany() // Una suscripción tiene muchos pagos
+                   .HasForeignKey(p => p.SuscripcionId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
-
     }
-
 }

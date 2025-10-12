@@ -41,6 +41,7 @@ namespace CINE_PRIME.Controllers
                 Apellido = model.Apellido,
                 UserName = model.Email,
                 Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
                 FechaCreacion = DateTime.Now
             };
 
@@ -54,8 +55,6 @@ namespace CINE_PRIME.Controllers
                 ModelState.Clear(); // limpia el formulario
                 return View(); // se queda en la misma página de registro
 
-                //TempData["SuccessMessage"] = "Tu cuenta ha sido creada correctamente. Ahora puedes iniciar sesión.";
-                //return RedirectToAction("Login", "Account");
             }
 
             foreach (var error in result.Errors)

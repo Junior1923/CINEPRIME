@@ -7,34 +7,16 @@ namespace CINE_PRIME.Data
     public class CinePrimeContext : IdentityDbContext<ApplicationUser>
     {
 
-        #region DBSETS
-        public virtual DbSet<Actor> Actores { get; set; }
-
-        public virtual DbSet<BitacoraAuditoria> BitacoraAuditoria { get; set; }
-
-        public virtual DbSet<Favorito> Favoritos { get; set; }
-
-        public virtual DbSet<Genero> Generos { get; set; }
-
-        public virtual DbSet<ListaPendiente> ListaPendientes { get; set; }
-
-        public virtual DbSet<Pago> Pagos { get; set; }
-
-        public virtual DbSet<Pelicula> Peliculas { get; set; }
-
-        public virtual DbSet<PeliculasGenero> PeliculasGeneros { get; set; }
-
-        public virtual DbSet<PeliculasActore> PeliculasActores { get; set; }
-
-        public virtual DbSet<PerfilUsuario> PerfilesUsuarios { get; set; }
-
-        public virtual DbSet<Plan> Planes { get; set; }
-
-        public virtual DbSet<Suscripcion> Suscripciones { get; set; }
-
-        public virtual DbSet<Trailer> Trailers { get; set; }
-
-        public virtual DbSet<Usuario> Usuarios { get; set; }
+        #region DbSets
+        public DbSet<PerfilUsuario> PerfilesUsuarios { get; set; }
+        public DbSet<Favorito> Favoritos { get; set; }
+        public DbSet<ListaPendiente> ListasPendientes { get; set; }
+        public DbSet<HistorialVisualizacion> HistorialesVisualizacion { get; set; }
+        public DbSet<PeliculaLocal> PeliculasLocales { get; set; }
+        public DbSet<Plan> Planes { get; set; }
+        public DbSet<Pago> Pagos { get; set; }
+        public DbSet<Suscripcion> Suscripciones { get; set; }
+        public DbSet<BitacoraAuditoria> BitacorasAuditoria { get; set; }
 
         #endregion
 

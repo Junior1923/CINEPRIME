@@ -17,6 +17,10 @@ namespace CINE_PRIME.ViewModels
         public string Email { get; set; }
 
         [Required]
+        [Phone]
+        public string PhoneNumber { get; set; }
+
+        [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
 

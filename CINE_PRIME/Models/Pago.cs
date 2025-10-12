@@ -5,7 +5,7 @@ namespace CINE_PRIME.Models;
 
 public partial class Pago
 {
-    public int PagoId { get; set; }
+    public int Id { get; set; }
 
     public int SuscripcionId { get; set; }
 
