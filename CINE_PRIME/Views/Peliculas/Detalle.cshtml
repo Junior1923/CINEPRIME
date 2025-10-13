@@ -1,0 +1,62 @@
+﻿
+
+@model CINE_PRIME.Models.Tmdb.TmdbMovieDTO
+
+@{
+    ViewData["Title"] = Model.Title;
+
+    var trailer = ViewBag.trailer as string;
+    var backgroundUrl = $"https://image.tmdb.org/t/p/original{Model.BackdropPath}";
+	var posterUrl = $"https://image.tmdb.org/t/p/w500{Model.PosterPath}";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/peliculas.css" />
+}
+
+
+<div class="movie-hero mb-5" style="background-image: url('@backgroundUrl');">
+    <div class="container movie-content">
+        <div class="row align-items-center">
+            <div class="col-md-3 text-center mb-3">
+                <img src="@posterUrl" alt="@Model.Title" class="poster" />
+            </div>
+            <div class="col-md-9">
+                <h1 class="display-5 fw-bold">@Model.Title</h1>
+                <p class="text-warning fs-5">⭐ @Model.VoteAverage.ToString("0.0")</p>
+                <p class="text-light mb-3">@Model.Overview</p>
+                <p class="text-light">📅 Estreno: @Model.ReleaseDate</p>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="mt-3">
+                        <button class="btn btn-primary btn-action me-2">❤️ Agregar a Favoritos</button>
+                        <button class="btn btn-outline-light btn-action">📋 Agregar a Mis Pendientes</button>
+                    </div>
+                }
+                else
+                {
+                    <div class="mt-3">
+                        <a asp-controller="Account" asp-action="Login" class="btn btn-light btn-action">Inicia sesión para marcar esta película</a>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    @if (!string.IsNullOrEmpty(trailer))
+    {
+        <h3 class="mb-3">🎞️ Tráiler Oficial</h3>
+        <div class="ratio ratio-16x9 mb-4">
+            <iframe src="@trailer" frameborder="0" allowfullscreen></iframe>
+        </div>
+    }
+    else
+    {
+        <p class="text-muted">No hay tráiler disponible para esta película.</p>
+    }
+
+    <a asp-action="Index" class="btn btn-secondary mt-3">⬅ Volver al Catálogo</a>
+</div>

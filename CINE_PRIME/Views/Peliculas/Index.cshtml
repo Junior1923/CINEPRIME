@@ -1,0 +1,32 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+
+@model IEnumerable<CINE_PRIME.Models.Tmdb.TmdbMovieDTO>
+
+@{
+	ViewData["Title"] = "Peliculas Populares";
+}
+
+<h2 class="mb-4">🎬 Películas Populares</h2>
+
+<div class="row">
+    @foreach (var movie in Model)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card h-100 shadow-sm">
+                <img src="@($"https://image.tmdb.org/t/p/w500{movie.PosterPath}")"
+                     class="card-img-top" alt="@movie.Title" />
+                <div class="card-body">
+                    <h5 class="card-title">@movie.Title</h5>
+                    <p class="card-text text-muted">
+                        ⭐ @movie.VoteAverage.ToString("0.0") |
+                        @movie.ReleaseDate
+                    </p>
+                    <a asp-action="Detalle" asp-route-id="@movie.Id" class="btn btn-sm btn-primary">Ver detalles</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

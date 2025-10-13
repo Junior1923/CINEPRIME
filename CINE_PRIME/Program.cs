@@ -1,15 +1,16 @@
 using CINE_PRIME.Data;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.EntityFrameworkCore;
 using CINE_PRIME.Models;
+using CINE_PRIME.Models.Tmdb;
+using CINE_PRIME.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
+
 
 
 #region DBCONTEXT CONFIGURATION
@@ -35,21 +36,26 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 #endregion
 
 
+#region TMDB API SERVICE CONFIGUTATION
+
+//Inyenccion de dependencias para el servicio TMDB API
+//Vincula la sección JSON de appsettings.json con la clase C# TmdbSettings
+builder.Services.Configure<TmdbSettings>(builder.Configuration.GetSection("TmdbSettings"));
+
+//Registra el servicio HTTP para ITmdbService y su implementación TmdbService
+builder.Services.AddHttpClient<ITmdbService, TmdbService>();
+
+#endregion
+
 
 // -------------------------
 // Agregar servicios MVC y sesión
 // -------------------------
+// Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 
-//builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-//    .AddCookie(options =>
-//    {
-//        options.LoginPath = "/Account/Login";      // Redirige al login si no está autenticado
-//        options.LogoutPath = "/Account/Logout";    // Ruta de logout
-//        options.ExpireTimeSpan = TimeSpan.FromHours(2);
-//    });
 
 var app = builder.Build();
 
