@@ -1,4 +1,5 @@
 using CINE_PRIME.Data;
+using CINE_PRIME.Interfaces;
 using CINE_PRIME.Models;
 using CINE_PRIME.Models.Tmdb;
 using CINE_PRIME.Services;
@@ -8,9 +9,6 @@ using Microsoft.EntityFrameworkCore;
 
 
 var builder = WebApplication.CreateBuilder(args);
-
-
-
 
 
 #region DBCONTEXT CONFIGURATION
@@ -35,10 +33,9 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     .AddDefaultTokenProviders();
 #endregion
 
-
 #region TMDB API SERVICE CONFIGUTATION
+//--Inyenccion de dependencias para el servicio TMDB API--//
 
-//Inyenccion de dependencias para el servicio TMDB API
 //Vincula la sección JSON de appsettings.json con la clase C# TmdbSettings
 builder.Services.Configure<TmdbSettings>(builder.Configuration.GetSection("TmdbSettings"));
 
@@ -47,11 +44,14 @@ builder.Services.AddHttpClient<ITmdbService, TmdbService>();
 
 #endregion
 
+#region FAVORITO SERVICE CONFIGURATION
+//--Inyección de dependencias para el servicio Favorito--//
 
-// -------------------------
-// Agregar servicios MVC y sesión
-// -------------------------
-// Add services to the container.
+builder.Services.AddScoped<IFavoritoService, FavoritoService>();
+
+#endregion
+
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
