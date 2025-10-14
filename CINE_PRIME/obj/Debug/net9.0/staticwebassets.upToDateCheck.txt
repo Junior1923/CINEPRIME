@@ -1,4 +1,3 @@
-wwwroot\css\peliculas.css
 wwwroot\css\site.css
 wwwroot\favicon.ico
 wwwroot\js\site.js
@@ -62,6 +61,7 @@ wwwroot\lib\jquery\dist\jquery.slim.js
 wwwroot\lib\jquery\dist\jquery.slim.min.js
 wwwroot\lib\jquery\dist\jquery.slim.min.map
 wwwroot\lib\jquery\LICENSE.txt
+wwwroot\css\peliculas.css
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\wwwroot\lib\jquery\LICENSE.txt
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\wwwroot\lib\jquery\dist\jquery.slim.min.map

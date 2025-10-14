@@ -35,7 +35,7 @@ namespace CINE_PRIME.Services
                 // language = es - ES: Resultados en español
                 // page = 1: Primera página de resultados(TMDB pagina sus respuestas)
 
-                var url = $"{_settings.BaseUrl}movie/popular?api_key={_settings.ApiKey}&language=es-ES&page=1";
+                var url = $"{_settings.BaseUrl}movie/popular?api_key={_settings.ApiKey}&language=es-ES&page=10";
                 #endregion
 
                 #region PETICION API
@@ -49,7 +49,7 @@ namespace CINE_PRIME.Services
                     PropertyNameCaseInsensitive = true
                 });
 
-                return data?.Results ?? new List<TmdbMovieDTO>();
+                return data?.Results ?? new List<TmdbMovieDTO>(); // Retorna la lista de películas o una lista vacía si no hay resultados
                 #endregion
 
             }
@@ -121,7 +121,7 @@ namespace CINE_PRIME.Services
                 foreach (var item in results.EnumerateArray())
                 {
                     if (item.GetProperty("site").GetString() == "YouTube" &&
-                        item.GetProperty("type").GetString() == "Trailer")
+                        (item.GetProperty("type").GetString() == "Trailer" || item.GetProperty("type").GetString() == "Teaser"))
                     {
                         var key = item.GetProperty("key").GetString();
                         return $"https://www.youtube.com/embed/{key}";

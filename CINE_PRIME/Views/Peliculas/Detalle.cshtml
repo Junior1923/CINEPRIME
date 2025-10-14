@@ -1,5 +1,4 @@
 ﻿
-
 @model CINE_PRIME.Models.Tmdb.TmdbMovieDTO
 
 @{
@@ -24,7 +23,7 @@
             <div class="col-md-9">
                 <h1 class="display-5 fw-bold">@Model.Title</h1>
                 <p class="text-warning fs-5">⭐ @Model.VoteAverage.ToString("0.0")</p>
-                <p class="text-light mb-3">@Model.Overview</p>
+                <p class="text-light mb-3 me-5 overview-text">@Model.Overview</p>
                 <p class="text-light">📅 Estreno: @Model.ReleaseDate</p>
 
                 @if (User.Identity.IsAuthenticated)
