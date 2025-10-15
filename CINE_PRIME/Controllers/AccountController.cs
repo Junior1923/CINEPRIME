@@ -42,8 +42,7 @@ namespace CINE_PRIME.Controllers
 
             if (result.Succeeded)
             {
-                //await _signInManager.SignInAsync(user, isPersistent: false);
-                //return RedirectToAction("Index", "Home");
+
                 ViewBag.SuccessMessage = "✅ Tu cuenta ha sido creada correctamente. Ahora puedes iniciar sesión.";
                 ModelState.Clear(); // limpia el formulario
                 return View(); // se queda en la misma página de registro

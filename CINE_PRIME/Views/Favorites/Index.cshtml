@@ -1,0 +1,32 @@
+﻿@model IEnumerable<CINE_PRIME.Models.Favorito>
+
+@{
+    ViewData["Title"] = "Mis Favoritos";
+}
+
+<h2 class="mb-4">❤️ Mis Películas Favoritas</h2>
+
+@if (!Model.Any())
+{
+    <p class="text-muted">Aún no has agregado películas a tus favoritos.</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var fav in Model)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card">
+                    <img src=@($"https://image.tmdb.org/t/p/w500/{@fav.TmdbMovieId}") class="card-img-top" alt="Póster">
+                    <div class="card-body text-center">
+                        <p>ID TMDB: @fav.TmdbMovieId</p>
+                        <form asp-action="Remove" method="post">
+                            <input type="hidden" name="favoritoId" value="@fav.Id" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
