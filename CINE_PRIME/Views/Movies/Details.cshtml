@@ -1,12 +1,11 @@
 ﻿
-@model CINE_PRIME.Models.Tmdb.TmdbMovieDTO
+@model CINE_PRIME.ViewModels.MovieDetailsViewModel
 
 @{
-    ViewData["Title"] = Model.Title;
+    ViewData["Title"] = Model.Movie.Title;
 
-    var trailer = ViewBag.trailer as string;
-    var backgroundUrl = $"https://image.tmdb.org/t/p/original{Model.BackdropPath}";
-	var posterUrl = $"https://image.tmdb.org/t/p/w500{Model.PosterPath}";
+    var backgroundUrl = $"https://image.tmdb.org/t/p/original{Model.Movie.BackdropPath}";
+	var posterUrl = $"https://image.tmdb.org/t/p/w500{Model.Movie.PosterPath}";
 }
 
 @section Styles {
@@ -18,13 +17,13 @@
     <div class="container movie-content">
         <div class="row align-items-center">
             <div class="col-md-3 text-center mb-3">
-                <img src="@posterUrl" alt="@Model.Title" class="poster" />
+                <img src="@posterUrl" alt="@Model.Movie.Title" class="poster" />
             </div>
             <div class="col-md-9">
-                <h1 class="display-5 fw-bold">@Model.Title</h1>
-                <p class="text-warning fs-5">⭐ @Model.VoteAverage.ToString("0.0")</p>
-                <p class="text-light mb-3 me-5 overview-text">@Model.Overview</p>
-                <p class="text-light">📅 Estreno: @Model.ReleaseDate</p>
+                <h1 class="display-5 fw-bold">@Model.Movie.Title</h1>
+                <p class="text-warning fs-5">⭐ @Model.Movie.VoteAverage.ToString("0.0")</p>
+                <p class="text-light mb-3 me-5 overview-text">@Model.Movie.Overview</p>
+                <p class="text-light">📅 Estreno: @Model.Movie.ReleaseDate</p>
 
                 @if (User.Identity.IsAuthenticated)
                 {
@@ -45,11 +44,11 @@
 </div>
 
 <div class="container">
-    @if (!string.IsNullOrEmpty(trailer))
+    @if (!string.IsNullOrEmpty(Model.TrailerKey))
     {
         <h3 class="mb-3">🎞️ Tráiler Oficial</h3>
         <div class="ratio ratio-16x9 mb-4">
-            <iframe src="@trailer" frameborder="0" allowfullscreen></iframe>
+            <iframe src="@Model.TrailerKey" frameborder="0" allowfullscreen></iframe>
         </div>
     }
     else

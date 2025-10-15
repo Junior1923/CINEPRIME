@@ -76,7 +76,7 @@ namespace CINE_PRIME.Controllers
                 model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
 
             if (result.Succeeded)
-                return RedirectToAction("Index", "Peliculas");
+                return RedirectToAction("Index", "Movies");
 
             ModelState.AddModelError("", "Credenciales inválidas");
             return View(model);

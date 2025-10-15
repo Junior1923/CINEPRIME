@@ -48,12 +48,12 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/jeanl/Source/Repos/CINEPRIME/CINE_PRIME/Views/Peliculas/Detalle.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVsaWN1bGFzXERldGFsbGUuY3NodG1s
+[C:/Users/jeanl/Source/Repos/CINEPRIME/CINE_PRIME/Views/Movies/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW92aWVzXERldGFpbHMuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/jeanl/Source/Repos/CINEPRIME/CINE_PRIME/Views/Peliculas/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUGVsaWN1bGFzXEluZGV4LmNzaHRtbA==
+[C:/Users/jeanl/Source/Repos/CINEPRIME/CINE_PRIME/Views/Movies/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTW92aWVzXEluZGV4LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/jeanl/Source/Repos/CINEPRIME/CINE_PRIME/Views/Shared/Error.cshtml]
