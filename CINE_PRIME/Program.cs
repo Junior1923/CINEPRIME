@@ -3,7 +3,6 @@ using CINE_PRIME.Interfaces;
 using CINE_PRIME.Models;
 using CINE_PRIME.Models.Tmdb;
 using CINE_PRIME.Services;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 

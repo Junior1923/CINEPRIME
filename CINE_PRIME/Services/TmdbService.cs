@@ -1,4 +1,5 @@
 ﻿using CINE_PRIME.Models.Tmdb;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 
@@ -121,11 +122,12 @@ namespace CINE_PRIME.Services
                 foreach (var item in results.EnumerateArray())
                 {
                     if (item.GetProperty("site").GetString() == "YouTube" &&
-                        (item.GetProperty("type").GetString() == "Trailer" || item.GetProperty("type").GetString() == "Teaser"))
+                        item.GetProperty("type").GetString() == "Trailer")
                     {
                         var key = item.GetProperty("key").GetString();
                         return $"https://www.youtube.com/embed/{key}";
                     }
+
                 }
 
                 return null; // No encontró tráiler disponible
