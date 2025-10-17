@@ -1,10 +1,11 @@
-﻿@model IEnumerable<CINE_PRIME.Models.Favorito>
+﻿
+@model IEnumerable<(Guid FavId, CINE_PRIME.Models.Tmdb.TmdbMovieDTO Movie)>
 
 @{
     ViewData["Title"] = "Mis Favoritos";
 }
 
-<h2 class="mb-4">❤️ Mis Películas Favoritas</h2>
+<h2 class="mb-4 text-dark">❤️ Mis Películas Favoritas</h2>
 
 @if (!Model.Any())
 {
@@ -13,15 +14,19 @@
 else
 {
     <div class="row">
-        @foreach (var fav in Model)
+        @foreach (var data in Model)
         {
             <div class="col-md-3 mb-4">
-                <div class="card">
-                    <img src=@($"https://image.tmdb.org/t/p/w500/{@fav.TmdbMovieId}") class="card-img-top" alt="Póster">
+                <div class="card bg-dark text-white shadow-sm border-0">
+                    <img src="@($"https://image.tmdb.org/t/p/w500{data.Movie.PosterPath}")" class="card-img-top" alt="@data.Movie.Title" />
                     <div class="card-body text-center">
-                        <p>ID TMDB: @fav.TmdbMovieId</p>
+                        <h5 class="card-title">@data.Movie.Title</h5>
+                        <p class="card-text text-warning">⭐ @data.Movie.VoteAverage.ToString("0.0")</p>
+                        <p class="text-light">📅 @data.Movie.ReleaseDate</p>
+                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@data.Movie.Id" class="btn btn-sm btn-primary mb-2">Ver detalles</a>
+
                         <form asp-action="Remove" method="post">
-                            <input type="hidden" name="favoritoId" value="@fav.Id" />
+                            <input type="hidden" name="favoritoId" value="@data.FavId" />
                             <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
                         </form>
                     </div>

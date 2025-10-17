@@ -29,3 +29,19 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
+
+/*AGREGADO*/
+
+.active-link {
+    color: #ff4444 !important;
+    font-weight: bold;
+    border-bottom: 2px solid #ff4444;
+}
+
+.nav-link {
+    transition: color 0.3s ease, border-bottom 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #ff4444 !important;
+}

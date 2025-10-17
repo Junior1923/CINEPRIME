@@ -8,5 +8,6 @@ namespace CINE_PRIME.Services
         Task<TmdbMovieDTO> GetMovieDetailsAsync(int movieId);
         Task<string?> GetMovieTrailerAsync(int movieId);
 
+
     }
 }

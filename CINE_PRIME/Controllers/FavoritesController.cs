@@ -1,4 +1,6 @@
 using CINE_PRIME.Interfaces;
+using CINE_PRIME.Models.Tmdb;
+using CINE_PRIME.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -10,11 +12,13 @@ namespace CINE_PRIME.Controllers
     {
         private readonly IFavoritoService _favoritoService;
         private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly ITmdbService _tmdbService;
 
-        public FavoritesController(IFavoritoService favoritoService, IHttpContextAccessor httpContextAccessor)
+        public FavoritesController(IFavoritoService favoritoService, IHttpContextAccessor httpContextAccessor, ITmdbService tmdbService)
         {
             _favoritoService = favoritoService;
             _httpContextAccessor = httpContextAccessor;
+            _tmdbService = tmdbService;
         }
 
 
@@ -71,7 +75,19 @@ namespace CINE_PRIME.Controllers
             // Llamar al servicio para obtener los favoritos del usuario
             var favoritos = await _favoritoService.GetFavoritesByUserAsync(userId);
 
-            return View(favoritos);
+            
+            // Crear una lista para almacenar los detalles de las películas favoritas
+            var peliculasFavoritas = new List<(Guid FavId, TmdbMovieDTO Movie)>();
+
+            foreach (var f in favoritos)
+            {
+                var pelicula = await _tmdbService.GetMovieDetailsAsync(f.TmdbMovieId);
+
+                peliculasFavoritas.Add((f.Id, pelicula));
+
+            }
+
+            return View(peliculasFavoritas);
 
         }
 
