@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CINE_PRIME.Services
 {
-    public class FavoritoService : IFavoritoService
+    public class FavoriteService : IFavoriteService
     {
         private readonly CinePrimeContext _context;
 
-        public FavoritoService(CinePrimeContext context)
+        public FavoriteService(CinePrimeContext context)
         {
             _context = context;
         }

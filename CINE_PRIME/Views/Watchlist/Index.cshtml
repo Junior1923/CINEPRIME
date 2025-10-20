@@ -1,15 +1,14 @@
-﻿
-@model IEnumerable<(Guid FavId, CINE_PRIME.Models.Tmdb.TmdbMovieDTO Movie)>
+﻿@model IEnumerable<(Guid listaId, CINE_PRIME.Models.Tmdb.TmdbMovieDTO Movie)>
 
 @{
-    ViewData["Title"] = "Mis Favoritos";
+    ViewData["Title"] = "Mi Lista Pendiente";
 }
 
-<h2 class="mb-4 text-light">❤️ Mis Películas Favoritas</h2>
+<h2 class="mb-4 text-light">🕒 Mi Lista Pendiente</h2>
 
 @if (!Model.Any())
 {
-    <p class="text-light">Aún no has agregado películas a tus favoritos.</p>
+    <p class="text-light">Aún no has agregado películas a tu lista pendiente.</p>
 }
 else
 {
@@ -21,12 +20,14 @@ else
                     <img src="@($"https://image.tmdb.org/t/p/w500{data.Movie.PosterPath}")" class="card-img-top" alt="@data.Movie.Title" />
                     <div class="card-body text-center">
                         <h5 class="card-title">@data.Movie.Title</h5>
-                        <p class="card-text text-warning">⭐ @data.Movie.VoteAverage.ToString("0.0")</p>
+                        <p class="text-warning">⭐ @data.Movie.VoteAverage.ToString("0.0")</p>
                         <p class="text-light">📅 @data.Movie.ReleaseDate</p>
-                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@data.Movie.Id" class="btn btn-sm btn-primary mb-2">Ver detalles</a>
+
+                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@data.Movie.Id"
+                           class="btn btn-sm btn-primary mb-2">Ver detalles</a>
 
                         <form asp-action="Remove" method="post">
-                            <input type="hidden" name="favoritoId" value="@data.FavId" />
+                            <input type="hidden" name="listaId" value="@data.listaId" />
                             <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
                         </form>
                     </div>

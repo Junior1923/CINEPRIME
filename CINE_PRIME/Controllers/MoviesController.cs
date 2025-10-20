@@ -1,4 +1,4 @@
-﻿using CINE_PRIME.Services;
+﻿using CINE_PRIME.Interfaces;
 using CINE_PRIME.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

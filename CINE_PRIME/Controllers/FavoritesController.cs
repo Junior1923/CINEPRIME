@@ -1,6 +1,5 @@
 using CINE_PRIME.Interfaces;
 using CINE_PRIME.Models.Tmdb;
-using CINE_PRIME.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -10,11 +9,11 @@ namespace CINE_PRIME.Controllers
     [Authorize]
     public class FavoritesController : Controller
     {
-        private readonly IFavoritoService _favoritoService;
+        private readonly IFavoriteService _favoritoService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ITmdbService _tmdbService;
 
-        public FavoritesController(IFavoritoService favoritoService, IHttpContextAccessor httpContextAccessor, ITmdbService tmdbService)
+        public FavoritesController(IFavoriteService favoritoService, IHttpContextAccessor httpContextAccessor, ITmdbService tmdbService)
         {
             _favoritoService = favoritoService;
             _httpContextAccessor = httpContextAccessor;

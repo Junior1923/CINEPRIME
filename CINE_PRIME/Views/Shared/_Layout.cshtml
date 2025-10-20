@@ -94,11 +94,9 @@
 
 
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <main role="main" class="flex-fill container my-4">
+        @RenderBody()
+    </main>
 
 
     <footer class="prime-footer mt-auto">
@@ -135,11 +133,6 @@
         </div>
     </footer>
 
-    @* <footer class="border-top footer text-muted">
-        <div class="container text-light">
-            &copy; 2025 - CINE PRIME - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer> *@
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

@@ -1,6 +1,6 @@
 ﻿using CINE_PRIME.Models.Tmdb;
 
-namespace CINE_PRIME.Services
+namespace CINE_PRIME.Interfaces
 {
     public interface ITmdbService
     {

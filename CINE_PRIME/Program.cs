@@ -46,10 +46,14 @@ builder.Services.AddHttpClient<ITmdbService, TmdbService>();
 #region FAVORITO SERVICE CONFIGURATION
 //--Inyección de dependencias para el servicio Favorito--//
 
-builder.Services.AddScoped<IFavoritoService, FavoritoService>();
+builder.Services.AddScoped<IFavoriteService, FavoriteService>();
 
 #endregion
 
+#region LISTAPENDIENTE SERVICE CONFIGURATION
+//--Inyección de dependencias para el servicio ListaPendiente--//
+builder.Services.AddScoped<IWatchlistService, WatchlistService>();
+#endregion
 
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();

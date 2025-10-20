@@ -34,7 +34,12 @@
                                 ❤️ Agregar a Favoritos
                             </button>
                         </form>
-                        <button class="btn btn-outline-light btn-action">📋 Agregar a Mis Pendientes</button>
+                        <form asp-controller="Watchlist" asp-action="Add" method="post" class="d-inline">
+                            <input type="hidden" name="movieId" value="@Model.Movie.Id" />
+                             <button class="btn btn-outline-light btn-action">
+                                🕒 Agregar a lista pendiente
+                            </button>
+                        </form>
                     </div>
                 }
                 else

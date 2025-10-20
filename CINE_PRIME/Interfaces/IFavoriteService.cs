@@ -2,7 +2,7 @@
 
 namespace CINE_PRIME.Interfaces
 {
-    public interface IFavoritoService
+    public interface IFavoriteService
     {
         Task<bool> AddFavoriteAsync(int movieId, string userId);
         Task<bool> RemoveFavoriteAsync(Guid favoritoId);

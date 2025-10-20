@@ -1,5 +1,5 @@
-﻿using CINE_PRIME.Models.Tmdb;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using CINE_PRIME.Interfaces;
+using CINE_PRIME.Models.Tmdb;
 using Microsoft.Extensions.Options;
 using System.Text.Json;
 
