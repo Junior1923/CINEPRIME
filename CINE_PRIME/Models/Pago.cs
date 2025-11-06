@@ -5,9 +5,9 @@ namespace CINE_PRIME.Models;
 
 public partial class Pago
 {
-    public int PagoId { get; set; }
+    public Guid Id { get; set; }
 
-    public int SuscripcionId { get; set; }
+    public Guid SuscripcionId { get; set; }
 
     public decimal Monto { get; set; }
 
@@ -19,7 +19,7 @@ public partial class Pago
 
     public string Estado { get; set; } = null!;
 
-    public DateTime? FechaPago { get; set; }
+    public DateTime FechaPago { get; set; } = DateTime.Now;
 
-    public virtual Suscripcione Suscripcion { get; set; } = null!;
+    public virtual Suscripcion Suscripcion { get; set; } = null!;
 }

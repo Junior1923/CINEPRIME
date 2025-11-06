@@ -1,50 +1,309 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<CINE_PRIME.Models.ApplicationUser> SignInManager
+@inject UserManager<CINE_PRIME.Models.ApplicationUser> UserManager
+
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - CINE_PRIME</title>
-    <script type="importmap"></script>
+
+    <!-- ✅ Estilos -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CINE_PRIME.styles.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
 </head>
-<body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">CINE_PRIME</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+
+<body class="d-flex flex-column min-vh-100">
+
+    @{
+        var controller = ViewContext.RouteData.Values["controller"]?.ToString();
+        var action = ViewContext.RouteData.Values["action"]?.ToString();
+        bool isAuthPage = controller == "Account";
+        bool isPublicHome = controller == "Home" && action == "Index" && !(User.Identity?.IsAuthenticated ?? false);
+    }
+
+
+ @if (!isPublicHome && !isAuthPage)
+ {
+    <!-- 🟦 NAVBAR -->
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-dark prime-navbar shadow-sm py-3">
+                <div class="container-fluid">
+                    <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
+                        CinePrime
+                    </a>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                            @if (User.Identity != null && User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Movies" ? "active-link" : "")"
+                                       asp-controller="Movies" asp-action="Index">Películas</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Series" ? "active-link" : "")"
+                                       asp-controller="Series" asp-action="Index">Series</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Favorites" ? "active-link" : "")"
+                                       asp-controller="Favorites" asp-action="Index">Favoritos</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Watchlist" ? "active-link" : "")"
+                                       asp-controller="Watchlist" asp-action="Index">Pendientes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Profile" ? "active-link" : "")"
+                                       asp-controller="Profile" asp-action="Index">Mi Perfil</a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active-link" : "")"
+                                       asp-controller="Home" asp-action="Index">Inicio</a>
+                                </li>
+                            }
+                        </ul>
+
+                        <ul class="navbar-nav">
+                            @if (User.Identity != null && User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item me-2">
+                                    <span class="nav-link text-light small">
+                                        👋 Hola, @await Component.InvokeAsync("UserName")
+                                    </span>
+                                </li>
+                                <li class="nav-item">
+                                    <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-outline-light btn-sm rounded-pill px-3">Cerrar sesión</button>
+                                    </form>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="btn btn-outline-light btn-sm me-2 rounded-pill px-3" asp-controller="Account" asp-action="Login">
+                                        Iniciar sesión
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="btn btn-primary btn-sm rounded-pill px-3" asp-controller="Account" asp-action="Register">
+                                        Registrarse
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+ }
+
+    <!-- 🎬 CONTENIDO -->
+    <main role="main" class="flex-fill @(ViewData["FullWidth"] as bool? == true ? "p-0 m-0" : "container my-4")">
+        @RenderBody()
+    </main>
+
+    <!-- 🦶 FOOTER -->
+    <footer class="prime-footer mt-auto">
+        <div class="container py-4">
+            <div class="row text-center text-md-start">
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-light">CinePrime</h5>
+                    <p class="footer-text">
+                        Tu plataforma para descubrir, guardar y disfrutar las mejores películas y series en línea.
+                    </p>
+                </div>
+
+                <div class="col-md-4 mb-3">
+                    <h6 class="text-light">Enlaces</h6>
+                    <ul class="list-unstyled small">
+                        <li><a asp-controller="Home" asp-action="Privacy" class="footer-link">Política de Privacidad</a></li>
+                        <li><a asp-controller="Home" asp-action="Terms" class="footer-link">Términos y Condiciones</a></li>
+                        <li><a asp-controller="Home" asp-action="About" class="footer-link">Sobre nosotros</a></li>
                     </ul>
                 </div>
-            </div>
-        </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - CINE_PRIME - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                <div class="col-md-4 mb-3">
+                    <h6 class="text-light">Síguenos</h6>
+                    <div class="d-flex justify-content-center justify-content-md-start">
+                        <a href="#" class="social-link me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-link me-3"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-twitter-x"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-secondary opacity-25" />
+            <div class="text-center small text-light">
+                &copy; @DateTime.Now.Year - CinePrime. Todos los derechos reservados.
+            </div>
         </div>
     </footer>
+
+    <!-- 🧩 Scripts -->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+
+
+
+
+
+@* @using Microsoft.AspNetCore.Identity
+@inject SignInManager<CINE_PRIME.Models.ApplicationUser> SignInManager
+@inject UserManager<CINE_PRIME.Models.ApplicationUser> UserManager
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] CINE_PRIME</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CINE_PRIME.styles.css" asp-append-version="true" />
+    @RenderSection("Styles", required: false)
+
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark prime-navbar shadow-sm mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold text-primary" asp-area="" asp-controller="Home" asp-action="Index">
+                    CinePrime
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Movies" ? "active-link" : "")"
+                                   asp-controller="Movies" asp-action="Index">Películas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Series" ? "active-link" : "")"
+                                   asp-controller="Series" asp-action="Index">Series</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Favorites" ? "active-link" : "")"
+                                   asp-controller="Favorites" asp-action="Index">Favoritos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Watchlist" ? "active-link" : "")"
+                                   asp-controller="Watchlist" asp-action="Index">Lista Pendiente</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Profile" ? "active-link" : "")"
+                                   asp-controller="Profile" asp-action="Index">Mi Perfil</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["controller"]?.ToString() == "Home" ? "active-link" : "")"
+                                   asp-controller="Home" asp-action="Index">Home</a>
+                            </li>
+                        }
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        @if (User.Identity != null && User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item me-2">
+                                <span class="nav-link text-light">
+                                    👋 Hola, @await Component.InvokeAsync("UserName")
+                                </span>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-outline-light btn-sm rounded-pill px-3">Cerrar sesión</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="btn btn-outline-light btn-sm me-2 rounded-pill px-3" asp-controller="Account" asp-action="Login">Iniciar sesión</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="btn btn-primary btn-sm rounded-pill px-3" asp-controller="Account" asp-action="Register">Registrarse</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+
+    <main role="main" class="flex-fill container my-4">
+        @RenderBody()
+    </main>
+
+
+    <footer class="prime-footer mt-auto">
+        <div class="container py-4">
+            <div class="row text-center text-md-start">
+                <div class="col-md-4 mb-3">
+                    <h5 class="text-light">CinePrime</h5>
+                    <p class="footer-text">
+                        Tu plataforma para descubrir, guardar y disfrutar de las mejores películas y series en línea.
+                    </p>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h6 class="text-light">Enlaces</h6>
+                    <ul class="list-unstyled small">
+                        <li><a asp-controller="Home" asp-action="Privacy" class="footer-link">Política de Privacidad</a></li>
+                        <li><a asp-controller="Home" asp-action="Terms" class="footer-link">Términos y Condiciones</a></li>
+                        <li><a asp-controller="Home" asp-action="About" class="footer-link">Sobre nosotros</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-4 mb-3">
+                    <h6 class="text-light">Síguenos</h6>
+                    <div class="d-flex justify-content-center justify-content-md-start">
+                        <a href="#" class="social-link me-3"><i class="bi bi-facebook"></i></a>
+                        <a href="#" class="social-link me-3"><i class="bi bi-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="bi bi-twitter-x"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="border-secondary opacity-25" />
+            <div class="text-center small text-light">
+                &copy; @DateTime.Now.Year - CinePrime. Todos los derechos reservados.
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html> *@

@@ -1,0 +1,38 @@
+﻿@model IEnumerable<(Guid listaId, CINE_PRIME.Models.Tmdb.TmdbMovieDTO Movie)>
+
+@{
+    ViewData["Title"] = "Mi Lista Pendiente";
+}
+
+<h2 class="mb-4 text-light">🕒 Mi Lista Pendiente</h2>
+
+@if (!Model.Any())
+{
+    <p class="text-light">Aún no has agregado películas a tu lista pendiente.</p>
+}
+else
+{
+    <div class="row">
+        @foreach (var data in Model)
+        {
+            <div class="col-md-3 mb-4">
+                <div class="card bg-dark text-white shadow-sm border-0">
+                    <img src="@($"https://image.tmdb.org/t/p/w500{data.Movie.PosterPath}")" class="card-img-top" alt="@data.Movie.Title" />
+                    <div class="card-body text-center">
+                        <h5 class="card-title">@data.Movie.Title</h5>
+                        <p class="text-warning">⭐ @data.Movie.VoteAverage.ToString("0.0")</p>
+                        <p class="text-light">📅 @data.Movie.ReleaseDate</p>
+
+                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@data.Movie.Id"
+                           class="btn btn-sm btn-primary mb-2">Ver detalles</a>
+
+                        <form asp-action="Remove" method="post">
+                            <input type="hidden" name="listaId" value="@data.listaId" />
+                            <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

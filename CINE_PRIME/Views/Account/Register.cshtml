@@ -1,0 +1,71 @@
+﻿@{
+    Layout = "_AuthLayout";
+}
+@model CINE_PRIME.ViewModels.RegisterViewModel
+@{
+    ViewData["Title"] = "Registro";
+}
+
+<div>
+    <div class="auth-card">
+        <h2>Crear cuenta</h2>
+
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <div class="alert alert-success text-center shadow-sm" role="alert">
+                <i class="bi bi-check-circle-fill"></i> @ViewBag.SuccessMessage
+            </div>
+        }
+
+        <form asp-action="Register" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div>
+                <label asp-for="Nombre">Nombres</label>
+                <input asp-for="Nombre" placeholder="Ej. Juan" />
+                <span asp-validation-for="Nombre" class="text-danger small"></span>
+            </div>
+
+            <div>
+                <label asp-for="Apellido">Apellidos</label>
+                <input asp-for="Apellido" placeholder="Ej. Perez" />
+                <span asp-validation-for="Apellido" class="text-danger small"></span>
+            </div>
+
+            <div>
+                <label asp-for="Email">Correo electrónico</label>
+                <input asp-for="Email" placeholder="ejemplo@email.com" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <div>
+                <label asp-for="PhoneNumber">Teléfono</label>
+                <input asp-for="PhoneNumber" placeholder="809-555-1234" />
+                <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+            </div>
+
+            <div>
+                <label asp-for="Password">Contraseña</label>
+                <input asp-for="Password" type="password" placeholder="********" />
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+
+            <div>
+                <label asp-for="ConfirmPassword">Confirmar contraseña</label>
+                <input asp-for="ConfirmPassword" type="password" placeholder="********" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Registrar</button>
+
+            <div class="text-center mt-3">
+                <span>¿Ya tienes cuenta? </span>
+                <a asp-controller="Account" asp-action="Login" class="auth-link">Inicia sesión aquí</a>
+            </div>
+        </form>
+
+        <div class="text-center">
+            <a asp-controller="Home" asp-action="Index" class="btn-back">← Volver al inicio</a>
+        </div>
+    </div>
+</div>

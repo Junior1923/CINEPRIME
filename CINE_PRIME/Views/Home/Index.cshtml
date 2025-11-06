@@ -1,8 +1,73 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model IEnumerable<CINE_PRIME.Models.Tmdb.TmdbMovieDTO>
+@{
+    ViewData["Title"] = "CinePrime - Disfruta tus películas favoritas";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@section Styles {
+    <link rel="stylesheet" href="~/css/home.css" />
+}
+
+<section class="hero-section d-flex align-items-center justify-content-center text-center text-light">
+    <div class="hero-overlay"></div>
+
+    <div class="hero-content">
+        <h1 class="display-2 fw-bold mb-3 hero-title">
+            <span class="text-prime">CinePrime</span>
+        </h1>
+        <h2 class="fw-semibold mb-3">Tu cine, a un clic de distancia 🎬</h2>
+        <p class="lead mb-4">
+            Explora miles de películas y series. Guarda tus favoritas y crea tu lista personalizada.
+        </p>
+
+        <div>
+            <a asp-controller="Account" asp-action="Register" class="btn btn-primary btn-lg me-3 px-4">
+                Comenzar gratis
+            </a>
+            <a asp-controller="Account" asp-action="Login" class="btn btn-outline-light btn-lg px-4">
+                Iniciar sesión
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Sección de películas populares -->
+<section class="popular-section container mt-5">
+    <h2 class="text-light mb-4">🔥 Películas Populares</h2>
+    <div class="row">
+        @foreach (var movie in Model)
+        {
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4">
+                <div class="movie-card">
+                    <img src="@($"https://image.tmdb.org/t/p/w500{movie.PosterPath}")" class="img-fluid rounded" alt="@movie.Title" />
+                    <div class="movie-hover">
+                        <h6 class="text-truncate">@movie.Title</h6>
+                        <p class="text-warning mb-1">⭐ @movie.VoteAverage.ToString("0.0")</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- Beneficios -->
+<section class="features-section text-light py-5 mt-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <i class="bi bi-film fs-1 text-primary mb-3"></i>
+                <h5>Explora sin límites</h5>
+                <p>Accede a un catálogo extenso de películas y series de todos los géneros.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <i class="bi bi-heart-fill fs-1 text-danger mb-3"></i>
+                <h5>Guarda tus favoritas</h5>
+                <p>Marca las películas que más te gusten y encuéntralas fácilmente.</p>
+            </div>
+            <div class="col-md-4 mb-4">
+                <i class="bi bi-clock-history fs-1 text-info mb-3"></i>
+                <h5>Vuelve cuando quieras</h5>
+                <p>Crea una lista de pendientes para seguir viendo más tarde.</p>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,23 @@
+﻿using System;
+using System.Collections.Generic;
+
+namespace CINE_PRIME.Models;
+
+public partial class Suscripcion
+{
+    public Guid Id { get; set; }
+    public string UserId { get; set; }     // FK -> AspNetUsers.Id
+    public Guid PlanId { get; set; }        // FK -> Plan.Id
+    public DateTime FechaInicio { get; set; } = DateTime.Now;
+    public DateTime? FechaFin { get; set; }
+    public string? Estado { get; set; }    // Ej: Active, Cancelled, Pending
+
+    // Propiedades de navegación
+    public virtual ApplicationUser Usuario { get; set; }
+    public virtual Plan Plan { get; set; }
+
+
+    // Una suscripción puede tener múltiples pagos asociados
+    public virtual ICollection<Pago> Pagos { get; set; } = new List<Pago>();
+
+}

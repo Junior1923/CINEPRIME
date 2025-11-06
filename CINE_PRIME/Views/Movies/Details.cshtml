@@ -1,0 +1,77 @@
+﻿@model CINE_PRIME.ViewModels.MovieDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.Movie.Title;
+
+    var backgroundUrl = $"https://image.tmdb.org/t/p/original{Model.Movie.BackdropPath}";
+    var posterUrl = $"https://image.tmdb.org/t/p/w500{Model.Movie.PosterPath}";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/peliculas.css" />
+}
+
+<!-- HERO COMPLETO -->
+<div class="movie-hero" style="background-image: url('@backgroundUrl');">
+    <div class="overlay"></div>
+
+    <div class="container movie-container">
+        <div class="row align-items-center flex-wrap">
+            <!-- PÓSTER -->
+            <div class="col-md-4 text-center mb-4 mb-md-0">
+                <img src="@posterUrl" alt="@Model.Movie.Title" class="poster" />
+            </div>
+
+            <!-- DETALLES -->
+            <div class="col-md-8 text-light">
+                <h1 class="display-5 fw-bold mb-3">@Model.Movie.Title</h1>
+                <p class="text-warning fs-5 mb-2">⭐ @Model.Movie.VoteAverage.ToString("0.0")</p>
+                <p class="overview-text mb-3">@Model.Movie.Overview</p>
+                <p class="text-muted mb-3">📅 Estreno: @Model.Movie.ReleaseDate</p>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="d-flex flex-wrap gap-2">
+                        <form asp-controller="Favorites" asp-action="Add" method="post">
+                            <input type="hidden" name="movieId" value="@Model.Movie.Id" />
+                            <button type="submit" class="btn btn-primary btn-action">
+                                ❤️ Agregar a Favoritos
+                            </button>
+                        </form>
+                        <form asp-controller="Watchlist" asp-action="Add" method="post">
+                            <input type="hidden" name="movieId" value="@Model.Movie.Id" />
+                            <button class="btn btn-outline-light btn-action">
+                                🕒 Agregar a lista pendiente
+                            </button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login" class="btn btn-light btn-action mt-3">
+                        Inicia sesión para marcar esta película
+                    </a>
+                }
+
+                <!-- TRAILER DENTRO DEL HERO -->
+                @if (!string.IsNullOrEmpty(Model.TrailerKey))
+                {
+                    <div class="trailer-container mt-5">
+                        <h3 class="text-info mb-3">🎞️ Tráiler Oficial</h3>
+                        <div class="ratio ratio-16x9 shadow-lg">
+                            <iframe src="@Model.TrailerKey" frameborder="0" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <p class="text-light mt-4">No hay tráiler disponible para esta película.</p>
+                }
+
+                <div class="mt-4">
+                    <a asp-action="Index" class="btn btn-outline-light">Volver al Catálogo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
