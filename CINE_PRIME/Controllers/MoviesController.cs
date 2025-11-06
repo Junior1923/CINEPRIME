@@ -21,13 +21,29 @@ namespace CINE_PRIME.Controllers
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            var peliculas = await _tmdbService.GetPopularMoviesAsync();
+            //var peliculas = await _tmdbService.GetPopularMoviesAsync();
             
-            if (peliculas == null)
+            //if (peliculas == null)
+            //{
+            //    return NotFound();
+            //}
+            //return View(peliculas);
+
+            var populares = await _tmdbService.GetPopularMoviesAsync();
+            var topRated = await _tmdbService.GetTopRatedMoviesAsync();
+            var upcoming = await _tmdbService.GetUpcomingMoviesAsync();
+            var nowPlaying = await _tmdbService.GetNowPlayingMoviesAsync();
+
+            var model = new MoviesHomeViewModel
             {
-                return NotFound();
-            }
-            return View(peliculas);
+                Populares = populares,
+                TopRated = topRated,
+                Upcoming = upcoming,
+                NowPlaying = nowPlaying
+            };
+
+            return View(model);
+
         }
 
         [HttpGet]

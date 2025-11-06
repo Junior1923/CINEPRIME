@@ -8,6 +8,9 @@ namespace CINE_PRIME.Interfaces
         Task<TmdbMovieDTO> GetMovieDetailsAsync(int movieId);
         Task<string?> GetMovieTrailerAsync(int movieId);
 
+        Task<IEnumerable<TmdbMovieDTO>> GetTopRatedMoviesAsync();
+        Task<IEnumerable<TmdbMovieDTO>> GetUpcomingMoviesAsync();
+        Task<IEnumerable<TmdbMovieDTO>> GetNowPlayingMoviesAsync();
 
     }
 }

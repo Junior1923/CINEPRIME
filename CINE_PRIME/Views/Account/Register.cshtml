@@ -1,59 +1,71 @@
-﻿@model CINE_PRIME.ViewModels.RegisterViewModel
+﻿@{
+    Layout = "_AuthLayout";
+}
+@model CINE_PRIME.ViewModels.RegisterViewModel
 @{
     ViewData["Title"] = "Registro";
 }
-<h2>Crear cuenta</h2>
 
-@if (ViewBag.SuccessMessage != null)
-{
-    <div class="d-flex justify-content-center mt-4">
-        <div class="alert alert-success w-50 text-center shadow-sm" role="alert">
-            <i class="bi bi-check-circle-fill"></i> @ViewBag.SuccessMessage
+<div>
+    <div class="auth-card">
+        <h2>Crear cuenta</h2>
+
+        @if (ViewBag.SuccessMessage != null)
+        {
+            <div class="alert alert-success text-center shadow-sm" role="alert">
+                <i class="bi bi-check-circle-fill"></i> @ViewBag.SuccessMessage
+            </div>
+        }
+
+        <form asp-action="Register" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div>
+                <label asp-for="Nombre">Nombres</label>
+                <input asp-for="Nombre" placeholder="Ej. Juan" />
+                <span asp-validation-for="Nombre" class="text-danger small"></span>
+            </div>
+
+            <div>
+                <label asp-for="Apellido">Apellidos</label>
+                <input asp-for="Apellido" placeholder="Ej. Perez" />
+                <span asp-validation-for="Apellido" class="text-danger small"></span>
+            </div>
+
+            <div>
+                <label asp-for="Email">Correo electrónico</label>
+                <input asp-for="Email" placeholder="ejemplo@email.com" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <div>
+                <label asp-for="PhoneNumber">Teléfono</label>
+                <input asp-for="PhoneNumber" placeholder="809-555-1234" />
+                <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+            </div>
+
+            <div>
+                <label asp-for="Password">Contraseña</label>
+                <input asp-for="Password" type="password" placeholder="********" />
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+
+            <div>
+                <label asp-for="ConfirmPassword">Confirmar contraseña</label>
+                <input asp-for="ConfirmPassword" type="password" placeholder="********" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Registrar</button>
+
+            <div class="text-center mt-3">
+                <span>¿Ya tienes cuenta? </span>
+                <a asp-controller="Account" asp-action="Login" class="auth-link">Inicia sesión aquí</a>
+            </div>
+        </form>
+
+        <div class="text-center">
+            <a asp-controller="Home" asp-action="Index" class="btn-back">← Volver al inicio</a>
         </div>
     </div>
-}
-
-<form asp-action="Register" method="post">
-    <div>
-        <label asp-for="Nombre">Nombres</label>
-        <input asp-for="Nombre" />
-        <span asp-validation-for="Nombre"></span>
-    </div>
-    <div>
-        <label asp-for="Apellido">Apellidos</label>
-        <input asp-for="Apellido" />
-        <span asp-validation-for="Apellido"></span>
-    </div>
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
-    </div>
-    <div>
-        <label asp-for="PhoneNumber">Telefono</label>
-        <input asp-for="PhoneNumber" />
-        <span asp-validation-for="PhoneNumber"></span>
-    </div>
-    <div>
-        <label asp-for="Password"></label>
-        <input asp-for="Password" type="password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div>
-        <label asp-for="ConfirmPassword"></label>
-        <input asp-for="ConfirmPassword" type="password" />
-        <span asp-validation-for="ConfirmPassword"></span>
-    </div>
-    <button type="submit">Registrar</button>
-</form>
-
-<hr />
-
-
-<p>
-    ¿Ya tienes cuenta?
-    <a asp-controller="Account" asp-action="Login">Inicia sesión aquí</a>
-</p>
-
-<!-- Botón Volver Atrás -->
-<a asp-controller="Home" asp-action="Index" class="btn btn-secondary mt-2">Volver</a>
+</div>

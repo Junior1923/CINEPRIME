@@ -1,32 +1,41 @@
-﻿@model CINE_PRIME.ViewModels.LoginViewModel
+﻿@{
+    Layout = "_AuthLayout";
+}
+@model CINE_PRIME.ViewModels.LoginViewModel
 @{
     ViewData["Title"] = "Iniciar sesión";
 }
-<h2>Iniciar sesión</h2>
 
-<form asp-action="Login" method="post">
-    <div>
-        <label asp-for="Email">Correo Electrónico</label>
-        <input asp-for="Email" />
-        <span asp-validation-for="Email"></span>
+<div>
+    <div class="auth-card">
+        <h2>Iniciar sesión</h2>
+
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div>
+                <label asp-for="Email">Correo Electrónico</label>
+                <input asp-for="Email" placeholder="ejemplo@email.com" />
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <div>
+                <label asp-for="Password">Contraseña</label>
+                <input asp-for="Password" type="password" placeholder="********" />
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+
+
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+
+            <div class="text-center mt-3">
+                <span>¿No tienes cuenta? </span>
+                <a asp-controller="Account" asp-action="Register" class="auth-link">Regístrate aquí</a>
+            </div>
+        </form>
+
+        <div class="text-center">
+            <a asp-controller="Home" asp-action="Index" class="btn-back">← Volver al inicio</a>
+        </div>
     </div>
-    <div>
-        <label asp-for="Password">Contraseña</label>
-        <input asp-for="Password" type="password" />
-        <span asp-validation-for="Password"></span>
-    </div>
-    <div>
-        <input asp-for="RememberMe" />
-        <label asp-for="RememberMe">Recuerdame</label>
-    </div>
-    <button type="submit">Ingresar</button>
-</form>
-
-
-<p>
-    ¿No tienes cuenta?
-    <a asp-controller="Account" asp-action="Register">Regístrate aquí</a>
-</p>
-
-<!-- Botón Volver Atrás -->
-<a asp-controller="Home" asp-action="Index" class="btn btn-secondary mt-2">Volver</a>
+</div>
