@@ -1,62 +1,87 @@
 ﻿@model IEnumerable<CINE_PRIME.ViewModels.FavoriteItemVM>
 
 @{
-	ViewData["Title"] = "Mis Favoritos";
+    ViewData["Title"] = "Mis Favoritos";
 }
 
-<h2 class="mb-4 text-light fw-bold">❤️ Mis Favoritos</h2>
+@section Styles {
+    <link rel="stylesheet" href="~/css/favoritos.css" />
+}
+
+<div class="favorites-header mb-4">
+    <h2 class="fw-bold text-light">❤️ Mis Favoritos</h2>
+    <p class="text-muted">
+        Tienes @Model.Count() elemento@(Model.Count() == 1 ? "" : "s") en tu colección
+    </p>
+</div>
 
 @if (!Model.Any())
 {
-	<div class="text-center text-muted mt-5">
-		<h5>No has agregado películas o series a favoritos.</h5>
-	</div>
+    <div class="empty-state text-center text-muted mt-5">
+        <img src="/images/empty.png" class="empty-icon" />
+        <h4 class="mt-3">Tu colección está vacía</h4>
+        <p>Agrega películas o series para verlas aquí.</p>
+    </div>
 }
 else
 {
-	<div class="row">
-		@foreach (var fav in Model)
-		{
-			var posterUrl = !string.IsNullOrEmpty(fav.Poster)
-			? $"https://image.tmdb.org/t/p/w500{fav.Poster}"
-			: "/images/no-image.png"; // opcional si quieres placeholder
+    <div class="favorites-list">
 
-			<div class="col-md-3 mb-4">
-				<div class="card bg-dark text-white shadow-sm border-0 movie-card">
+        @foreach (var fav in Model)
+        {
+            var posterUrl = !string.IsNullOrEmpty(fav.Poster)
+            ? $"https://image.tmdb.org/t/p/w500{fav.Poster}"
+            : "/images/no-image.png";
 
-					<!-- Poster -->
-					<img src="@posterUrl" class="card-img-top" alt="@fav.Title" />
+            <div class="favorite-card">
 
-					<div class="card-body text-center">
+                <!-- Poster -->
+                <div class="fav-poster">
+                    <img src="@posterUrl" alt="@fav.Title" />
+                </div>
 
-						<h5 class="card-title">@fav.Title</h5>
+                <!-- Información -->
+                <div class="fav-info">
+                    <h4 class="fav-title">@fav.Title</h4>
 
-						<p class="card-text text-warning">
-							⭐ @fav.Rating.ToString("0.0")
-						</p>
+                    <div class="fav-meta">
+                        ⭐ @fav.Rating.ToString("0.0") &nbsp;•&nbsp;
+                        @fav.ReleaseDate
+                        &nbsp;•&nbsp;
+                        @(fav.MediaType == "movie" ? "Película" : "Serie")
+                    </div>
 
-						<p class="text-muted small">@fav.ReleaseDate</p>
+                    @if (!string.IsNullOrWhiteSpace(fav.Movie?.Overview ?? fav.Series?.Overview))
+                    {
+                        <p class="fav-overview">
+                            @((fav.Movie?.Overview ?? fav.Series?.Overview)?.Length > 150
+                                            ? (fav.Movie?.Overview ?? fav.Series?.Overview).Substring(0, 150) + "..."
+                                            : (fav.Movie?.Overview ?? fav.Series?.Overview))
+            </p>
+                        }
+                </div>
 
-						<!-- Ir a detalles -->
-						<a asp-controller="@(fav.MediaType == "movie" ? "Movies" : "Series")"
-						   asp-action="Details"
-						   asp-route-id="@fav.MediaId"
-						   class="btn btn-sm btn-primary mb-2 w-100">
+                <!-- Botones -->
+                <div class="fav-actions">
 
-							Ver detalles
-						</a>
+                    <a asp-controller="@(fav.MediaType == "movie" ? "Movies" : "Series")"
+                       asp-action="Details"
+                       asp-route-id="@fav.MediaId"
+                       class="btn btn-details">
+                        Ver detalles
+                    </a>
 
-						<!-- Eliminar favorito -->
-						<form asp-action="Remove" method="post" class="w-100">
-							<input type="hidden" name="favoritoId" value="@fav.FavoriteId" />
-							<button type="submit" class="btn btn-sm btn-outline-danger w-100">
-								Eliminar
-							</button>
-						</form>
-					</div>
+                    <form asp-action="Remove" method="post">
+                        <input type="hidden" name="favoritoId" value="@fav.FavoriteId" />
+                        <button type="submit" class="btn btn-remove col-12">
+                            Eliminar
+                        </button>
+                    </form>
 
-				</div>
-			</div>
-		}
-	</div>
+                </div>
+
+            </div>
+        }
+
+    </div>
 }

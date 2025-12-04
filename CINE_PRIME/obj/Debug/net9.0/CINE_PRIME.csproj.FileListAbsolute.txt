@@ -468,6 +468,7 @@ C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\bin\Debug\net9.0\Microsoft.Exte
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\p3jjffyhsx-bu1pk3dj3t.gz
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\zby59aawzd-81pddgaqkn.gz
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\tod3umsrar-m7h2z3qe6s.gz
-C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\10ysjon1ir-qemmpgf7km.gz
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\4a1d4lzd7o-pkbx95pmki.gz
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\83z5dv73xk-hao47qg53j.gz
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\81ousehv74-4dwpxkpmuv.gz
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\10ysjon1ir-kv602h8g07.gz

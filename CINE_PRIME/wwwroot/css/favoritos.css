@@ -1,0 +1,140 @@
+﻿/* ============================================
+   📁 CONTENEDOR GENERAL
+   ============================================ */
+.favorites-header h2 {
+    color: #00a8e1;
+}
+
+.favorites-header p {
+    font-size: 0.95rem;
+    opacity: 0.8;
+}
+
+/* ============================================
+   🧩 CARD HORIZONTAL
+   ============================================ */
+.favorites-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.favorite-card {
+    background: #111a22;
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    border-radius: 14px;
+    transition: 0.25s ease;
+    border: 1px solid rgba(255,255,255,0.03);
+}
+
+    .favorite-card:hover {
+        background: #162029;
+        transform: translateY(-3px);
+    }
+
+/* ============================================
+   🎞 POSTER
+   ============================================ */
+.fav-poster img {
+    width: 115px;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+/* ============================================
+   📘 INFORMACIÓN
+   ============================================ */
+.fav-info {
+    flex: 1;
+    margin-left: 20px;
+    color: #e5e7eb;
+}
+
+.fav-title {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 700;
+}
+
+.fav-meta {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    margin-top: 3px;
+}
+
+.fav-overview {
+    margin-top: 10px;
+    font-size: 0.95rem;
+    color: #cdd5df;
+    line-height: 1.5;
+}
+
+/* ============================================
+   🔘 BOTONES
+   ============================================ */
+.fav-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-details {
+    background-color: #00a8e1;
+    border: none;
+    padding: 9px 18px;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 600;
+}
+
+    .btn-details:hover {
+        background-color: #0093c4;
+    }
+
+.btn-remove {
+    background-color: transparent;
+    border: 1px solid #dc3545;
+    color: #dc3545;
+    padding: 9px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+    .btn-remove:hover {
+        background-color: #dc3545;
+        color: white;
+    }
+
+/* ============================================
+   📱 RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+    .favorite-card {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .fav-info {
+        margin: 15px 0;
+    }
+
+    .fav-actions {
+        width: 100%;
+    }
+
+        .fav-actions .btn {
+            width: 100%;
+        }
+}
+
+/* ============================================
+   😢 EMPTY STATE
+   ============================================ */
+.empty-icon {
+    width: 140px;
+    opacity: 0.5;
+}
