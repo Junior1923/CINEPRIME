@@ -1,4 +1,5 @@
-﻿@model IEnumerable<CINE_PRIME.Models.Tmdb.TmdbMovieDTO>
+﻿@model CINE_PRIME.ViewModels.HomeViewModel
+
 @{
     ViewData["Title"] = "CinePrime - Disfruta tus películas favoritas";
 }
@@ -34,7 +35,7 @@
 <section class="popular-section container mt-5">
     <h2 class="text-light mb-4">🔥 Películas Populares</h2>
     <div class="row">
-        @foreach (var movie in Model)
+        @foreach (var movie in Model.PopularMovies)
         {
             <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4">
                 <div class="movie-card">
@@ -42,6 +43,27 @@
                     <div class="movie-hover">
                         <h6 class="text-truncate">@movie.Title</h6>
                         <p class="text-warning mb-1">⭐ @movie.VoteAverage.ToString("0.0")</p>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</section>
+
+<!-- Sección de series populares -->
+<section class="popular-section container mt-5">
+    <h2 class="text-light mb-4">📺 Series Populares</h2>
+
+    <div class="row">
+        @foreach (var serie in Model.PopularSeries)
+        {
+            <div class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4">
+                <div class="movie-card">
+                    <img src="@($"https://image.tmdb.org/t/p/w500{serie.PosterPath}")"
+                         class="img-fluid rounded" alt="@serie.Name" />
+                    <div class="movie-hover">
+                        <h6 class="text-truncate">@serie.Name</h6>
+                        <p class="text-warning mb-1">⭐ @serie.VoteAverage.ToString("0.0")</p>
                     </div>
                 </div>
             </div>

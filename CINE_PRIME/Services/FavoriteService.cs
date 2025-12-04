@@ -14,13 +14,13 @@ namespace CINE_PRIME.Services
             _context = context;
         }
 
-        public async Task<bool> AddFavoriteAsync(int movieId, string userId)
+        public async Task<bool> AddFavoriteAsync(int mediaId, string mediaType, string userId)
         {
             try
             {
                 // Verificar si ya existe el favorito
                 var existeFavorito = await _context.Favoritos
-                    .AnyAsync(f => f.UserId == userId && f.TmdbMovieId == movieId);
+                    .AnyAsync(f => f.UserId == userId && f.MediaId == mediaId);
 
                 if (existeFavorito)
                 {
@@ -31,7 +31,8 @@ namespace CINE_PRIME.Services
                 var favorito = new Favorito
                 {
                     UserId = userId,
-                    TmdbMovieId = movieId,
+                    MediaId = mediaId,
+                    MediaType = mediaType.ToLower(),
                     FechaAgregado = DateTime.Now
                 };
 

@@ -1,0 +1,116 @@
+﻿@model CINE_PRIME.ViewModels.SeriesDetailsViewModel
+
+@{
+    ViewData["Title"] = Model.Serie.Name;
+
+    var backdrop = $"https://image.tmdb.org/t/p/original{Model.Serie.BackdropPath}";
+    var poster = $"https://image.tmdb.org/t/p/w500{Model.Serie.PosterPath}";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/series.css" />
+}
+
+<!-- ========================= -->
+<!-- HERO DE SERIES           -->
+<!-- ========================= -->
+<div class="series-hero" style="background-image: url('@backdrop');">
+    <div class="series-hero-overlay"></div>
+
+    <div class="series-hero-content container text-center">
+        <h1 class="fw-bold series-title">@Model.Serie.Name</h1>
+
+        <p class="series-meta">
+            ⭐ @Model.Serie.VoteAverage.ToString("0.0") &nbsp;|&nbsp;
+            📅 @Model.Serie.FirstAirDate &nbsp;|&nbsp;
+            🎞️ @Model.Serie.NumberOfSeasons Temporadas / @Model.Serie.NumberOfEpisodes Episodios
+        </p>
+
+        @if (Model.Serie.Genres != null)
+        {
+            <div class="series-genres mt-3">
+                @foreach (var genre in Model.Serie.Genres)
+                {
+                    <span class="badge genre-badge">@genre.Name</span>
+                }
+            </div>
+        }
+    </div>
+
+    <img src="@poster" class="series-poster" alt="@Model.Serie.Name" />
+</div>
+
+
+
+<!-- ========================= -->
+<!-- CONTENIDO PRINCIPAL      -->
+<!-- ========================= -->
+<div class="container series-body mt-8">
+
+    <div class="row">
+        <div class="col-lg-8">
+            <h3 class="section-heading">📝 Sinopsis</h3>
+            <p class="series-overview">
+                @Model.Serie.Overview
+            </p>
+
+            <h3 class="section-heading mt-4">⏱️ Duración</h3>
+            <p class="series-overview">
+                @(
+                                Model.Serie.EpisodeRunTime != null && Model.Serie.EpisodeRunTime.Count > 0
+                                ? $"{Model.Serie.EpisodeRunTime[0]} min por episodio"
+                                : "Duración no disponible"
+                                )
+            </p>
+
+            @if (!string.IsNullOrEmpty(Model.TrailerKey))
+            {
+                <h3 class="section-heading mt-5">🎞️ Tráiler Oficial</h3>
+
+                <div class="trailer-wrapper mt-3">
+                    <iframe src="@Model.TrailerKey" frameborder="0" allowfullscreen></iframe>
+                </div>
+            }
+            else
+            {
+                <p class="text-muted mt-4">No hay tráiler disponible para esta serie.</p>
+            }
+        </div>
+
+        <div class="col-lg-4">
+            <div class="action-box">
+                <h4 class="mb-3">Acciones</h4>
+
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <div class="d-flex flex-wrap gap-2">
+                        <form asp-controller="Favorites" asp-action="Add" method="post">
+                            <input type="hidden" name="mediaId" value="@Model.Serie.Id" />
+                            <input type="hidden" name="mediaType" value="tv" />
+                            <button type="submit" class="btn btn-primary btn-action">
+                                ❤️ Agregar a Favoritos
+                            </button>
+                        </form>
+
+                        <form asp-controller="Watchlist" asp-action="Add" method="post">
+                            <input type="hidden" name="mediaId" value="@Model.Serie.Id" />
+                            <input type="hidden" name="mediaType" value="tv" />
+                            <button class="btn btn-outline-light btn-action">
+                                🕒 Agregar a lista pendiente
+                            </button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <a asp-controller="Account" asp-action="Login"
+                       class="btn btn-light w-100 btn-lg">
+                        Inicia sesión para guardar esta serie
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+
+    <a asp-action="Index" class="btn btn-outline-secondary mt-4">⬅ Volver al catálogo</a>
+</div>

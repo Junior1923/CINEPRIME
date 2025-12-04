@@ -1,0 +1,39 @@
+﻿@model IEnumerable<CINE_PRIME.Models.Tmdb.TmdbSeriesDTO>
+
+@{
+    ViewData["Title"] = "Series - CinePrime";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/peliculas.css" />
+}
+
+<h2 class="mb-4 text-light">📺 Series Populares</h2>
+
+<div class="row">
+    @foreach (var serie in Model)
+    {
+        <div class="col-md-3 mb-4">
+            <div class="card movie-card h-100 shadow-sm">
+                <img src="@($"https://image.tmdb.org/t/p/w500{serie.PosterPath}")"
+                     class="card-img-top"
+                     alt="@serie.Name" />
+
+                <div class="card-body">
+                    <h5 class="card-title">@serie.Name</h5>
+
+                    <p class="card-text text-muted">
+                        ⭐ @serie.VoteAverage.ToString("0.0") |
+                        @serie.FirstAirDate
+                    </p>
+
+                    <a asp-action="Details"
+                       asp-route-id="@serie.Id"
+                       class="btn btn-primary btn-sm">
+                        Ver detalles
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

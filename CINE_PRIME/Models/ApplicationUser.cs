@@ -9,6 +9,7 @@ namespace CINE_PRIME.Models
 
         public string Apellido { get; set; } = null!;
 
+        public string? ImagenPerfil { get; set; }
         public DateTime FechaCreacion { get; set; } = DateTime.Now; 
 
     }
