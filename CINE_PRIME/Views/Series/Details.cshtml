@@ -1,116 +1,142 @@
 ﻿@model CINE_PRIME.ViewModels.SeriesDetailsViewModel
 
 @{
-    ViewData["Title"] = Model.Serie.Name;
-
-    var backdrop = $"https://image.tmdb.org/t/p/original{Model.Serie.BackdropPath}";
-    var poster = $"https://image.tmdb.org/t/p/w500{Model.Serie.PosterPath}";
+	ViewData["Title"] = Model.Serie.Name;
+	var backdrop = !string.IsNullOrEmpty(Model.Serie.BackdropPath)
+		? $"https://image.tmdb.org/t/p/original{Model.Serie.BackdropPath}"
+		: "";
+	var poster = $"https://image.tmdb.org/t/p/w500{Model.Serie.PosterPath}";
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/series.css" />
+	<link rel="stylesheet" href="~/css/pime_series.css" />
 }
 
-<!-- ========================= -->
-<!-- HERO DE SERIES           -->
-<!-- ========================= -->
-<div class="series-hero" style="background-image: url('@backdrop');">
-    <div class="series-hero-overlay"></div>
+<div class="series-details-page">
+	<!-- HERO -->
+	<section class="series-hero" style="background-image: linear-gradient(180deg, rgba(6,10,14,0.6), rgba(6,10,14,0.85)), url('@backdrop');">
+		<div class="container hero-inner d-flex gap-4">
+			<div class="hero-poster">
+				<img src="@poster" alt="@Model.Serie.Name" class="poster-img" />
+			</div>
 
-    <div class="series-hero-content container text-center">
-        <h1 class="fw-bold series-title">@Model.Serie.Name</h1>
+			<div class="hero-content text-light">
+				<h1 class="title">@Model.Serie.Name</h1>
 
-        <p class="series-meta">
-            ⭐ @Model.Serie.VoteAverage.ToString("0.0") &nbsp;|&nbsp;
-            📅 @Model.Serie.FirstAirDate &nbsp;|&nbsp;
-            🎞️ @Model.Serie.NumberOfSeasons Temporadas / @Model.Serie.NumberOfEpisodes Episodios
-        </p>
+				<div class="meta-row">
+					<span class="rating">⭐ <strong>@Model.Serie.VoteAverage.ToString("0.0")</strong></span>
+					<span class="dot">•</span>
+					<span>@DateTime.Parse(Model.Serie.FirstAirDate).ToString("dd/MM/yyyy")</span>
+					<span class="dot">•</span>
+					<span>@Model.Serie.NumberOfSeasons @("Temporada".ToLower())</span>
+				</div>
 
-        @if (Model.Serie.Genres != null)
-        {
-            <div class="series-genres mt-3">
-                @foreach (var genre in Model.Serie.Genres)
-                {
-                    <span class="badge genre-badge">@genre.Name</span>
-                }
-            </div>
-        }
-    </div>
+				<div class="genres mt-3">
+					@if (Model.Serie.Genres != null)
+					{
+						@foreach (var g in Model.Serie.Genres)
+						{
+							<span class="genre-chip">@g.Name</span>
+						}
+					}
+				</div>
 
-    <img src="@poster" class="series-poster" alt="@Model.Serie.Name" />
-</div>
+				<p class="overview mt-3">@Model.Serie.Overview</p>
 
+				<div class="hero-actions mt-4 d-flex flex-wrap gap-2">
+					@if (User.Identity.IsAuthenticated)
+					{
+						<form asp-controller="Favorites" asp-action="Add" method="post" class="d-inline">
+							<input type="hidden" name="mediaId" value="@Model.Serie.Id" />
+							<input type="hidden" name="mediaType" value="tv" />
+							<button type="submit" class="btn btn-large btn-accent">❤️ Favoritos</button>
+						</form>
 
+						<form asp-controller="Watchlist" asp-action="Add" method="post" class="d-inline">
+							<input type="hidden" name="mediaId" value="@Model.Serie.Id" />
+							<input type="hidden" name="mediaType" value="tv" />
+							<button type="submit" class="btn btn-outline">➕ Guardar</button>
+						</form>
+					}
+					else
+					{
+						<a asp-controller="Account" asp-action="Login" class="btn btn-outline">Inicia sesión para guardar</a>
+					}
+				</div>
+			</div>
+		</div>
+	</section>
 
-<!-- ========================= -->
-<!-- CONTENIDO PRINCIPAL      -->
-<!-- ========================= -->
-<div class="container series-body mt-8">
+	<!-- MAIN CONTENT -->
+	<main class="container main-body mt-5">
+		<div class="row">
+			<div class="col-lg-8">
+				<section>
+					<h3 class="section-title">Sinopsis</h3>
+					<p class="text-muted">@Model.Serie.Overview</p>
+				</section>
 
-    <div class="row">
-        <div class="col-lg-8">
-            <h3 class="section-heading">📝 Sinopsis</h3>
-            <p class="series-overview">
-                @Model.Serie.Overview
-            </p>
+				<section class="mt-4">
+					<h3 class="section-title">Duración promedio</h3>
+					<p class="text-muted">
+						@(
+												Model.Serie.EpisodeRunTime != null && Model.Serie.EpisodeRunTime.Count > 0
+												? $"{Model.Serie.EpisodeRunTime[0]} min por episodio"
+												: "Duración no disponible"
+												)
+					</p>
+				</section>
 
-            <h3 class="section-heading mt-4">⏱️ Duración</h3>
-            <p class="series-overview">
-                @(
-                                Model.Serie.EpisodeRunTime != null && Model.Serie.EpisodeRunTime.Count > 0
-                                ? $"{Model.Serie.EpisodeRunTime[0]} min por episodio"
-                                : "Duración no disponible"
-                                )
-            </p>
+				@if (!string.IsNullOrEmpty(Model.TrailerKey))
+				{
+					<section class="mt-4">
+						<h3 class="section-title">Tráiler oficial</h3>
+						<div class="trailer-box mt-2">
+							<iframe src="@Model.TrailerKey" frameborder="0" allowfullscreen loading="lazy"></iframe>
+						</div>
+					</section>
+				}
+			</div>
 
-            @if (!string.IsNullOrEmpty(Model.TrailerKey))
-            {
-                <h3 class="section-heading mt-5">🎞️ Tráiler Oficial</h3>
+			<aside class="col-lg-4">
+				<div class="sticky-box">
+					<div class="info-card">
+						<h4>Detalles</h4>
+						<ul class="list-unstyled text-muted">
+							<li><strong>Temporadas:</strong> @Model.Serie.NumberOfSeasons</li>
+							<li><strong>Episodios:</strong> @Model.Serie.NumberOfEpisodes</li>
+						</ul>
+					</div>
 
-                <div class="trailer-wrapper mt-3">
-                    <iframe src="@Model.TrailerKey" frameborder="0" allowfullscreen></iframe>
-                </div>
-            }
-            else
-            {
-                <p class="text-muted mt-4">No hay tráiler disponible para esta serie.</p>
-            }
-        </div>
+					<div class="info-card mt-3">
+						<h4>Acciones rápidas</h4>
+						@if (User.Identity.IsAuthenticated)
+						{
+							<div class="d-grid gap-2">
+								<form asp-controller="Favorites" asp-action="Add" method="post">
+									<input type="hidden" name="mediaId" value="@Model.Serie.Id" />
+									<input type="hidden" name="mediaType" value="tv" />
+									<button type="submit" class="btn btn-accent w-100">❤️ Favoritos</button>
+								</form>
 
-        <div class="col-lg-4">
-            <div class="action-box">
-                <h4 class="mb-3">Acciones</h4>
+								<form asp-controller="Watchlist" asp-action="Add" method="post">
+									<input type="hidden" name="mediaId" value="@Model.Serie.Id" />
+									<input type="hidden" name="mediaType" value="tv" />
+									<button type="submit" class="btn btn-outline w-100">➕ Guardar</button>
+								</form>
+							</div>
+						}
+						else
+						{
+							<a asp-controller="Account" asp-action="Login" class="btn btn-outline w-100">Inicia sesión</a>
+						}
+					</div>
+				</div>
+			</aside>
+		</div>
 
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="d-flex flex-wrap gap-2">
-                        <form asp-controller="Favorites" asp-action="Add" method="post">
-                            <input type="hidden" name="mediaId" value="@Model.Serie.Id" />
-                            <input type="hidden" name="mediaType" value="tv" />
-                            <button type="submit" class="btn btn-primary btn-action">
-                                ❤️ Agregar a Favoritos
-                            </button>
-                        </form>
-
-                        <form asp-controller="Watchlist" asp-action="Add" method="post">
-                            <input type="hidden" name="mediaId" value="@Model.Serie.Id" />
-                            <input type="hidden" name="mediaType" value="tv" />
-                            <button class="btn btn-outline-light btn-action">
-                                🕒 Agregar a lista pendiente
-                            </button>
-                        </form>
-                    </div>
-                }
-                else
-                {
-                    <a asp-controller="Account" asp-action="Login"
-                       class="btn btn-light w-100 btn-lg">
-                        Inicia sesión para guardar esta serie
-                    </a>
-                }
-            </div>
-        </div>
-    </div>
-
-    <a asp-action="Index" class="btn btn-outline-secondary mt-4">⬅ Volver al catálogo</a>
+		<div class="mt-4">
+			<a asp-action="Index" class="btn btn-secondary">⬅ Volver al catálogo</a>
+		</div>
+	</main>
 </div>

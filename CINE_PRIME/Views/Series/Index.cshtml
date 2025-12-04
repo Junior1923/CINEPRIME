@@ -5,35 +5,61 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/peliculas.css" />
+    <link rel="stylesheet" href="~/css/pime_series.css" />
 }
 
-<h2 class="mb-4 text-light">📺 Series Populares</h2>
+<div class="series-page container-fluid pt-4 pb-5">
+    <header class="series-header mb-4">
+        <h2 class="series-main-title">📺 Series Populares</h2>
+        <p class="series-subtitle">Seleccionadas para ti — Explora, guarda y disfruta.</p>
+    </header>
 
-<div class="row">
-    @foreach (var serie in Model)
-    {
-        <div class="col-md-3 mb-4">
-            <div class="card movie-card h-100 shadow-sm">
-                <img src="@($"https://image.tmdb.org/t/p/w500{serie.PosterPath}")"
-                     class="card-img-top"
-                     alt="@serie.Name" />
+    <!-- Grid principal -->
+    <div class="series-grid">
+        @foreach (var s in Model)
+        {
+            var poster = $"https://image.tmdb.org/t/p/w500{s.PosterPath}";
+            <article class="series-card">
+                <a asp-action="Details" asp-route-id="@s.Id" class="series-link" title="@s.Name">
+                    <div class="series-poster-wrap">
+                        <img src="@poster" alt="@s.Name" loading="lazy" class="series-poster" />
+                        <div class="series-hover">
+                            <div class="hover-meta">
+                                <h3 class="hover-title">@s.Name</h3>
+                                <div class="hover-info">
+                                    <span class="rating">⭐ @s.VoteAverage.ToString("0.0")</span>
+                                    <span class="year">@DateTime.Parse(s.FirstAirDate).Year.ToString()</span>
+                                </div>
+                            </div>
 
-                <div class="card-body">
-                    <h5 class="card-title">@serie.Name</h5>
-
-                    <p class="card-text text-muted">
-                        ⭐ @serie.VoteAverage.ToString("0.0") |
-                        @serie.FirstAirDate
-                    </p>
-
-                    <a asp-action="Details"
-                       asp-route-id="@serie.Id"
-                       class="btn btn-primary btn-sm">
-                        Ver detalles
-                    </a>
+                            <div class="hover-actions">
+                                <a asp-action="Details" asp-route-id="@s.Id" class="btn btn-primary btn-sm">Ver detalles</a>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <div class="series-card-body">
+                    <h4 class="card-title">@s.Name</h4>
+                    <div class="card-sub">
+                        <span class="small-meta">⭐ @s.VoteAverage.ToString("0.0")</span>
+                        <span class="small-meta">•</span>
+                        <span class="small-meta">@DateTime.Parse(s.FirstAirDate).ToString("dd/MM/yyyy")</span>
+                    </div>
                 </div>
-            </div>
-        </div>
-    }
+            </article>
+        }
+    </div>
+
+    @* <!-- Paginación mínima (si en el futuro agregas paginado) -->
+    <div class="d-flex justify-content-center mt-5">
+        <!-- Placeholder: reemplazar por paginador real si aplica -->
+        <nav aria-label="Paginación">
+            <ul class="pagination">
+                <li class="page-item disabled"><a class="page-link">Anterior</a></li>
+                <li class="page-item active"><a class="page-link">1</a></li>
+                <li class="page-item"><a class="page-link">2</a></li>
+                <li class="page-item"><a class="page-link">Siguiente</a></li>
+            </ul>
+        </nav>
+    </div> *@
 </div>
