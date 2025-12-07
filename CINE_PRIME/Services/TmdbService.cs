@@ -148,23 +148,64 @@ namespace CINE_PRIME.Services
         #endregion
 
 
+        #region GET TOP RATED PELICULAS
         public async Task<IEnumerable<TmdbMovieDTO>> GetTopRatedMoviesAsync()
         {
-            var response = await _httpClient.GetFromJsonAsync<TmdbResponseDTO>($"{_settings.BaseUrl}movie/top_rated?api_key={_settings.ApiKey}&language=es-ES");
-            return response?.Results ?? new List<TmdbMovieDTO>();
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<TmdbResponseDTO>($"{_settings.BaseUrl}movie/top_rated?api_key={_settings.ApiKey}&language=es-ES");
+                return response?.Results ?? new List<TmdbMovieDTO>();
+            }
+            catch (HttpRequestException ex)
+            {
+                return new List<TmdbMovieDTO>();
+            }
+            catch (JsonException ex)
+            {
+                return new List<TmdbMovieDTO>();
+            }
         }
+        #endregion
 
+
+        #region GET UPCOMING PELICULAS
         public async Task<IEnumerable<TmdbMovieDTO>> GetUpcomingMoviesAsync()
         {
-            var response = await _httpClient.GetFromJsonAsync<TmdbResponseDTO>($"{_settings.BaseUrl}movie/upcoming?api_key={_settings.ApiKey}&language=es-ES");
-            return response?.Results ?? new List<TmdbMovieDTO>();
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<TmdbResponseDTO>($"{_settings.BaseUrl}movie/upcoming?api_key={_settings.ApiKey}&language=es-ES");
+                return response?.Results ?? new List<TmdbMovieDTO>();
+            }
+            catch (HttpRequestException ex)
+            {
+                return new List<TmdbMovieDTO>();
+            }
+            catch (JsonException ex)
+            {
+                return new List<TmdbMovieDTO>();
+            }
         }
+        #endregion
 
+
+        #region GET NOW PLAYING PELICULAS
         public async Task<IEnumerable<TmdbMovieDTO>> GetNowPlayingMoviesAsync()
         {
-            var response = await _httpClient.GetFromJsonAsync<TmdbResponseDTO>($"{_settings.BaseUrl}movie/now_playing?api_key={_settings.ApiKey}&language=es-ES");
-            return response?.Results ?? new List<TmdbMovieDTO>();
+            try
+            {
+                var response = await _httpClient.GetFromJsonAsync<TmdbResponseDTO>($"{_settings.BaseUrl}movie/now_playing?api_key={_settings.ApiKey}&language=es-ES");
+                return response?.Results ?? new List<TmdbMovieDTO>();
+            }
+            catch (HttpRequestException ex)
+            {
+                return new List<TmdbMovieDTO>();
+            }
+            catch (JsonException ex)
+            {
+                return new List<TmdbMovieDTO>();
+            }
         }
+        #endregion
 
     }
 }

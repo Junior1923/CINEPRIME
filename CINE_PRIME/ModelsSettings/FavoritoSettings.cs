@@ -19,11 +19,12 @@ namespace CINE_PRIME.ModelsSettings
 
             // Configuración de propiedades
             builder.Property(f => f.UserId).IsRequired().HasMaxLength(450);
-            builder.Property(f => f.TmdbMovieId).IsRequired();
+            builder.Property(f => f.MediaId).IsRequired();
+            builder.Property(f => f.MediaType).IsRequired().HasMaxLength(20);
 
 
             // Índice único para evitar duplicados de la misma película favorita por usuario
-            builder.HasIndex(f => new { f.UserId, f.TmdbMovieId }).IsUnique();
+            builder.HasIndex(f => new { f.UserId, f.MediaId, f.MediaType}).IsUnique();
 
             // Relación muchos a uno con ApplicationUser
             builder.HasOne(f => f.Usuario)

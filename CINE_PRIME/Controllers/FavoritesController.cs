@@ -1,5 +1,7 @@
 using CINE_PRIME.Interfaces;
+using CINE_PRIME.Models;
 using CINE_PRIME.Models.Tmdb;
+using CINE_PRIME.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -12,36 +14,36 @@ namespace CINE_PRIME.Controllers
         private readonly IFavoriteService _favoritoService;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly ITmdbService _tmdbService;
+        private readonly ITmdbSeriesService _tmdbSeriesService;
 
-        public FavoritesController(IFavoriteService favoritoService, IHttpContextAccessor httpContextAccessor, ITmdbService tmdbService)
+        public FavoritesController(IFavoriteService favoritoService, IHttpContextAccessor httpContextAccessor, ITmdbService tmdbService, ITmdbSeriesService tmdbSeriesService)
         {
             _favoritoService = favoritoService;
             _httpContextAccessor = httpContextAccessor;
             _tmdbService = tmdbService;
+            _tmdbSeriesService = tmdbSeriesService;
         }
 
-
-
         [HttpPost]
-        public async Task<IActionResult> Add(int movieId)
+        public async Task<IActionResult> Add(int mediaId, string mediaType)
         {
             // Obtener el ID del usuario autenticado
             var userId = _httpContextAccessor.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (string.IsNullOrEmpty(userId))
             {
-                return BadRequest();
+                return Unauthorized();
             }
 
             // Llamar al servicio para agregar el favorito
-            var result = await _favoritoService.AddFavoriteAsync(movieId, userId);
+            var result = await _favoritoService.AddFavoriteAsync(mediaId, mediaType, userId);
 
             if (!result)
             {
                 return BadRequest();
             }
 
-            return RedirectToAction("Index", "Favorites");
+            return RedirectToAction(nameof(Index));
 
         }
 
@@ -74,19 +76,32 @@ namespace CINE_PRIME.Controllers
             // Llamar al servicio para obtener los favoritos del usuario
             var favoritos = await _favoritoService.GetFavoritesByUserAsync(userId);
 
-            
-            // Crear una lista para almacenar los detalles de las películas favoritas
-            var peliculasFavoritas = new List<(Guid FavId, TmdbMovieDTO Movie)>();
 
-            foreach (var f in favoritos)
+            // Crear una lista para almacenar los detalles de las películas y series favoritas
+            var favMix = new List<FavoriteItemVM>();
+
+            foreach (var fav in favoritos)
             {
-                var pelicula = await _tmdbService.GetMovieDetailsAsync(f.TmdbMovieId);
+                var vm = new FavoriteItemVM
+                {
+                    FavoriteId = fav.Id,
+                    MediaId = fav.MediaId,
+                    MediaType = fav.MediaType
+                };
 
-                peliculasFavoritas.Add((f.Id, pelicula));
+                if (fav.MediaType == "movie")
+                {
+                    vm.Movie = await _tmdbService.GetMovieDetailsAsync(fav.MediaId);
+                }
+                else if (fav.MediaType == "tv")
+                {
+                    vm.Series = await _tmdbSeriesService.GetSeriesDetailsAsync(fav.MediaId);
+                }
 
+                favMix.Add(vm);
             }
 
-            return View(peliculasFavoritas);
+            return View(favMix);
 
         }
 

@@ -1,0 +1,142 @@
+﻿@model CINE_PRIME.ViewModels.SeriesDetailsViewModel
+
+@{
+	ViewData["Title"] = Model.Serie.Name;
+	var backdrop = !string.IsNullOrEmpty(Model.Serie.BackdropPath)
+		? $"https://image.tmdb.org/t/p/original{Model.Serie.BackdropPath}"
+		: "";
+	var poster = $"https://image.tmdb.org/t/p/w500{Model.Serie.PosterPath}";
+}
+
+@section Styles {
+	<link rel="stylesheet" href="~/css/series.css" />
+}
+
+<div class="series-details-page">
+	<!-- HERO -->
+	<section class="series-hero prueba" style="background-image: linear-gradient(180deg, rgba(6,10,14,0.6), rgba(6,10,14,0.85)), url('@backdrop');">
+		<div class="container hero-inner d-flex gap-4">
+			<div class="hero-poster">
+				<img src="@poster" alt="@Model.Serie.Name" class="poster-img" />
+			</div>
+
+			<div class="mt-5 hero-content text-light">
+				<h1 class="title">@Model.Serie.Name</h1>
+
+				<div class="meta-row">
+					<span class="rating">⭐ <strong>@Model.Serie.VoteAverage.ToString("0.0")</strong></span>
+					<span class="dot">•</span>
+					<span>@DateTime.Parse(Model.Serie.FirstAirDate).ToString("dd/MM/yyyy")</span>
+					<span class="dot">•</span>
+					<span>@Model.Serie.NumberOfSeasons @("Temporada".ToLower())</span>
+				</div>
+
+				<div class="genres mt-3">
+					@if (Model.Serie.Genres != null)
+					{
+						@foreach (var g in Model.Serie.Genres)
+						{
+							<span class="genre-chip">@g.Name</span>
+						}
+					}
+				</div>
+
+				@* <p class="overview mt-3">@Model.Serie.Overview</p> *@
+
+				<div class="hero-actions mt-5 d-flex flex-wrap gap-2">
+					@if (User.Identity.IsAuthenticated)
+					{
+						<form asp-controller="Favorites" asp-action="Add" method="post" class="d-inline">
+							<input type="hidden" name="mediaId" value="@Model.Serie.Id" />
+							<input type="hidden" name="mediaType" value="tv" />
+							<button type="submit" class="btn btn-large btn-accent">❤️ Favoritos</button>
+						</form>
+
+						<form asp-controller="Watchlist" asp-action="Add" method="post" class="d-inline">
+							<input type="hidden" name="mediaId" value="@Model.Serie.Id" />
+							<input type="hidden" name="mediaType" value="tv" />
+							<button type="submit" class="btn btn-outline-light">➕ Guardar</button>
+						</form>
+					}
+					else
+					{
+						<a asp-controller="Account" asp-action="Login" class="btn btn-outline">Inicia sesión para guardar</a>
+					}
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- MAIN CONTENT -->
+	<main class="container main-body mt-5">
+		<div class="row">
+			<div class="col-lg-8">
+				<section>
+					<h3 class="section-title">Sinopsis</h3>
+					<p class="text-muted">@Model.Serie.Overview</p>
+				</section>
+
+				<section class="mt-4">
+					<h3 class="section-title">Duración promedio</h3>
+					<p class="text-muted">
+						@(
+												Model.Serie.EpisodeRunTime != null && Model.Serie.EpisodeRunTime.Count > 0
+												? $"{Model.Serie.EpisodeRunTime[0]} min por episodio"
+												: "Duración no disponible"
+												)
+					</p>
+				</section>
+
+				@if (!string.IsNullOrEmpty(Model.TrailerKey))
+				{
+					<section class="mt-4">
+						<h3 class="section-title">Tráiler oficial</h3>
+						<div class="trailer-box mt-2">
+							<iframe src="@Model.TrailerKey" frameborder="0" allowfullscreen loading="lazy"></iframe>
+						</div>
+					</section>
+				}
+			</div>
+
+			<aside class="col-lg-4">
+				<div class="sticky-box">
+					<div class="info-card">
+						<h4>Detalles</h4>
+						<ul class="list-unstyled text-muted">
+							<li><strong>Temporadas:</strong> @Model.Serie.NumberOfSeasons</li>
+							<li><strong>Episodios:</strong> @Model.Serie.NumberOfEpisodes</li>
+						</ul>
+					</div>
+
+					<div class="info-card mt-3">
+						<h4>Acciones rápidas</h4>
+						@if (User.Identity.IsAuthenticated)
+						{
+							<div class="d-grid gap-2">
+								<form asp-controller="Favorites" asp-action="Add" method="post">
+									<input type="hidden" name="mediaId" value="@Model.Serie.Id" />
+									<input type="hidden" name="mediaType" value="tv" />
+									<button type="submit" class="btn btn-accent w-100">❤️ Favoritos</button>
+								</form>
+
+								<form asp-controller="Watchlist" asp-action="Add" method="post">
+									<input type="hidden" name="mediaId" value="@Model.Serie.Id" />
+									<input type="hidden" name="mediaType" value="tv" />
+									<button type="submit" class="btn btn-outline w-100">➕ Guardar</button>
+								</form>
+							</div>
+						}
+						else
+						{
+							<a asp-controller="Account" asp-action="Login" class="btn btn-outline w-100">Inicia sesión</a>
+						}
+					</div>
+				</div>
+			</aside>
+		</div>
+
+		<div class="mt-4">
+			<a asp-action="Index" class="btn btn-secondary">⬅ Volver al catálogo</a>
+		</div>
+	</main>
+</div>

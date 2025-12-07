@@ -41,12 +41,21 @@ builder.Services.Configure<TmdbSettings>(builder.Configuration.GetSection("TmdbS
 //Registra el servicio HTTP para ITmdbService y su implementación TmdbService
 builder.Services.AddHttpClient<ITmdbService, TmdbService>();
 
+//Registra el servicio HTTP para ITmdbSeriesService y su implementación TmdbSeriesService
+builder.Services.AddHttpClient<ITmdbSeriesService, TmdbSeriesService>();
+
 #endregion
 
 #region FAVORITO SERVICE CONFIGURATION
 //--Inyección de dependencias para el servicio Favorito--//
 
 builder.Services.AddScoped<IFavoriteService, FavoriteService>();
+
+#endregion
+
+#region PROFILE SERVICE CONFIGURATION
+//--Inyección de dependencias para el servicio Perfil--//
+builder.Services.AddScoped<IProfileService, ProfileService>();
 
 #endregion
 

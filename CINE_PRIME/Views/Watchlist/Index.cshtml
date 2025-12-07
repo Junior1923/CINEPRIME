@@ -1,38 +1,75 @@
-﻿@model IEnumerable<(Guid listaId, CINE_PRIME.Models.Tmdb.TmdbMovieDTO Movie)>
+﻿@model IEnumerable<CINE_PRIME.ViewModels.WatchlistItemVM>
 
 @{
-    ViewData["Title"] = "Mi Lista Pendiente";
+	ViewData["Title"] = "Mis Pendientes";
 }
 
-<h2 class="mb-4 text-light">🕒 Mi Lista Pendiente</h2>
-
-@if (!Model.Any())
-{
-    <p class="text-light">Aún no has agregado películas a tu lista pendiente.</p>
+@section Styles {
+	<link rel="stylesheet" href="~/css/watchlist.css" />
 }
-else
-{
-    <div class="row">
-        @foreach (var data in Model)
-        {
-            <div class="col-md-3 mb-4">
-                <div class="card bg-dark text-white shadow-sm border-0">
-                    <img src="@($"https://image.tmdb.org/t/p/w500{data.Movie.PosterPath}")" class="card-img-top" alt="@data.Movie.Title" />
-                    <div class="card-body text-center">
-                        <h5 class="card-title">@data.Movie.Title</h5>
-                        <p class="text-warning">⭐ @data.Movie.VoteAverage.ToString("0.0")</p>
-                        <p class="text-light">📅 @data.Movie.ReleaseDate</p>
 
-                        <a asp-controller="Movies" asp-action="Details" asp-route-id="@data.Movie.Id"
-                           class="btn btn-sm btn-primary mb-2">Ver detalles</a>
+<section class="watchlist-container">
 
-                        <form asp-action="Remove" method="post">
-                            <input type="hidden" name="listaId" value="@data.listaId" />
-                            <button type="submit" class="btn btn-sm btn-outline-danger">Eliminar</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        }
-    </div>
-}
+	<h2 class="section-title">🕒 Mis Pendientes</h2>
+
+	@if (!Model.Any())
+	{
+		<div class="empty-section text-center text-muted">
+			<h3>No tienes contenido pendiente.</h3>
+			<p>Explora películas y series para agregarlas aquí.</p>
+			<a asp-controller="Movies" asp-action="Index" class="btn btn-explore btn-info">Explorar contenido</a>
+		</div>
+	}
+	else
+	{
+		<div class="scroll-row-container">
+			<div class="scroll-row">
+				@foreach (var item in Model)
+				{
+					var poster = !string.IsNullOrEmpty(item.Poster)
+					? $"https://image.tmdb.org/t/p/w500{item.Poster}"
+					: "/img/no-image.png";
+
+					var backdrop = !string.IsNullOrEmpty(item.Backdrop)
+					? $"https://image.tmdb.org/t/p/w780{item.Backdrop}"
+					: "/img/no-backdrop.jpg";
+
+					<div class="watch-card">
+						<!-- Backdrop -->
+						<div class="card-bg" style="background-image: url('@backdrop');"></div>
+
+						<!-- Gradiente sobre el backdrop -->
+						<div class="card-gradient"></div>
+
+						<!-- Poster y detalles -->
+						<div class="card-content">
+							<img src="@poster" class="poster-img" alt="@item.Title" />
+
+							<div class="card-info">
+								<span class="tag">@item.MediaTypeLabel</span>
+								<h4>@item.Title</h4>
+								<p class="rating">⭐ @item.Rating.ToString("0.0")</p>
+								<p class="release-date">@item.ReleaseDate</p>
+							</div>
+							<div class="actions">
+								<a asp-controller="@(item.MediaType == "movie" ? "Movies" : "Series")"
+								   asp-action="Details"
+								   asp-route-id="@item.MediaId"
+								   class="btn-watch">
+									Ver detalles
+								</a>
+
+								<form asp-action="Remove" method="post">
+									<input type="hidden" name="listaId" value="@item.WatchlistId" />
+									<button type="submit" class="btn-remove col-12">Eliminar</button>
+								</form>
+							</div>
+
+
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	}
+</section>

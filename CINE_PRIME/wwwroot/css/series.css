@@ -1,0 +1,355 @@
+﻿/* ===========================================================
+   prime-series.css — Diseño Prime-like elegante para Series
+   =========================================================== */
+
+/* Variables (puedes mover a :root si lo deseas) */
+:root {
+    --bg: #06090b;
+    --card: #11171b;
+    --muted: #aeb6bd;
+    --accent: #00a8e1;
+    --accent-2: #00c0ff;
+    --glass: rgba(255,255,255,0.04);
+    --shadow: 0 10px 30px rgba(2,8,12,0.6);
+}
+
+/* ===== Page basics ===== */
+.series-page {
+    background: none;
+    color: #fff;
+    min-height: 60vh;
+}
+
+.series-main-title {
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.series-subtitle {
+    color: var(--muted);
+    margin-top: .35rem;
+}
+
+/* ===== Grid ===== */
+.series-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 22px;
+    margin-top: 1.5rem;
+}
+
+/* Card */
+.series-card {
+    background: transparent;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform .25s ease, box-shadow .25s ease;
+    position: relative;
+}
+
+    .series-card:hover {
+        transform: translateY(-6px);
+        z-index: 2;
+    }
+
+/* Poster */
+.series-poster-wrap {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.series-poster {
+    display: block;
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    transition: transform .45s ease;
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+}
+
+.series-card:hover .series-poster {
+    transform: scale(1.06);
+}
+
+/* Hover overlay */
+.series-hover {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 12px;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(2,8,12,0.85) 100%);
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity .25s ease, transform .25s ease;
+}
+
+.series-card:hover .series-hover {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.hover-title {
+    color: #fff;
+    font-size: 1rem;
+    margin: 0;
+    font-weight: 700;
+}
+
+.hover-info {
+    color: var(--muted);
+    margin-top: .35rem;
+    font-size: .875rem;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.hover-actions {
+    margin-top: 10px;
+}
+
+/* Card body */
+.series-card-body {
+    padding: 10px 6px;
+}
+
+.card-title {
+    color: #fff;
+    font-size: .98rem;
+    margin: 0;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.card-sub {
+    color: var(--muted);
+    font-size: .85rem;
+    margin-top: .35rem;
+}
+
+/* ===== Details page ===== */
+.series-details-page {
+    background: transparent;
+    color: #fff;
+    padding-bottom: 60px;
+}
+
+.series-hero {
+    background-size: cover;
+    background-position: center;
+    padding: 5.2rem 0;
+    margin-left: 5rem;
+    border-bottom: 0px solid rgba(255,255,255,0.02);
+    box-shadow: inset 0 -80px 60px -60px rgba(0,0,0,0.6);
+    border-radius:10px;
+}
+
+.hero-inner {
+    display: flex;
+    align-items: flex-start;
+    padding: 1rem 0;
+    gap: 2rem;
+}
+
+.hero-poster {
+    flex: 0 0 260px;
+    margin-left: -80px;
+
+}
+
+.poster-img {
+    width: 260px;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+
+.hero-content {
+    flex: 1 1 auto;
+    padding-right: 40px;
+}
+
+.title {
+    color: var(--accent);
+    font-size: 2.2rem;
+    margin: 0 0 .6rem 0;
+    font-weight: 800;
+}
+
+.meta-row {
+    color: var(--muted);
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    font-weight: 600;
+}
+
+    .meta-row .dot {
+        opacity: .6;
+    }
+
+.genres {
+    margin-top: .6rem;
+}
+
+.genre-chip {
+    display: inline-block;
+    background: rgba(0,168,225,0.12);
+    color: var(--accent);
+    padding: 6px 10px;
+    border-radius: 20px;
+    margin-right: 8px;
+    font-weight: 700;
+}
+
+/* Overview */
+.overview {
+    color: #d1d5db;
+    margin-top: 0.8rem;
+    max-width: 70%;
+}
+
+/* Buttons */
+.btn {
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-weight: 700;
+}
+
+.btn-accent {
+    background: linear-gradient(90deg,var(--accent),var(--accent-2));
+    color: #fff;
+    border: none;
+    box-shadow: 0 8px 30px rgba(0,168,225,0.16);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.08);
+    color: #fff;
+}
+
+.btn-large {
+    padding: 12px 22px;
+    font-size: 1rem;
+}
+
+/* Main body layout */
+.main-body {
+    padding-top: 2rem;
+}
+
+.section-title {
+    color: var(--accent);
+    font-weight: 800;
+    margin-bottom: .6rem;
+}
+
+/* Trailer */
+.trailer-box iframe {
+    width: 100%;
+    height: 420px;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+}
+
+/* Sidebar */
+.sticky-box {
+    position: sticky;
+    top: 110px;
+}
+
+.info-card {
+    background: var(--card);
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(2,8,12,0.6);
+    color: var(--muted);
+}
+
+    .info-card h4 {
+        color: #fff;
+        margin-bottom: .75rem;
+    }
+
+/* Responsive tweaks */
+@media (max-width: 1200px) {
+    .hero-poster {
+        flex: 0 0 220px;
+        margin-left: -20px;
+    }
+
+    .poster-img {
+        width: 220px;
+    }
+
+    .overview {
+        max-width: 100%;
+    }
+
+    .trailer-box iframe {
+        height: 360px;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-inner {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 1.2rem;
+    }
+
+    .hero-poster {
+        margin-left: 0;
+        order: -1;
+    }
+
+    .poster-img {
+        width: 180px;
+    }
+
+    .hero-content {
+        padding-right: 0;
+    }
+
+    .overview {
+        max-width: 100%;
+    }
+
+    .trailer-box iframe {
+        height: 240px;
+    }
+
+    .series-poster {
+        height: 260px;
+        object-fit: cover;
+    }
+
+    .series-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .series-grid {
+        grid-template-columns: repeat(1, 1fr);
+        gap: 12px;
+    }
+
+    .poster-img {
+        width: 160px;
+    }
+
+    .title {
+        font-size: 1.4rem;
+    }
+}

@@ -48,6 +48,9 @@ namespace CINE_PRIME.Migrations
                     b.Property<DateTime>("FechaCreacion")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("ImagenPerfil")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -138,8 +141,13 @@ namespace CINE_PRIME.Migrations
                     b.Property<DateTime>("FechaAgregado")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TmdbMovieId")
+                    b.Property<int>("MediaId")
                         .HasColumnType("int");
+
+                    b.Property<string>("MediaType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -148,7 +156,7 @@ namespace CINE_PRIME.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId", "TmdbMovieId")
+                    b.HasIndex("UserId", "MediaId", "MediaType")
                         .IsUnique();
 
                     b.ToTable("Favoritos");
@@ -189,8 +197,13 @@ namespace CINE_PRIME.Migrations
                     b.Property<DateTime>("FechaAgregado")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("TmdbMovieId")
+                    b.Property<int>("MediaId")
                         .HasColumnType("int");
+
+                    b.Property<string>("MediaType")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -199,7 +212,7 @@ namespace CINE_PRIME.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId", "TmdbMovieId")
+                    b.HasIndex("UserId", "MediaId", "MediaType")
                         .IsUnique();
 
                     b.ToTable("ListasPendientes");

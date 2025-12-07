@@ -1,0 +1,64 @@
+﻿@model IEnumerable<CINE_PRIME.Models.Tmdb.TmdbSeriesDTO>
+
+@{
+    ViewData["Title"] = "Series - CinePrime";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/series.css" />
+}
+
+<div class="series-page container-fluid">
+    <header class="series-header">
+        <h2 class="series-main-title">📺 Series Populares</h2>
+    </header>
+
+    <!-- Grid principal -->
+    <div class="series-grid">
+        @foreach (var s in Model)
+        {
+            var poster = $"https://image.tmdb.org/t/p/w500{s.PosterPath}";
+            <article class="series-card">
+                <a asp-action="Details" asp-route-id="@s.Id" class="series-link" title="@s.Name">
+                    <div class="series-poster-wrap">
+                        <img src="@poster" alt="@s.Name" loading="lazy" class="series-poster" />
+                        <div class="series-hover">
+                            <div class="hover-meta">
+                                <h3 class="hover-title">@s.Name</h3>
+                                <div class="hover-info">
+                                    <span class="rating">⭐ @s.VoteAverage.ToString("0.0")</span>
+                                    <span class="year">@DateTime.Parse(s.FirstAirDate).Year.ToString()</span>
+                                </div>
+                            </div>
+
+                            <div class="hover-actions">
+                                <a asp-action="Details" asp-route-id="@s.Id" class="btn btn-primary btn-sm">Ver detalles</a>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                <div class="series-card-body">
+                    <h4 class="card-title">@s.Name</h4>
+                    <div class="card-sub">
+                        <span class="small-meta">⭐ @s.VoteAverage.ToString("0.0")</span>
+                        <span class="small-meta">•</span>
+                        <span class="small-meta">@DateTime.Parse(s.FirstAirDate).ToString("dd/MM/yyyy")</span>
+                    </div>
+                </div>
+            </article>
+        }
+    </div>
+
+    @* <!-- Paginación mínima (si en el futuro agregas paginado) -->
+    <div class="d-flex justify-content-center mt-5">
+        <!-- Placeholder: reemplazar por paginador real si aplica -->
+        <nav aria-label="Paginación">
+            <ul class="pagination">
+                <li class="page-item disabled"><a class="page-link">Anterior</a></li>
+                <li class="page-item active"><a class="page-link">1</a></li>
+                <li class="page-item"><a class="page-link">2</a></li>
+                <li class="page-item"><a class="page-link">Siguiente</a></li>
+            </ul>
+        </nav>
+    </div> *@
+</div>

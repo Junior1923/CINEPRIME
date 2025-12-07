@@ -15,12 +15,12 @@ namespace CINE_PRIME.Services
             _context = context;
         }
 
-        public async Task<bool> AddToWatchlistAsync(int tmdbMovieId, string userId)
+        public async Task<bool> AddToWatchlistAsync(int mediaId, string mediaType, string userId)
         {
             try
             {
                 var exists = await _context.ListasPendientes
-                    .AnyAsync(w => w.TmdbMovieId == tmdbMovieId && w.UserId == userId);
+                    .AnyAsync(w => w.MediaId == mediaId && w.UserId == userId);
 
                 if (exists)
                 { 
@@ -29,7 +29,8 @@ namespace CINE_PRIME.Services
 
                 var item = new ListaPendiente
                 {
-                    TmdbMovieId = tmdbMovieId,
+                    MediaId = mediaId,
+                    MediaType = mediaType,
                     UserId = userId,
                     FechaAgregado = DateTime.Now
                 };
