@@ -1,30 +1,73 @@
 using CINE_PRIME.Data;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using CINE_PRIME.Interfaces;
+using CINE_PRIME.Models;
+using CINE_PRIME.Models.Tmdb;
+using CINE_PRIME.Services;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddControllersWithViews();
 
+#region DBCONTEXT CONFIGURATION
 //Add service to DbContext
 builder.Services.AddDbContext<CinePrimeContext>(options => 
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+#endregion
 
-// -------------------------
-// Agregar servicios MVC y sesión
-// -------------------------
+#region IDENTITY SERVICE CONFIGURATION
+//Add Identity services
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options => 
+{
+    options.Password.RequireDigit = true;
+    options.Password.RequireLowercase = true;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 6;
+    options.User.RequireUniqueEmail = true;
+    options.SignIn.RequireConfirmedEmail = false;
+})
+    .AddEntityFrameworkStores<CinePrimeContext>()
+    .AddDefaultTokenProviders();
+#endregion
+
+#region TMDB API SERVICE CONFIGUTATION
+//--Inyenccion de dependencias para el servicio TMDB API--//
+
+//Vincula la sección JSON de appsettings.json con la clase C# TmdbSettings
+builder.Services.Configure<TmdbSettings>(builder.Configuration.GetSection("TmdbSettings"));
+
+//Registra el servicio HTTP para ITmdbService y su implementación TmdbService
+builder.Services.AddHttpClient<ITmdbService, TmdbService>();
+
+//Registra el servicio HTTP para ITmdbSeriesService y su implementación TmdbSeriesService
+builder.Services.AddHttpClient<ITmdbSeriesService, TmdbSeriesService>();
+
+#endregion
+
+#region FAVORITO SERVICE CONFIGURATION
+//--Inyección de dependencias para el servicio Favorito--//
+
+builder.Services.AddScoped<IFavoriteService, FavoriteService>();
+
+#endregion
+
+#region PROFILE SERVICE CONFIGURATION
+//--Inyección de dependencias para el servicio Perfil--//
+builder.Services.AddScoped<IProfileService, ProfileService>();
+
+#endregion
+
+#region LISTAPENDIENTE SERVICE CONFIGURATION
+//--Inyección de dependencias para el servicio ListaPendiente--//
+builder.Services.AddScoped<IWatchlistService, WatchlistService>();
+#endregion
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Account/Login";      // Redirige al login si no está autenticado
-        options.LogoutPath = "/Account/Logout";    // Ruta de logout
-        options.ExpireTimeSpan = TimeSpan.FromHours(2);
-    });
 
 var app = builder.Build();
 
@@ -37,18 +80,12 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
 app.UseSession();
+
 app.UseAuthentication();
 app.UseAuthorization();
 

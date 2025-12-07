@@ -8,22 +8,29 @@ namespace CINE_PRIME.ModelsSettings
     {
         public void Configure(EntityTypeBuilder<Favorito> builder)
         {
-            builder.HasKey(e => e.FavoritoId);
-            builder.Property(e => e.FechaCreacion).HasColumnType("datetime");
+            // Primary Key
+            builder.HasKey(f => f.Id);
 
-            //relación usuario-favortio
-            builder.HasOne(e => e.Usuario)
-                   .WithMany(e => e.Favoritos)
-                   .HasForeignKey(e => e.UsuarioId);
+            // Configuración para que el GUID se genere automáticamente
+            builder.Property(f => f.Id)
+                   .HasColumnType("uniqueidentifier")
+                   .ValueGeneratedOnAdd()
+                   .HasDefaultValueSql("NEWID()");
 
-            //relacion favorito-pelicula
-            builder.HasOne(e => e.Pelicula)
-                   .WithMany(e => e.Favoritos)
-                   .HasForeignKey(e => e.PeliculaId);
+            // Configuración de propiedades
+            builder.Property(f => f.UserId).IsRequired().HasMaxLength(450);
+            builder.Property(f => f.MediaId).IsRequired();
+            builder.Property(f => f.MediaType).IsRequired().HasMaxLength(20);
 
-            //Indice para no colocar la misma pelicula en favoritos dos veces
-            builder.HasIndex(e => new { e.UsuarioId, e.PeliculaId })
-                   .IsUnique();
+
+            // Índice único para evitar duplicados de la misma película favorita por usuario
+            builder.HasIndex(f => new { f.UserId, f.MediaId, f.MediaType}).IsUnique();
+
+            // Relación muchos a uno con ApplicationUser
+            builder.HasOne(f => f.Usuario)
+                   .WithMany()
+                   .HasForeignKey(f => f.UserId)
+                   .OnDelete(DeleteBehavior.Cascade);
 
 
         }

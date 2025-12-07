@@ -22,164 +22,216 @@ namespace CINE_PRIME.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("CINE_PRIME.Models.Actor", b =>
+            modelBuilder.Entity("CINE_PRIME.Models.ApplicationUser", b =>
                 {
-                    b.Property<int>("ActorId")
-                        .ValueGeneratedOnAdd()
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ActorId"));
+                    b.Property<string>("Apellido")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Biografia")
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly?>("FechaNacimiento")
-                        .HasColumnType("date");
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("FechaCreacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ImagenPerfil")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UrlFoto")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
-                    b.HasKey("ActorId");
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
 
-                    b.ToTable("Actores");
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex")
+                        .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+                    b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("CINE_PRIME.Models.BitacoraAuditorium", b =>
+            modelBuilder.Entity("CINE_PRIME.Models.BitacoraAuditoria", b =>
                 {
-                    b.Property<int>("LogId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LogId"));
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Accion")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("Entidad")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.Property<string>("Detalle")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
-                    b.Property<string>("EntidadId")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<DateTime>("FechaAccion")
+                        .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime");
+                    b.Property<string>("UserId")
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Ip")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.HasKey("Id");
 
-                    b.Property<string>("UsuarioId")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.HasIndex("UserId");
 
-                    b.HasKey("LogId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("BitacoraAuditoria");
+                    b.ToTable("BitacorasAuditoria");
                 });
 
             modelBuilder.Entity("CINE_PRIME.Models.Favorito", b =>
                 {
-                    b.Property<int>("FavoritoId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTime>("FechaAgregado")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MediaId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("FavoritoId"));
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime");
-
-                    b.Property<int>("PeliculaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsuarioId")
+                    b.Property<string>("MediaType")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.HasKey("FavoritoId");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("PeliculaId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("UsuarioId", "PeliculaId")
+                    b.HasIndex("UserId", "MediaId", "MediaType")
                         .IsUnique();
 
                     b.ToTable("Favoritos");
                 });
 
-            modelBuilder.Entity("CINE_PRIME.Models.Genero", b =>
+            modelBuilder.Entity("CINE_PRIME.Models.HistorialVisualizacion", b =>
                 {
-                    b.Property<int>("GeneroId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTime>("FechaVisualizacion")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("TmdbMovieId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("GeneroId"));
-
-                    b.Property<string>("Nombre")
+                    b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("GeneroId");
+                    b.HasKey("Id");
 
-                    b.ToTable("Generos");
+                    b.HasIndex("UserId", "FechaVisualizacion");
+
+                    b.ToTable("HistorialesVisualizacion");
                 });
 
             modelBuilder.Entity("CINE_PRIME.Models.ListaPendiente", b =>
                 {
-                    b.Property<int>("ListaId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
+
+                    b.Property<DateTime>("FechaAgregado")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MediaId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ListaId"));
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime");
-
-                    b.Property<int>("PeliculaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsuarioId")
+                    b.Property<string>("MediaType")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.HasKey("ListaId");
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasIndex("PeliculaId");
+                    b.HasKey("Id");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UserId", "MediaId", "MediaType")
+                        .IsUnique();
 
-                    b.ToTable("ListaPendientes");
+                    b.ToTable("ListasPendientes");
                 });
 
             modelBuilder.Entity("CINE_PRIME.Models.Pago", b =>
                 {
-                    b.Property<int>("PagoId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PagoId"));
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Estado")
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
 
-                    b.Property<DateTime?>("FechaPago")
-                        .HasColumnType("datetime");
+                    b.Property<DateTime>("FechaPago")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Moneda")
                         .IsRequired()
@@ -198,295 +250,327 @@ namespace CINE_PRIME.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("SuscripcionId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("SuscripcionId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("PagoId");
+                    b.HasKey("Id");
 
                     b.HasIndex("SuscripcionId");
 
                     b.ToTable("Pagos");
                 });
 
-            modelBuilder.Entity("CINE_PRIME.Models.Pelicula", b =>
+            modelBuilder.Entity("CINE_PRIME.Models.PeliculaLocal", b =>
                 {
-                    b.Property<int>("PeliculaId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PeliculaId"));
+                    b.Property<string>("Descripcion")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int?>("Anio")
-                        .HasColumnType("int");
+                    b.Property<DateTime>("FechaGuardado")
+                        .HasColumnType("datetime2");
 
-                    b.Property<int?>("DuracionMin")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("FechaLanzamiento")
+                        .HasColumnType("datetime2");
 
-                    b.Property<bool>("EsPremium")
-                        .HasColumnType("bit");
-
-                    b.Property<decimal?>("PromedioCalificacion")
-                        .HasColumnType("decimal(3,2)");
-
-                    b.Property<string>("Sinopsis")
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
+                    b.Property<string>("ImagenUrl")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Titulo")
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("UrlPoster")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                    b.Property<int>("TmdbMovieId")
+                        .HasColumnType("int");
 
-                    b.HasKey("PeliculaId");
+                    b.HasKey("Id");
 
-                    b.ToTable("Peliculas");
+                    b.HasIndex("TmdbMovieId")
+                        .IsUnique();
+
+                    b.ToTable("PeliculasLocales");
                 });
 
-            modelBuilder.Entity("CINE_PRIME.Models.PeliculasActore", b =>
+            modelBuilder.Entity("CINE_PRIME.Models.PerfilUsuario", b =>
                 {
-                    b.Property<int>("PeliculaId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
-                    b.Property<int>("ActorId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("NombrePersonaje")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("PeliculaId", "ActorId");
-
-                    b.HasIndex("ActorId");
-
-                    b.ToTable("PeliculasActores");
-                });
-
-            modelBuilder.Entity("CINE_PRIME.Models.PeliculasGenero", b =>
-                {
-                    b.Property<int>("PeliculaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("GeneroId")
-                        .HasColumnType("int");
-
-                    b.HasKey("PeliculaId", "GeneroId");
-
-                    b.HasIndex("GeneroId");
-
-                    b.ToTable("PeliculasGeneros");
-                });
-
-            modelBuilder.Entity("CINE_PRIME.Models.PerfilesUsuario", b =>
-                {
-                    b.Property<string>("UsuarioId")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime");
-
-                    b.Property<string>("NombreMostrar")
+                    b.Property<string>("Apellido")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<string>("UrlAvatar")
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FotoPerfil")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.HasKey("UsuarioId");
+                    b.Property<string>("Nombre")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("PerfilesUsuarios");
                 });
 
-            modelBuilder.Entity("CINE_PRIME.Models.Plane", b =>
+            modelBuilder.Entity("CINE_PRIME.Models.Plan", b =>
                 {
-                    b.Property<int>("PlanId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PlanId"));
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<bool>("Activo")
                         .HasColumnType("bit");
 
-                    b.Property<string>("CaracteristicasJson")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("MaxListaPendiente")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MesesPeriodo")
-                        .HasColumnType("int");
+                    b.Property<string>("Descripcion")
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<decimal>("Precio")
+                    b.Property<decimal>("PrecioMensual")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("PlanId");
+                    b.HasKey("Id");
 
                     b.ToTable("Planes");
                 });
 
-            modelBuilder.Entity("CINE_PRIME.Models.Suscripcione", b =>
+            modelBuilder.Entity("CINE_PRIME.Models.Suscripcion", b =>
                 {
-                    b.Property<int>("SuscripcionId")
+                    b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SuscripcionId"));
+                        .HasColumnType("uniqueidentifier")
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<string>("Estado")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("nvarchar(30)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime?>("FechaFin")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
 
                     b.Property<DateTime>("FechaInicio")
-                        .HasColumnType("datetime");
+                        .HasColumnType("datetime2");
 
-                    b.Property<int>("PlanId")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PlanId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("UsuarioId")
+                    b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(50)");
+                        .HasMaxLength(450)
+                        .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("SuscripcionId");
+                    b.HasKey("Id");
 
                     b.HasIndex("PlanId");
 
-                    b.HasIndex("UsuarioId");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Suscripciones");
                 });
 
-            modelBuilder.Entity("CINE_PRIME.Models.Trailer", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
                 {
-                    b.Property<int>("TrailerId")
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasMaxLength(256)
+                        .HasColumnType("nvarchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedName")
+                        .IsUnique()
+                        .HasDatabaseName("RoleNameIndex")
+                        .HasFilter("[NormalizedName] IS NOT NULL");
+
+                    b.ToTable("AspNetRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
+                {
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TrailerId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Descripcion")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("DuracionSeg")
-                        .HasColumnType("int");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FechaPublicacion")
-                        .HasColumnType("datetime");
-
-                    b.Property<int>("PeliculaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Tipo")
+                    b.Property<string>("RoleId")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Titulo")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                    b.HasKey("Id");
 
-                    b.Property<string>("UrlVideo")
-                        .IsRequired()
-                        .HasMaxLength(400)
-                        .HasColumnType("nvarchar(400)");
+                    b.HasIndex("RoleId");
 
-                    b.HasKey("TrailerId");
-
-                    b.HasIndex("PeliculaId");
-
-                    b.ToTable("Trailers");
+                    b.ToTable("AspNetRoleClaims", (string)null);
                 });
 
-            modelBuilder.Entity("CINE_PRIME.Models.Usuario", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
                 {
-                    b.Property<string>("UsuarioId")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.Property<string>("ContrasenaHash")
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Correo")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                    b.HasKey("Id");
 
-                    b.Property<DateTime>("FechaRegistro")
-                        .HasColumnType("datetime");
+                    b.HasIndex("UserId");
 
-                    b.HasKey("UsuarioId");
-
-                    b.ToTable("Usuarios");
+                    b.ToTable("AspNetUserClaims", (string)null);
                 });
 
-            modelBuilder.Entity("CINE_PRIME.Models.BitacoraAuditorium", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.HasOne("CINE_PRIME.Models.Usuario", "Usuario")
-                        .WithMany("BitacoraAuditoria")
-                        .HasForeignKey("UsuarioId");
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("AspNetUserLogins", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("RoleId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("CINE_PRIME.Models.BitacoraAuditoria", b =>
+                {
+                    b.HasOne("CINE_PRIME.Models.ApplicationUser", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("CINE_PRIME.Models.Favorito", b =>
                 {
-                    b.HasOne("CINE_PRIME.Models.Pelicula", "Pelicula")
-                        .WithMany("Favoritos")
-                        .HasForeignKey("PeliculaId")
+                    b.HasOne("CINE_PRIME.Models.ApplicationUser", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("CINE_PRIME.Models.Usuario", "Usuario")
-                        .WithMany("Favoritos")
-                        .HasForeignKey("UsuarioId")
+                    b.Navigation("Usuario");
+                });
+
+            modelBuilder.Entity("CINE_PRIME.Models.HistorialVisualizacion", b =>
+                {
+                    b.HasOne("CINE_PRIME.Models.ApplicationUser", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Pelicula");
 
                     b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("CINE_PRIME.Models.ListaPendiente", b =>
                 {
-                    b.HasOne("CINE_PRIME.Models.Pelicula", "Pelicula")
-                        .WithMany("ListaPendientes")
-                        .HasForeignKey("PeliculaId")
+                    b.HasOne("CINE_PRIME.Models.ApplicationUser", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("CINE_PRIME.Models.Usuario", "Usuario")
-                        .WithMany("ListaPendientes")
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pelicula");
 
                     b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("CINE_PRIME.Models.Pago", b =>
                 {
-                    b.HasOne("CINE_PRIME.Models.Suscripcione", "Suscripcion")
+                    b.HasOne("CINE_PRIME.Models.Suscripcion", "Suscripcion")
                         .WithMany("Pagos")
                         .HasForeignKey("SuscripcionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -495,66 +579,28 @@ namespace CINE_PRIME.Migrations
                     b.Navigation("Suscripcion");
                 });
 
-            modelBuilder.Entity("CINE_PRIME.Models.PeliculasActore", b =>
+            modelBuilder.Entity("CINE_PRIME.Models.PerfilUsuario", b =>
                 {
-                    b.HasOne("CINE_PRIME.Models.Actor", "Actor")
-                        .WithMany("PeliculasActores")
-                        .HasForeignKey("ActorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CINE_PRIME.Models.Pelicula", "Pelicula")
-                        .WithMany("PeliculasActores")
-                        .HasForeignKey("PeliculaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Actor");
-
-                    b.Navigation("Pelicula");
-                });
-
-            modelBuilder.Entity("CINE_PRIME.Models.PeliculasGenero", b =>
-                {
-                    b.HasOne("CINE_PRIME.Models.Genero", "Genero")
-                        .WithMany("PeliculasGeneros")
-                        .HasForeignKey("GeneroId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("CINE_PRIME.Models.Pelicula", "Pelicula")
-                        .WithMany("PeliculasGeneros")
-                        .HasForeignKey("PeliculaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Genero");
-
-                    b.Navigation("Pelicula");
-                });
-
-            modelBuilder.Entity("CINE_PRIME.Models.PerfilesUsuario", b =>
-                {
-                    b.HasOne("CINE_PRIME.Models.Usuario", "Usuario")
-                        .WithOne("PerfilesUsuario")
-                        .HasForeignKey("CINE_PRIME.Models.PerfilesUsuario", "UsuarioId")
+                    b.HasOne("CINE_PRIME.Models.ApplicationUser", "Usuario")
+                        .WithOne()
+                        .HasForeignKey("CINE_PRIME.Models.PerfilUsuario", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("CINE_PRIME.Models.Suscripcione", b =>
+            modelBuilder.Entity("CINE_PRIME.Models.Suscripcion", b =>
                 {
-                    b.HasOne("CINE_PRIME.Models.Plane", "Plan")
-                        .WithMany("Suscripciones")
+                    b.HasOne("CINE_PRIME.Models.Plan", "Plan")
+                        .WithMany()
                         .HasForeignKey("PlanId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("CINE_PRIME.Models.Usuario", "Usuario")
-                        .WithMany("Suscripciones")
-                        .HasForeignKey("UsuarioId")
+                    b.HasOne("CINE_PRIME.Models.ApplicationUser", "Usuario")
+                        .WithMany()
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -563,61 +609,60 @@ namespace CINE_PRIME.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("CINE_PRIME.Models.Trailer", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
-                    b.HasOne("CINE_PRIME.Models.Pelicula", "Pelicula")
-                        .WithMany("Trailers")
-                        .HasForeignKey("PeliculaId")
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
+                {
+                    b.HasOne("CINE_PRIME.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
+                {
+                    b.HasOne("CINE_PRIME.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<string>", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
+                        .WithMany()
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Pelicula");
+                    b.HasOne("CINE_PRIME.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("CINE_PRIME.Models.Actor", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
                 {
-                    b.Navigation("PeliculasActores");
+                    b.HasOne("CINE_PRIME.Models.ApplicationUser", null)
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("CINE_PRIME.Models.Genero", b =>
-                {
-                    b.Navigation("PeliculasGeneros");
-                });
-
-            modelBuilder.Entity("CINE_PRIME.Models.Pelicula", b =>
-                {
-                    b.Navigation("Favoritos");
-
-                    b.Navigation("ListaPendientes");
-
-                    b.Navigation("PeliculasActores");
-
-                    b.Navigation("PeliculasGeneros");
-
-                    b.Navigation("Trailers");
-                });
-
-            modelBuilder.Entity("CINE_PRIME.Models.Plane", b =>
-                {
-                    b.Navigation("Suscripciones");
-                });
-
-            modelBuilder.Entity("CINE_PRIME.Models.Suscripcione", b =>
+            modelBuilder.Entity("CINE_PRIME.Models.Suscripcion", b =>
                 {
                     b.Navigation("Pagos");
-                });
-
-            modelBuilder.Entity("CINE_PRIME.Models.Usuario", b =>
-                {
-                    b.Navigation("BitacoraAuditoria");
-
-                    b.Navigation("Favoritos");
-
-                    b.Navigation("ListaPendientes");
-
-                    b.Navigation("PerfilesUsuario");
-
-                    b.Navigation("Suscripciones");
                 });
 #pragma warning restore 612, 618
         }

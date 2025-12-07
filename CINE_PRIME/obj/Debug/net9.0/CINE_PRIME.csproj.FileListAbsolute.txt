@@ -385,7 +385,6 @@ C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\rjsmcshtml.dsw
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\scopedcss\bundle\CINE_PRIME.styles.css
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\scopedcss\projectbundle\CINE_PRIME.bundle.scp.css
-C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\zby59aawzd-b9sayid5wm.gz
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\x8gmav3e6u-61n19gt1b8.gz
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\e9tx7k6v1u-xtxxf3hu2r.gz
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\j8na8fw397-t1cqhe9u97.gz
@@ -461,3 +460,16 @@ C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\CINE_PRIME.pdb
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\CINE_PRIME.genruntimeconfig.cache
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\ref\CINE_PRIME.dll
 C:\Users\junio\source\repos\CINE_PRIME\CINE_PRIME\obj\Debug\net9.0\staticwebassets.upToDateCheck.txt
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\bin\Debug\net9.0\Microsoft.AspNetCore.Cryptography.KeyDerivation.dll
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\bin\Debug\net9.0\Microsoft.AspNetCore.Identity.EntityFrameworkCore.dll
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.dll
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\p3jjffyhsx-bu1pk3dj3t.gz
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\4a1d4lzd7o-pkbx95pmki.gz
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\81ousehv74-9d3knwbew0.gz
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\10ysjon1ir-08h08hsyxd.gz
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\zby59aawzd-r5prsdh9p1.gz
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\tod3umsrar-ykhiuv8dm0.gz
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\cbyqh9mnjk-0d10khzuzs.gz
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\36n8e5fy21-m8zcaxkzh3.gz

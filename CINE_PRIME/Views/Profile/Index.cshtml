@@ -1,0 +1,149 @@
+﻿@model CINE_PRIME.ViewModels.ProfileVM
+@{
+    ViewData["Title"] = "Mi Perfil";
+    var heroBg = !string.IsNullOrEmpty(Model.ImagenPerfil) ? Model.ImagenPerfil : null;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/profile.css" />
+}
+
+<div class="pv-profile-page">
+
+    <!-- HERO — tipo Prime -->
+    <header class="pv-hero" @(heroBg != null ? $"style=\"background-image: url('{heroBg}')\"" : "")>
+
+        <div class="pv-hero-content container">
+
+            <!-- Avatar + Info -->
+            <div class="pv-avatar-section">
+                <div class="pv-avatar-wrap">
+                    <img id="avatarPreview"
+                         src="@(string.IsNullOrEmpty(Model.ImagenPerfil) ? Url.Content("~/img/default-avatar.png") : Model.ImagenPerfil)"
+                         alt="@Model.Nombre" class="pv-avatar" />
+
+                </div>
+
+                <div class="pv-user-info">
+                    <h2 class="pv-user-name">@Model.Nombre @Model.Apellido</h2>
+                    <p class="pv-user-email">@Model.Correo</p>
+
+                    <div class="pv-stat-row">
+                        <div class="pv-stat"><span>@Model.CantFavoritos</span> Favoritos</div>
+                        <div class="pv-stat"><span>@Model.CantPendientes</span> Pendientes</div>
+                        <div class="pv-stat">Miembro desde: <span>@Model.FechaRegistro.ToString("dd/MM/yyyy")</span></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </header>
+
+    <div class="profile-card">
+
+        <!-- NAV TABS PRIME STYLE -->
+        <nav class="prime-tabs">
+            <button class="prime-tab active" data-tab="info">
+                Información
+            </button>
+
+            <button class="prime-tab" data-tab="password">
+                Seguridad
+            </button>
+        </nav>
+
+        <!-- CONTENT WRAPPER -->
+        <div class="prime-tab-content-wrapper">
+
+            <!-- TAB: Información -->
+            <section id="tab-info" class="prime-content active">
+
+                <form asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="UserId" />
+
+                    <div class="prime-form-grid">
+                        <div>
+                            <label asp-for="EditNombre" class="prime-label">Nombre</label>
+                            <input asp-for="EditNombre" class="prime-input" />
+                            <span asp-validation-for="EditNombre" class="text-danger small"></span>
+                        </div>
+
+                        <div>
+                            <label asp-for="EditApellido" class="prime-label">Apellido</label>
+                            <input asp-for="EditApellido" class="prime-input" />
+                            <span asp-validation-for="EditApellido" class="text-danger small"></span>
+                        </div>
+
+                        <div>
+                            <label asp-for="EditCorreo" class="prime-label">Correo</label>
+                            <input asp-for="EditCorreo" class="prime-input" />
+                            <span asp-validation-for="EditCorreo" class="text-danger small"></span>
+                        </div>
+
+                        <div>
+                            <label class="prime-label">Foto de perfil</label>
+                            <input type="file" name="profilePicture" class="prime-input" accept="image/*" />
+                            <small class="text-muted">Max. 2MB</small>
+                        </div>
+                    </div>
+
+                    <div class="prime-actions">
+                        <button type="submit" class="prime-btn-primary">Guardar cambios</button>
+                    </div>
+                </form>
+
+            </section>
+
+            <!-- TAB: Password -->
+            <section id="tab-password" class="prime-content">
+
+                <form asp-action="ChangePassword" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="UserId" />
+
+                    <div class="prime-form-grid">
+                        <div class="col-12">
+                            <label asp-for="ContrasenaActual" class="prime-label">Contraseña actual</label>
+                            <input asp-for="ContrasenaActual" autocomplete="current-password" class="prime-input" />
+                            <span asp-validation-for="ContrasenaActual" class="text-danger small"></span>
+                        </div>
+
+                        <div>
+                            <label asp-for="NuevaContrasena" class="prime-label">Nueva</label>
+                            <input asp-for="NuevaContrasena" autocomplete="new-password" class="prime-input" />
+                            <span asp-validation-for="NuevaContrasena" class="text-danger small"></span>
+                        </div>
+
+                        <div>
+                            <label asp-for="ConfirmarContrasena" class="prime-label">Confirmar</label>
+                            <input asp-for="ConfirmarContrasena" autocomplete="new-password" class="prime-input" />
+                            <span asp-validation-for="ConfirmarContrasena" class="text-danger small"></span>
+                        </div>
+                    </div>
+
+                    <div class="prime-actions">
+                        <button type="submit" class="prime-btn-primary">Actualizar contraseña</button>
+                    </div>
+                </form>
+
+            </section>
+
+        </div>
+    </div>
+
+
+</div>
+
+@section Scripts {
+
+    <script>
+        const _pvMsgs = {
+            updated: @Html.Raw(TempData["ProfileUpdated"] != null ? $"\"{TempData["ProfileUpdated"]}\"" : "null"),
+            noChanges: @Html.Raw(TempData["NoChanges"] != null ? $"\"{TempData["NoChanges"]}\"" : "null")
+        };
+    </script>
+
+    <script src="~/js/profile.js" asp-append-version="true"></script>
+    <partial name="_ValidationScriptsPartial" />
+}

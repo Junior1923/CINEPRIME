@@ -1,0 +1,140 @@
+﻿
+.watchlist-container {
+    color: #e5e5e5;
+}
+
+.section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 20px;
+}
+
+/* Scroll horizontal */
+.scroll-row-container {
+    overflow-x: auto;
+    padding-bottom: 15px;
+    
+}
+
+.scroll-row {
+    display: flex;
+    gap: 20px;
+    padding: 30px;
+
+}
+
+
+/* Card estilo Prime */
+.watch-card {
+    position: relative;
+    width: 240px;
+    border-radius: 12px;
+    overflow: hidden;
+    flex-shrink: 0;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+    .watch-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 12px 30px rgba(0, 168, 225, 0.4);
+    }
+
+/* Backdrop */
+.card-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.4);
+    z-index: 0;
+}
+
+.card-gradient {
+    position: absolute;
+    bottom: 0;
+    height: 50%;
+    width: 100%;
+    background: linear-gradient(to top, rgba(10,15,20,0.95), transparent);
+    z-index: 1;
+}
+
+/* Poster y contenido */
+.card-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+}
+
+.poster-img {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+}
+
+/* Info */
+.card-info {
+    text-align: center;
+}
+
+.tag {
+    background-color: #00a8e1;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    display: inline-block;
+    margin-bottom: 5px;
+}
+
+.card-info h4 {
+    font-size: 1.05rem;
+    margin: 5px 0;
+}
+
+.rating, .release-date {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+/* Botones */
+.actions {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn-watch {
+    background-color: #00a8e1;
+    color: #fff;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    text-decoration: none;
+}
+
+    .btn-watch:hover {
+        background-color: #0093c4;
+        color:white;
+    }
+
+.btn-remove {
+    background-color: transparent;
+    border: 1px solid #e53935;
+    color: #e53935;
+    border-radius: 8px;
+    padding: 6px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+    .btn-remove:hover {
+        background-color: #e53935;
+        color: #fff;
+    }

@@ -1,0 +1,84 @@
+﻿@model IEnumerable<CINE_PRIME.ViewModels.FavoriteItemVM>
+
+@{
+    ViewData["Title"] = "Mis Favoritos";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/favoritos.css" />
+}
+
+<div class="favorites-header mb-4">
+    <h2 class="fw-bold text-light">❤️ Mis Favoritos</h2>
+</div>
+
+@if (!Model.Any())
+{
+    <div class="empty-state text-center text-muted mt-5">
+        <h4 class="mt-3">No tienes Favoritos</h4>
+        <p>Agrega películas o series para verlas aquí.</p>
+        <a asp-controller="Movies" asp-action="Index" class="btn btn-info">Explorar contenido</a>
+    </div>
+}
+else
+{
+    <div class="favorites-list">
+
+        @foreach (var fav in Model)
+        {
+            var posterUrl = !string.IsNullOrEmpty(fav.Poster)
+            ? $"https://image.tmdb.org/t/p/w500{fav.Poster}"
+            : "/images/no-image.png";
+
+            <div class="favorite-card">
+
+                <!-- Poster -->
+                <div class="fav-poster">
+                    <img src="@posterUrl" alt="@fav.Title" />
+                </div>
+
+                <!-- Información -->
+                <div class="fav-info">
+                    <h4 class="fav-title">@fav.Title</h4>
+
+                    <div class="fav-meta">
+                        ⭐ @fav.Rating.ToString("0.0") &nbsp;•&nbsp;
+                        @fav.ReleaseDate
+                        &nbsp;•&nbsp;
+                        @(fav.MediaType == "movie" ? "Película" : "Serie")
+                    </div>
+
+                    @if (!string.IsNullOrWhiteSpace(fav.Movie?.Overview ?? fav.Series?.Overview))
+                    {
+                        <p class="fav-overview">
+                            @((fav.Movie?.Overview ?? fav.Series?.Overview)?.Length > 150
+                                            ? (fav.Movie?.Overview ?? fav.Series?.Overview).Substring(0, 150) + "..."
+                                            : (fav.Movie?.Overview ?? fav.Series?.Overview))
+            </p>
+                        }
+                </div>
+
+                <!-- Botones -->
+                <div class="fav-actions">
+
+                    <a asp-controller="@(fav.MediaType == "movie" ? "Movies" : "Series")"
+                       asp-action="Details"
+                       asp-route-id="@fav.MediaId"
+                       class="btn btn-details">
+                        Ver detalles
+                    </a>
+
+                    <form asp-action="Remove" method="post">
+                        <input type="hidden" name="favoritoId" value="@fav.FavoriteId" />
+                        <button type="submit" class="btn btn-remove col-12">
+                            Eliminar
+                        </button>
+                    </form>
+
+                </div>
+
+            </div>
+        }
+
+    </div>
+}

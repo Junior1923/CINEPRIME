@@ -1,191 +1,96 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using CINE_PRIME.Models;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using System.Security.Claims;
-using System.Text;
-using System.Security.Cryptography;
-using CINE_PRIME.Data;
+﻿using CINE_PRIME.Models;
+using CINE_PRIME.ViewModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CINE_PRIME.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly CinePrimeContext _context;
 
-        public AccountController(CinePrimeContext context)
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
+
+        public AccountController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
-            _context = context;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
-        // ---------------------
-        // REGISTER
-        // ---------------------
+
+        #region REGISTER
         [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
+        public IActionResult Register() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Register(string nombre, string correo, string password)
+        public async Task<IActionResult> Register(RegisterViewModel model)
         {
-            if (string.IsNullOrEmpty(nombre) || string.IsNullOrEmpty(correo) || string.IsNullOrEmpty(password))
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var user = new ApplicationUser
             {
-                ModelState.AddModelError("", "Todos los campos son obligatorios.");
-                return View();
-            }
-
-            // Verificar si ya existe el correo
-            var usuarioExistente = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == correo);
-            if (usuarioExistente != null)
-            {
-                ModelState.AddModelError("", "Este correo ya está registrado.");
-                return View();
-            }
-
-            // Crear hash de contraseña
-            var hash = CrearHash(password);
-
-            // Crear usuario
-            var nuevoUsuario = new Usuario
-            {
-                UsuarioId = nombre, //  Se guarda el nombre como ID 
-                Correo = correo,
-                ContrasenaHash = hash,
-                FechaRegistro = DateTime.Now
-            };
-
-            _context.Usuarios.Add(nuevoUsuario);
-
-            // Crear perfil con datos ingresados
-            var perfil = new PerfilesUsuario
-            {
-                UsuarioId = nuevoUsuario.UsuarioId,
-                NombreMostrar = nombre,
-                UrlAvatar = null,
+                Nombre = model.Nombre,
+                Apellido = model.Apellido,
+                UserName = model.Email,
+                Email = model.Email,
+                PhoneNumber = model.PhoneNumber,
                 FechaCreacion = DateTime.Now
             };
 
-            _context.PerfilesUsuarios.Add(perfil);
-            await _context.SaveChangesAsync();
+            var result = await _userManager.CreateAsync(user, model.Password);
 
-            // Guardar en sesión
-            HttpContext.Session.SetString("UsuarioId", nuevoUsuario.UsuarioId);
-            HttpContext.Session.SetString("UsuarioCorreo", nuevoUsuario.Correo);
-            HttpContext.Session.SetString("UsuarioNombre", perfil.NombreMostrar ?? nuevoUsuario.Correo);
-
-            // Autenticación con cookies
-            var claims = new List<Claim>
+            if (result.Succeeded)
             {
-                new Claim(ClaimTypes.Name, nuevoUsuario.UsuarioId),
-                new Claim(ClaimTypes.Email, nuevoUsuario.Correo)
-            };
 
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme))
-            );
+                ViewBag.SuccessMessage = "✅ Tu cuenta ha sido creada correctamente. Ahora puedes iniciar sesión.";
+                ModelState.Clear(); // limpia el formulario
+                return View(); // se queda en la misma página de registro
 
-            return RedirectToAction("Index", "Home");
+            }
+
+            foreach (var error in result.Errors)
+            {
+                Console.WriteLine($"{error.Description}");
+                ModelState.AddModelError("", error.Description);
+
+            }
+
+            return View(model);
         }
+        #endregion
 
-        // ---------------------
-        // LOGIN
-        // ---------------------
+
+        #region LOGIN - LOGOUT
         [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
+        public IActionResult Login() => View();
 
         [HttpPost]
-        public async Task<IActionResult> Login(string correo, string password)
+        public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (string.IsNullOrEmpty(correo) || string.IsNullOrEmpty(password))
-            {
-                ModelState.AddModelError("", "Correo y contraseña son obligatorios.");
-                return View();
-            }
+            if (!ModelState.IsValid)
+                return View(model);
 
-            var usuario = await _context.Usuarios.FirstOrDefaultAsync(u => u.Correo == correo);
-            if (usuario == null)
-            {
-                ModelState.AddModelError("", "Este correo no está registrado.");
-                return View();
-            }
+            var result = await _signInManager.PasswordSignInAsync(
+                model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
 
-            var hash = CrearHash(password);
-            if (usuario.ContrasenaHash != hash)
-            {
-                ModelState.AddModelError("", "Contraseña incorrecta.");
-                return View();
-            }
+            if (result.Succeeded)
+                return RedirectToAction("Index", "Movies");
 
-            var perfil = await _context.PerfilesUsuarios.FirstOrDefaultAsync(p => p.UsuarioId == usuario.UsuarioId);
-
-            // Guardar en sesión
-            HttpContext.Session.SetString("UsuarioId", usuario.UsuarioId);
-            HttpContext.Session.SetString("UsuarioCorreo", usuario.Correo);
-            HttpContext.Session.SetString("UsuarioNombre", perfil?.NombreMostrar ?? usuario.Correo);
-
-            // Autenticación con cookies
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Name, usuario.UsuarioId),
-                new Claim(ClaimTypes.Email, usuario.Correo)
-            };
-
-            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var authProperties = new AuthenticationProperties
-            {
-                IsPersistent = true,
-                ExpiresUtc = DateTimeOffset.UtcNow.AddHours(2)
-            };
-
-            await HttpContext.SignInAsync(
-                CookieAuthenticationDefaults.AuthenticationScheme,
-                new ClaimsPrincipal(claimsIdentity),
-                authProperties
-            );
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        // ---------------------
-        // LOGOUT
-        // ---------------------
-        [HttpGet]
-        public IActionResult Logout()
-        {
-            var correo = HttpContext.Session.GetString("UsuarioCorreo");
-            var nombre = HttpContext.Session.GetString("UsuarioNombre");
-
-            ViewBag.Usuario = nombre ?? correo;
-            return View();
+            ModelState.AddModelError("", "Credenciales inválidas");
+            return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> LogoutConfirm()
+        public async Task<IActionResult> Logout()
         {
-            // Limpiar sesión y cookies
-            HttpContext.Session.Clear();
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            return RedirectToAction("Login", "Account");
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
         }
 
-        // ---------------------
-        // HASH PASSWORD
-        // ---------------------
-        private string CrearHash(string input)
-        {
-            using var sha256 = SHA256.Create();
-            var bytes = Encoding.UTF8.GetBytes(input);
-            var hash = sha256.ComputeHash(bytes);
-            return Convert.ToBase64String(hash);
-        }
+        #endregion
+
+
     }
 }
