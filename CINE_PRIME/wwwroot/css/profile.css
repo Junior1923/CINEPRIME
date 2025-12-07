@@ -1,198 +1,276 @@
-﻿/* profile.css — Perfil estilo Prime (elegante) */
+﻿/* ============================================================
+   PRIME VIDEO — PERFIL (Versión más clara, moderna y profesional)
+   ============================================================ */
 
+/* VARIABLES */
 :root {
-    --bg: #06090b;
-    --card: #0f1619;
-    --muted: #aeb6bd;
     --accent: #00a8e1;
-    --accent-2: #00c0ff;
+    --accent-soft: #1c2730;
+    --bg-dark: #0d0f12;
+    --bg-card: #151920;
+    --bg-input: #1f242c;
+    --text-main: #e8ecf1;
+    --text-muted: #9da5b1;
 }
 
-/* HERO */
-.profile-hero {
-    background: linear-gradient(180deg, rgba(4,7,10,1), rgba(6,9,12,1));
-    padding: 36px 0 60px 0;
-    min-height: 260px;
-    color: #fff;
+/* ----------------------------------------
+   Estructura general
+----------------------------------------- */
+
+.pv-profile-page {
+    color: var(--text-main);
+    min-height: 100vh;
+    padding-bottom: 60px;
+    font-family: "Inter", sans-serif;
 }
 
-.profile-hero-inner {
-    display: flex;
-    gap: 28px;
-    align-items: flex-start;
-}
+/* ----------------------------------------
+   HERO — Más Prime Video real
+----------------------------------------- */
 
-/* LEFT COLUMN */
-.profile-left {
-    width: 320px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.avatar-wrap {
+.pv-hero {
     position: relative;
-    width: 220px;
-    text-align: center;
+    height: 260px;
+    background-size: cover;
+    background-position: center;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
-.avatar {
-    width: 220px;
-    height: 220px;
-    object-fit: cover;
-    border-radius: 999px;
-    border: 6px solid rgba(255,255,255,0.04);
-    box-shadow: 0 12px 40px rgba(0,0,0,0.7);
+.pv-hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(10,15,20,0.55), #0d0f12 80%);
 }
 
-.avatar-badges {
-    margin-top: 12px;
+.pv-avatar-section {
     display: flex;
-    flex-direction: column;
-    gap: 8px;
     align-items: center;
 }
 
-.badge {
-    background: rgba(255,255,255,0.03);
-    color: var(--muted);
-    padding: 6px 12px;
-    border-radius: 20px;
-    font-weight: 600;
-    font-size: 0.9rem;
+.pv-avatar-wrap {
+    width: 135px;
 }
 
-    .badge.created {
-        color: var(--muted);
+.pv-avatar {
+    width: 208px;
+    height: 208px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid rgba(255,255,255,0.15);
+    box-shadow: 0 0 45px rgba(0,0,0,0.5);
+    transition: .25s;
+}
+
+    .pv-avatar:hover {
+        transform: scale(1.03);
     }
 
-    .badge.stats {
+
+
+.pv-btn {
+    padding: 7px 13px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-size: .85rem;
+    font-weight: 600;
+    transition: .25s;
+}
+
+.pv-btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.25);
+    color: var(--text-main);
+}
+
+    .pv-btn-outline:hover {
+        background: rgba(255,255,255,0.12);
+    }
+
+/* ----------------------------------------
+   Info Usuario
+----------------------------------------- */
+
+.pv-user-info {
+    margin-left: 100px;
+}
+
+.pv-user-name {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.pv-user-email {
+    opacity: .75;
+    margin: 4px 0 16px;
+}
+
+.pv-stat-row {
+    display: flex;
+    gap: 28px;
+    font-size: 1rem;
+}
+
+.pv-stat span {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+/* ----------------------------------------
+   CARD CONTENEDOR — estilo Prime
+----------------------------------------- */
+
+.profile-card {
+    background: var(--bg-card);
+    width: 92%;
+    margin: 40px auto 0;
+    padding: 24px;
+    border-radius: 14px;
+    box-shadow: 0 0 35px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+/* ----------------------------------------
+   Tabs modernos estilo Prime
+----------------------------------------- */
+
+.prime-tabs {
+    display: flex;
+    gap: 10px;
+    padding-bottom: 15px;
+    margin-bottom: 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.prime-tab {
+    background: transparent;
+    border: none;
+    padding: 10px 18px;
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--text-muted);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+    .prime-tab:hover {
+        color: var(--text-main);
+    }
+
+    .prime-tab.active {
+        background: var(--accent-soft);
         color: var(--accent);
     }
 
-/* Basic info */
-.profile-basic {
-    text-align: center;
-    margin-top: 8px;
+/* ----------------------------------------
+   Contenido de tabs
+----------------------------------------- */
+
+.prime-tab-content-wrapper {
+    padding-top: 10px;
 }
 
-.name {
-    font-size: 1.6rem;
-    margin: 6px 0 0 0;
-    font-weight: 800;
-    color: #fff;
-}
-
-.email {
-    color: var(--muted);
-    font-size: 0.95rem;
-}
-
-/* RIGHT COLUMN */
-.profile-right {
-    flex: 1;
-}
-
-/* CARD */
-.profile-card {
-    background: linear-gradient(180deg, rgba(17,23,27,0.6), rgba(8,12,14,0.5));
-    border: 1px solid rgba(255,255,255,0.04);
-    border-radius: 12px;
-    overflow: hidden;
-}
-
-.card-tabs {
-    display: flex;
-    gap: 6px;
-    padding: 8px;
-    background: transparent;
-}
-
-.tab-btn {
-    background: transparent;
-    border: none;
-    color: var(--muted);
-    padding: 10px 14px;
-    border-radius: 8px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-    .tab-btn.active {
-        background: linear-gradient(90deg, var(--accent), var(--accent-2));
-        color: white;
-        box-shadow: 0 8px 30px rgba(0,168,225,0.12);
-    }
-
-/* CONTENT */
-.card-body {
-    padding: 18px;
-}
-
-.tab-content {
+.prime-content {
     display: none;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: .35s ease;
 }
 
-    .tab-content.active {
+    .prime-content.active {
         display: block;
+        opacity: 1;
+        transform: translateY(0);
     }
 
-/* Forms */
-.form-control-dark {
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.04);
-    color: #e9eef3;
-    padding: 10px 12px;
-    border-radius: 8px;
+/* ----------------------------------------
+   Formulario
+----------------------------------------- */
+
+.prime-form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 22px;
 }
 
-    .form-control-dark:focus {
+.prime-label {
+    color: var(--text-muted);
+    font-size: .85rem;
+    font-weight: 600;
+    margin-bottom: 4px;
+    display: block;
+}
+
+.prime-input {
+    width: 100%;
+    padding: 13px;
+    background: var(--bg-input);
+    border: 1px solid rgba(255,255,255,0.10);
+    color: var(--text-main);
+    border-radius: 8px;
+    transition: .25s;
+}
+
+    .prime-input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 18px rgba(0,168,225,0.25);
         outline: none;
-        box-shadow: 0 8px 30px rgba(0,168,225,0.08);
-        border-color: rgba(0,168,225,0.6);
     }
 
-/* Buttons */
-.btn-accent {
-    background: linear-gradient(90deg, var(--accent), var(--accent-2));
-    color: #fff;
+/* ----------------------------------------
+   Botones del formulario
+----------------------------------------- */
+
+.prime-actions {
+    margin-top: 26px;
+    display: flex;
+    gap: 14px;
+}
+
+.prime-btn-primary {
+    background: linear-gradient(90deg, var(--accent), #34c5ff);
     border: none;
-    padding: 10px 18px;
+    padding: 12px 22px;
     border-radius: 10px;
     font-weight: 800;
-}
-
-.btn-outline {
-    background: transparent;
-    border: 1px solid rgba(255,255,255,0.06);
     color: #fff;
-    padding: 10px 14px;
+}
+
+.prime-btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.15);
+    padding: 12px 20px;
     border-radius: 10px;
+    color: var(--text-main);
 }
 
-/* Small helpers */
-.text-muted {
-    color: var(--muted) !important;
+.prime-btn-warning {
+    background: #eab308;
+    border: none;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-weight: 700;
+    color: #000;
 }
 
-.small {
-    font-size: 0.85rem;
-}
+/* ----------------------------------------
+   Responsive
+----------------------------------------- */
 
-/* Responsive */
-@media (max-width: 992px) {
-    .profile-hero-inner {
+@media (max-width: 900px) {
+    .pv-avatar-section {
         flex-direction: column;
-        align-items: center;
-        gap: 18px;
+        text-align: center;
     }
 
-    .profile-left {
-        width: auto;
+    .pv-user-info {
+        margin-left: 0;
+        margin-top: 20px;
     }
 
-    .avatar {
-        width: 160px;
-        height: 160px;
+    .prime-form-grid {
+        grid-template-columns: 1fr;
     }
 }

@@ -1,295 +1,149 @@
-﻿@* @model CINE_PRIME.ViewModels.ProfileVM
+﻿@model CINE_PRIME.ViewModels.ProfileVM
 @{
     ViewData["Title"] = "Mi Perfil";
-}
-
-@if (TempData["ProfileUpdated"] != null)
-{
-    <div class="alert alert-success text-center">
-        @TempData["ProfileUpdated"]
-    </div>
-}
-
-@if (TempData["NoChanges"] != null)
-{
-    <div class="alert alert-info text-center">
-        @TempData["NoChanges"]
-    </div>
-}
-
-<div class="container text-light">
-
-    <h1 class="mb-4 fw-bold">👤 Mi Perfil</h1>
-
-    <!-- ============================
-         BLOQUE 1: INFORMACIÓN GENERAL
-         ============================ -->
-    <div class="card bg-dark text-light mb-4 shadow-lg border-0">
-        <div class="card-body d-flex flex-wrap align-items-center">
-
-            <!-- Foto de perfil -->
-            <div class="me-4 mb-3">
-                <img src="@(!string.IsNullOrEmpty(Model.ImagenPerfil) ? Model.ImagenPerfil : "/img/default-avatar.png")"
-                     class="rounded-circle shadow"
-                     style="width: 140px; height:140px; object-fit: cover;" />
-            </div>
-
-            <!-- Info del usuario -->
-            <div>
-                <h3 class="fw-bold">@Model.Nombre @Model.Apellido</h3>
-                <p class="text-info mb-1"><strong>Correo Electrónico:</strong> @Model.Correo</p>
-                <p class="text-secondary mb-1"><strong>Miembro desde:</strong> @Model.FechaRegistro.ToShortDateString()</p>
-
-                <div class="mt-3 d-flex gap-4">
-                    <div>
-                        <span class="h4 text-primary">@Model.CantFavoritos</span>
-                        <p class="m-0 text-secondary">Favoritos</p>
-                    </div>
-                    <div>
-                        <span class="h4 text-warning">@Model.CantPendientes</span>
-                        <p class="m-0 text-secondary">Pendientes</p>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-
-    <!-- ============================
-         BLOQUE 2: EDITAR INFORMACIÓN
-         ============================ -->
-    <div class="card bg-dark text-light mb-4 shadow border-0">
-        <div class="card-header bg-transparent border-secondary">
-            <h4 class="mb-0">✏️ Editar información</h4>
-        </div>
-        <div class="card-body">
-
-            <form asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
-
-                <input type="hidden" asp-for="UserId" />
-
-                <div class="row">
-
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="EditNombre" class="form-label"></label>
-                        <input asp-for="EditNombre" class="form-control bg-secondary text-light" />
-                        <span asp-validation-for="EditNombre" class="text-danger"></span>
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="EditApellido" class="form-label"></label>
-                        <input asp-for="EditApellido" class="form-control bg-secondary text-light" />
-                        <span asp-validation-for="EditApellido" class="text-danger"></span>
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="EditCorreo" class="form-label"></label>
-                        <input asp-for="EditCorreo" class="form-control bg-secondary text-light" />
-                        <span asp-validation-for="EditCorreo" class="text-danger"></span>
-                    </div>
-
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Cambiar foto</label>
-                        <input type="file" name="profilePicture" class="form-control bg-secondary text-light" />
-                    </div>
-
-                </div>
-
-                <button type="submit" class="btn btn-primary px-4 mt-3">Guardar cambios</button>
-            </form>
-
-        </div>
-    </div>
-
-
-    <!-- ============================
-         BLOQUE 3: CAMBIO DE CONTRASEÑA
-         ============================ -->
-    <div class="card bg-dark text-light shadow border-0 mb-5">
-        <div class="card-header bg-transparent border-secondary">
-            <h4 class="mb-0">🔐 Cambiar contraseña</h4>
-        </div>
-
-        <div class="card-body">
-            <form asp-action="ChangePassword" method="post">
-
-                <input type="hidden" asp-for="UserId" />
-
-                <div class="row">
-
-                    <div class="col-md-4 mb-3">
-                        <label asp-for="ContrasenaActual" class="form-label"></label>
-                        <input asp-for="ContrasenaActual" class="form-control bg-secondary text-light" />
-                        <span asp-validation-for="ContrasenaActual" class="text-danger"></span>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label asp-for="NuevaContrasena" class="form-label"></label>
-                        <input asp-for="NuevaContrasena" class="form-control bg-secondary text-light" />
-                        <span asp-validation-for="NuevaContrasena" class="text-danger"></span>
-                    </div>
-
-                    <div class="col-md-4 mb-3">
-                        <label asp-for="ConfirmarContrasena" class="form-label"></label>
-                        <input asp-for="ConfirmarContrasena" class="form-control bg-secondary text-light" />
-                        <span asp-validation-for="ConfirmarContrasena" class="text-danger"></span>
-                    </div>
-
-                </div>
-
-                <button type="submit" class="btn btn-warning px-4 mt-3">Actualizar contraseña</button>
-
-            </form>
-        </div>
-    </div>
-
-</div>
-
-@section Scripts {
-    <partial name="_ValidationScriptsPartial" />
-}
- *@
-
-
-@model CINE_PRIME.ViewModels.ProfileVM
-
-@{
-    ViewData["Title"] = "Mi Perfil";
+    var heroBg = !string.IsNullOrEmpty(Model.ImagenPerfil) ? Model.ImagenPerfil : null;
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/css/profile.css" />
 }
 
-<div class="profile-hero">
-    <div class="profile-hero-inner container">
-        <div class="profile-left">
-            <div class="avatar-wrap">
-                <img id="avatarPreview" src="@(string.IsNullOrEmpty(Model.ImagenPerfil) ? Url.Content("~/img/default-avatar.png") : Model.ImagenPerfil)" alt="@Model.Nombre" class="avatar" />
-                <div class="avatar-badges">
-                    <span class="badge created">Miembro desde @Model.FechaRegistro.ToString("dd/MM/yyyy")</span>
-                    <span class="badge stats">⭐ @Model.CantFavoritos &nbsp;|&nbsp; 🕒 @Model.CantPendientes</span>
+<div class="pv-profile-page">
+
+    <!-- HERO — tipo Prime -->
+    <header class="pv-hero" @(heroBg != null ? $"style=\"background-image: url('{heroBg}')\"" : "")>
+
+        <div class="pv-hero-content container">
+
+            <!-- Avatar + Info -->
+            <div class="pv-avatar-section">
+                <div class="pv-avatar-wrap">
+                    <img id="avatarPreview"
+                         src="@(string.IsNullOrEmpty(Model.ImagenPerfil) ? Url.Content("~/img/default-avatar.png") : Model.ImagenPerfil)"
+                         alt="@Model.Nombre" class="pv-avatar" />
+
+                </div>
+
+                <div class="pv-user-info">
+                    <h2 class="pv-user-name">@Model.Nombre @Model.Apellido</h2>
+                    <p class="pv-user-email">@Model.Correo</p>
+
+                    <div class="pv-stat-row">
+                        <div class="pv-stat"><span>@Model.CantFavoritos</span> Favoritos</div>
+                        <div class="pv-stat"><span>@Model.CantPendientes</span> Pendientes</div>
+                        <div class="pv-stat">Miembro desde: <span>@Model.FechaRegistro.ToString("dd/MM/yyyy")</span></div>
+                    </div>
                 </div>
             </div>
 
-            <div class="profile-basic mt-3">
-                <h2 class="name">@Model.Nombre @Model.Apellido</h2>
-                <p class="email">@Model.Correo</p>
-            </div>
         </div>
+    </header>
 
-        <div class="profile-right">
+    <div class="profile-card">
 
-            <!-- Mensajes TempData -->
-            @if (TempData["ProfileUpdated"] != null)
-            {
-                <div class="alert alert-success text-center">@TempData["ProfileUpdated"]</div>
-            }
-            @if (TempData["NoChanges"] != null)
-            {
-                <div class="alert alert-info text-center">@TempData["NoChanges"]</div>
-            }
+        <!-- NAV TABS PRIME STYLE -->
+        <nav class="prime-tabs">
+            <button class="prime-tab active" data-tab="info">
+                Información
+            </button>
 
-            <div class="card profile-card">
-                <div class="card-header card-tabs">
-                    <button class="tab-btn active" data-tab="tab-info">✏️ Información</button>
-                    <button class="tab-btn" data-tab="tab-password">🔐 Contraseña</button>
-                </div>
+            <button class="prime-tab" data-tab="password">
+                Seguridad
+            </button>
+        </nav>
 
-                <div class="card-body">
+        <!-- CONTENT WRAPPER -->
+        <div class="prime-tab-content-wrapper">
 
-                    <!-- TAB: Información -->
-                    <section id="tab-info" class="tab-content active">
+            <!-- TAB: Información -->
+            <section id="tab-info" class="prime-content active">
 
-                        <form asp-action="UpdateProfile" method="post" enctype="multipart/form-data" class="profile-form">
-                            @Html.AntiForgeryToken()
+                <form asp-action="UpdateProfile" method="post" enctype="multipart/form-data">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="UserId" />
 
-                            <input type="hidden" asp-for="UserId" />
+                    <div class="prime-form-grid">
+                        <div>
+                            <label asp-for="EditNombre" class="prime-label">Nombre</label>
+                            <input asp-for="EditNombre" class="prime-input" />
+                            <span asp-validation-for="EditNombre" class="text-danger small"></span>
+                        </div>
 
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label asp-for="EditNombre" class="form-label">Nombres</label>
-                                    <input asp-for="EditNombre" class="form-control form-control-dark" />
-                                    <span asp-validation-for="EditNombre" class="text-danger small"></span>
-                                </div>
+                        <div>
+                            <label asp-for="EditApellido" class="prime-label">Apellido</label>
+                            <input asp-for="EditApellido" class="prime-input" />
+                            <span asp-validation-for="EditApellido" class="text-danger small"></span>
+                        </div>
 
-                                <div class="col-md-6">
-                                    <label asp-for="EditApellido" class="form-label">Apellidos</label>
-                                    <input asp-for="EditApellido" class="form-control form-control-dark" />
-                                    <span asp-validation-for="EditApellido" class="text-danger small"></span>
-                                </div>
+                        <div>
+                            <label asp-for="EditCorreo" class="prime-label">Correo</label>
+                            <input asp-for="EditCorreo" class="prime-input" />
+                            <span asp-validation-for="EditCorreo" class="text-danger small"></span>
+                        </div>
 
-                                <div class="col-md-6">
-                                    <label asp-for="EditCorreo" class="form-label">Correo electrónico</label>
-                                    <input asp-for="EditCorreo" class="form-control form-control-dark" />
-                                    <span asp-validation-for="EditCorreo" class="text-danger small"></span>
-                                </div>
+                        <div>
+                            <label class="prime-label">Foto de perfil</label>
+                            <input type="file" name="profilePicture" class="prime-input" accept="image/*" />
+                            <small class="text-muted">Max. 2MB</small>
+                        </div>
+                    </div>
 
-                                <div class="col-md-6">
-                                    <label class="form-label">Foto de perfil</label>
-                                    <input type="file" name="profilePicture" id="profilePicture" accept="image/*" class="form-control form-control-dark" />
-                                    <small class="text-muted">JPG/PNG máximo 2MB. Vista previa automática.</small>
-                                </div>
-                            </div>
+                    <div class="prime-actions">
+                        <button type="submit" class="prime-btn-primary">Guardar cambios</button>
+                    </div>
+                </form>
 
-                            <div class="d-flex gap-2 mt-3">
-                                <button type="submit" class="btn btn-accent">Guardar cambios</button>
-                                <button type="button" id="resetAvatarBtn" class="btn btn-outline">Restaurar avatar</button>
-                            </div>
-                        </form>
+            </section>
 
-                    </section>
+            <!-- TAB: Password -->
+            <section id="tab-password" class="prime-content">
 
-                    <!-- TAB: Contraseña -->
-                    <section id="tab-password" class="tab-content">
+                <form asp-action="ChangePassword" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" asp-for="UserId" />
 
-                        <form asp-action="ChangePassword" method="post" class="profile-form">
-                            @Html.AntiForgeryToken()
-                            <input type="hidden" asp-for="UserId" />
+                    <div class="prime-form-grid">
+                        <div class="col-12">
+                            <label asp-for="ContrasenaActual" class="prime-label">Contraseña actual</label>
+                            <input asp-for="ContrasenaActual" autocomplete="current-password" class="prime-input" />
+                            <span asp-validation-for="ContrasenaActual" class="text-danger small"></span>
+                        </div>
 
-                            <div class="row g-3">
-                                <div class="col-md-12">
-                                    <label asp-for="ContrasenaActual" class="form-label">Contraseña actual</label>
-                                    <input asp-for="ContrasenaActual" class="form-control form-control-dark" autocomplete="current-password" />
-                                    <span asp-validation-for="ContrasenaActual" class="text-danger small"></span>
-                                </div>
+                        <div>
+                            <label asp-for="NuevaContrasena" class="prime-label">Nueva</label>
+                            <input asp-for="NuevaContrasena" autocomplete="new-password" class="prime-input" />
+                            <span asp-validation-for="NuevaContrasena" class="text-danger small"></span>
+                        </div>
 
-                                <div class="col-md-6">
-                                    <label asp-for="NuevaContrasena" class="form-label">Nueva contraseña</label>
-                                    <input asp-for="NuevaContrasena" class="form-control form-control-dark" autocomplete="new-password" />
-                                    <span asp-validation-for="NuevaContrasena" class="text-danger small"></span>
-                                </div>
+                        <div>
+                            <label asp-for="ConfirmarContrasena" class="prime-label">Confirmar</label>
+                            <input asp-for="ConfirmarContrasena" autocomplete="new-password" class="prime-input" />
+                            <span asp-validation-for="ConfirmarContrasena" class="text-danger small"></span>
+                        </div>
+                    </div>
 
-                                <div class="col-md-6">
-                                    <label asp-for="ConfirmarContrasena" class="form-label">Confirmar nueva contraseña</label>
-                                    <input asp-for="ConfirmarContrasena" class="form-control form-control-dark" autocomplete="new-password" />
-                                    <span asp-validation-for="ConfirmarContrasena" class="text-danger small"></span>
-                                </div>
-                            </div>
+                    <div class="prime-actions">
+                        <button type="submit" class="prime-btn-primary">Actualizar contraseña</button>
+                    </div>
+                </form>
 
-                            <div class="mt-3">
-                                <button type="submit" class="btn btn-warning">Actualizar contraseña</button>
-                            </div>
-                        </form>
-
-                    </section>
-
-                </div>
-            </div>
-
-            <!-- Opciones rápidas -->
-            <div class="mt-4 d-flex gap-2">
-                <a asp-controller="Favorites" asp-action="Index" class="btn btn-outline">Ver Favoritos</a>
-                <a asp-controller="Watchlist" asp-action="Index" class="btn btn-outline">Ver Pendientes</a>
-            </div>
+            </section>
 
         </div>
     </div>
+
+
 </div>
 
 @section Scripts {
-    <script src="~/js/profile.js" asp-append-version="true"></script>
 
+    <script>
+        const _pvMsgs = {
+            updated: @Html.Raw(TempData["ProfileUpdated"] != null ? $"\"{TempData["ProfileUpdated"]}\"" : "null"),
+            noChanges: @Html.Raw(TempData["NoChanges"] != null ? $"\"{TempData["NoChanges"]}\"" : "null")
+        };
+    </script>
+
+    <script src="~/js/profile.js" asp-append-version="true"></script>
     <partial name="_ValidationScriptsPartial" />
 }
