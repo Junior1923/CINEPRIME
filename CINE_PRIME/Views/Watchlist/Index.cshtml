@@ -1,75 +1,75 @@
-﻿
-@model IEnumerable<CINE_PRIME.ViewModels.WatchlistItemVM>
+﻿@model IEnumerable<CINE_PRIME.ViewModels.WatchlistItemVM>
 
 @{
-    ViewData["Title"] = "Mi Lista – CinePrime";
+	ViewData["Title"] = "Mis Pendientes";
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/watchlist.css" />
+	<link rel="stylesheet" href="~/css/watchlist.css" />
 }
 
 <section class="watchlist-container">
 
-    <h2 class="section-title">🕒 Mi Lista Pendiente</h2>
+	<h2 class="section-title">🕒 Mis Pendientes</h2>
 
-    @if (!Model.Any())
-    {
-        <div class="empty-section">
-            <h3>No tienes contenido pendiente.</h3>
-            <p>Explora películas y series para agregarlas aquí.</p>
-            <a asp-controller="Movies" asp-action="Index" class="btn-explore">Explorar contenido</a>
-        </div>
-    }
-    else
-    {
-        <div class="scroll-row-container">
-            <div class="scroll-row">
-                @foreach (var item in Model)
-                {
-                    var poster = !string.IsNullOrEmpty(item.Poster)
-                    ? $"https://image.tmdb.org/t/p/w500{item.Poster}"
-                    : "/img/no-image.png";
+	@if (!Model.Any())
+	{
+		<div class="empty-section text-center text-muted">
+			<h3>No tienes contenido pendiente.</h3>
+			<p>Explora películas y series para agregarlas aquí.</p>
+			<a asp-controller="Movies" asp-action="Index" class="btn btn-explore btn-info">Explorar contenido</a>
+		</div>
+	}
+	else
+	{
+		<div class="scroll-row-container">
+			<div class="scroll-row">
+				@foreach (var item in Model)
+				{
+					var poster = !string.IsNullOrEmpty(item.Poster)
+					? $"https://image.tmdb.org/t/p/w500{item.Poster}"
+					: "/img/no-image.png";
 
-                    var backdrop = !string.IsNullOrEmpty(item.Backdrop)
-                    ? $"https://image.tmdb.org/t/p/w780{item.Backdrop}"
-                    : "/img/no-backdrop.jpg";
+					var backdrop = !string.IsNullOrEmpty(item.Backdrop)
+					? $"https://image.tmdb.org/t/p/w780{item.Backdrop}"
+					: "/img/no-backdrop.jpg";
 
-                    <div class="watch-card">
-                        <!-- Backdrop -->
-                        <div class="card-bg" style="background-image: url('@backdrop');"></div>
+					<div class="watch-card">
+						<!-- Backdrop -->
+						<div class="card-bg" style="background-image: url('@backdrop');"></div>
 
-                        <!-- Gradiente sobre el backdrop -->
-                        <div class="card-gradient"></div>
+						<!-- Gradiente sobre el backdrop -->
+						<div class="card-gradient"></div>
 
-                        <!-- Poster y detalles -->
-                        <div class="card-content">
-                            <img src="@poster" class="poster-img" alt="@item.Title" />
+						<!-- Poster y detalles -->
+						<div class="card-content">
+							<img src="@poster" class="poster-img" alt="@item.Title" />
 
-                            <div class="card-info">
-                                <span class="tag">@item.MediaTypeLabel</span>
-                                <h4>@item.Title</h4>
-                                <p class="rating">⭐ @item.Rating.ToString("0.0")</p>
-                                <p class="release-date">@item.ReleaseDate</p>
+							<div class="card-info">
+								<span class="tag">@item.MediaTypeLabel</span>
+								<h4>@item.Title</h4>
+								<p class="rating">⭐ @item.Rating.ToString("0.0")</p>
+								<p class="release-date">@item.ReleaseDate</p>
+							</div>
+							<div class="actions">
+								<a asp-controller="@(item.MediaType == "movie" ? "Movies" : "Series")"
+								   asp-action="Details"
+								   asp-route-id="@item.MediaId"
+								   class="btn-watch">
+									Ver detalles
+								</a>
 
-                                <div class="actions">
-                                    <a asp-controller="@(item.MediaType == "movie" ? "Movies" : "Series")"
-                                       asp-action="Details"
-                                       asp-route-id="@item.MediaId"
-                                       class="btn-watch">
-                                        Ver detalles
-                                    </a>
+								<form asp-action="Remove" method="post">
+									<input type="hidden" name="listaId" value="@item.WatchlistId" />
+									<button type="submit" class="btn-remove col-12">Eliminar</button>
+								</form>
+							</div>
 
-                                    <form asp-action="Remove" method="post">
-                                        <input type="hidden" name="listaId" value="@item.WatchlistId" />
-                                        <button type="submit" class="btn-remove">Quitar ✖</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                }
-            </div>
-        </div>
-    }
+
+						</div>
+					</div>
+				}
+			</div>
+		</div>
+	}
 </section>

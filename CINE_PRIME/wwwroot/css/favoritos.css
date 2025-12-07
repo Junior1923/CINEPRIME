@@ -32,6 +32,7 @@
     .favorite-card:hover {
         background: #162029;
         transform: translateY(-3px);
+        border-color: rgba(0, 168, 225, 0.4);
     }
 
 /* ============================================

@@ -1,13 +1,12 @@
 ﻿
 .watchlist-container {
-    padding: 20px;
     color: #e5e5e5;
 }
 
 .section-title {
     font-size: 2rem;
     font-weight: 700;
-    color: #00a8e1;
+    color: white;
     margin-bottom: 20px;
 }
 
@@ -15,12 +14,16 @@
 .scroll-row-container {
     overflow-x: auto;
     padding-bottom: 15px;
+    
 }
 
 .scroll-row {
     display: flex;
     gap: 20px;
+    padding: 30px;
+
 }
+
 
 /* Card estilo Prime */
 .watch-card {
@@ -104,7 +107,7 @@
     margin-top: 10px;
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 10px;
 }
 
 .btn-watch {
@@ -117,7 +120,8 @@
 }
 
     .btn-watch:hover {
-        background-color: #0086b3;
+        background-color: #0093c4;
+        color:white;
     }
 
 .btn-remove {
@@ -125,7 +129,7 @@
     border: 1px solid #e53935;
     color: #e53935;
     border-radius: 8px;
-    padding: 5px;
+    padding: 6px 10px;
     font-size: 0.8rem;
     cursor: pointer;
 }

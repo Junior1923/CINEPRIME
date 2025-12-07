@@ -9,18 +9,18 @@
 }
 
 @section Styles {
-	<link rel="stylesheet" href="~/css/pime_series.css" />
+	<link rel="stylesheet" href="~/css/series.css" />
 }
 
 <div class="series-details-page">
 	<!-- HERO -->
-	<section class="series-hero" style="background-image: linear-gradient(180deg, rgba(6,10,14,0.6), rgba(6,10,14,0.85)), url('@backdrop');">
+	<section class="series-hero prueba" style="background-image: linear-gradient(180deg, rgba(6,10,14,0.6), rgba(6,10,14,0.85)), url('@backdrop');">
 		<div class="container hero-inner d-flex gap-4">
 			<div class="hero-poster">
 				<img src="@poster" alt="@Model.Serie.Name" class="poster-img" />
 			</div>
 
-			<div class="hero-content text-light">
+			<div class="mt-5 hero-content text-light">
 				<h1 class="title">@Model.Serie.Name</h1>
 
 				<div class="meta-row">
@@ -41,9 +41,9 @@
 					}
 				</div>
 
-				<p class="overview mt-3">@Model.Serie.Overview</p>
+				@* <p class="overview mt-3">@Model.Serie.Overview</p> *@
 
-				<div class="hero-actions mt-4 d-flex flex-wrap gap-2">
+				<div class="hero-actions mt-5 d-flex flex-wrap gap-2">
 					@if (User.Identity.IsAuthenticated)
 					{
 						<form asp-controller="Favorites" asp-action="Add" method="post" class="d-inline">
@@ -55,7 +55,7 @@
 						<form asp-controller="Watchlist" asp-action="Add" method="post" class="d-inline">
 							<input type="hidden" name="mediaId" value="@Model.Serie.Id" />
 							<input type="hidden" name="mediaType" value="tv" />
-							<button type="submit" class="btn btn-outline">➕ Guardar</button>
+							<button type="submit" class="btn btn-outline-light">➕ Guardar</button>
 						</form>
 					}
 					else

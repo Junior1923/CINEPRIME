@@ -21,11 +21,14 @@ namespace CINE_PRIME.Controllers
         public async Task<IActionResult> Index()
         {
             var series = await _tmdbSeriesService.GetPopularSeriesAsync();
+            var otras = await _tmdbSeriesService.GetTopRatedSeriesAsync();
+
+            var todas = series.Concat(otras).ToList();
 
             if (series == null)
                 return NotFound();
 
-            return View(series);
+            return View(todas);
         }
 
 

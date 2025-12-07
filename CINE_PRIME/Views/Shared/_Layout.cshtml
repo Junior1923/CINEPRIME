@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - CINE_PRIME</title>
+    <title>@ViewData["Title"] - CinePrime</title>
 
     <!-- ✅ Estilos -->
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
@@ -112,7 +112,7 @@
  }
 
     <!-- 🎬 CONTENIDO -->
-    <main role="main" class="flex-fill @(ViewData["FullWidth"] as bool? == true ? "p-0 m-0" : "container my-4")">
+    <main role="main" class="flex-fill @(ViewData["FullWidth"] as bool? == true ? "p-0 m-0" : " mx-5 my-5")">
         @RenderBody()
     </main>
 
