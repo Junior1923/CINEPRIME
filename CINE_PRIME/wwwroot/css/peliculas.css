@@ -1,10 +1,71 @@
-﻿
-.movie-hero {
-    background-size: cover;
-    background-position: center;
-    color: white;
-    padding: 100px 0;
+﻿/* ===============================
+   GLOBAL MOVIE STYLE
+   Elegant Prime Video aesthetic
+================================*/
+
+.movie-container {
+    padding: 40px;
+}
+
+/* ===============================
+   INDEX – MOVIE GRID
+================================*/
+
+.movie-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 30px;
+}
+
+.movie-card {
     position: relative;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #121a23;
+    transition: transform 0.3s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+}
+
+    .movie-card img {
+        width: 100%;
+        height: 270px;
+        object-fit: cover;
+        border-radius: 14px;
+        transition: opacity 0.3s ease;
+    }
+
+    .movie-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 40px rgba(0, 168, 225, 0.4);
+    }
+
+        .movie-card:hover img {
+            opacity: 0.8;
+        }
+
+.movie-title {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 12px;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    color: #e5e5e5;
+    font-weight: bold;
+    font-size: 1.05rem;
+    text-shadow: 0 0 10px rgba(0,168,225,0.6);
+}
+
+/* ===============================
+   DETAILS – HERO
+================================*/
+
+.movie-hero {
+    position: relative;
+    height: 80vh;
+    background-size: cover !important;
+    background-position: center !important;
+    border-bottom: 4px solid #00a8e1;
 }
 
     .movie-hero::before {
@@ -14,32 +75,80 @@
         left: 0;
         right: 0;
         bottom: 0;
-        background: rgba(0, 0, 0, 0.6);
+        background: linear-gradient(to bottom, rgba(0,0,0,0.65), rgba(0,0,0,0.85) );
     }
 
-.movie-content {
-    position: relative;
-    z-index: 2;
+.hero-content {
+    position: absolute;
+    bottom: 40px;
+    left: 50px;
+    max-width: 600px;
+    color: white;
 }
 
-.poster {
-    max-width: 250px;
-    border-radius: 12px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+.hero-title {
+    font-size: 3rem;
+    font-weight: 700;
+    line-height: 1.1;
+    text-shadow: 0 0 20px rgba(0,168,225,0.8);
 }
 
-.overview-text {
+.hero-overview {
+    margin-top: 18px;
+    font-size: 1.05rem;
+    opacity: 0.9;
     text-align: justify;
 }
 
-.btn-action {
-    border-radius: 50px;
-    padding: 10px 20px;
-    font-weight: bold;
+/* ===============================
+   DETAILS – CONTENT BOX
+================================*/
+
+.movie-details-box {
+    margin-top: -80px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 16px;
+    padding: 30px;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 0 25px rgba(0,0,0,0.5);
 }
 
+/* ===============================
+   BUTTONS
+================================*/
+
+.btn-action {
+    background: #00a8e1;
+    border: none;
+    color: white;
+    font-weight: bold;
+    padding: 12px 25px;
+    border-radius: 40px;
+    transition: 0.3s ease;
+}
+
+    .btn-action:hover {
+        background: #008ec2;
+        color: #e5e5e5;
+    }
+
+/* ===============================
+   TRAILER RESPONSIVE
+================================*/
+
 iframe {
-    border-radius: 12px;
     width: 100%;
-    height: 450px;
+    height: 420px;
+    border-radius: 14px;
+    margin-top: 20px;
+}
+
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.3rem;
+    }
+
+    .movie-hero {
+        height: 60vh;
+    }
 }

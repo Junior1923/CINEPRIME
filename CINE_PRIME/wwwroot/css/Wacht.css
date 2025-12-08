@@ -1,0 +1,63 @@
+﻿/* Scope exclusivo para evitar conflictos */
+.watchlist-page {
+    --card-bg: #0f0f10;
+}
+
+    /* Card base */
+    .watchlist-page .watch-card {
+        background-color: var(--card-bg) !important;
+        border: none;
+        border-radius: 16px;
+        overflow: hidden;
+        transform: translateY(20px);
+        opacity: 0;
+        transition: transform .35s ease, opacity .35s ease, box-shadow .25s ease;
+    }
+
+        /* Imagen */
+        .watchlist-page .watch-card img {
+            height: 360px !important;
+            object-fit: cover !important;
+            border-bottom: 1px solid #222;
+        }
+
+    /* Wrapper (para animación entrada y salida) */
+    .watchlist-page .watch-wrapper {
+        transition: opacity .4s ease, transform .4s ease;
+    }
+
+        .watchlist-page .watch-wrapper.remove-anim {
+            opacity: 0;
+            transform: scale(0.85);
+        }
+
+    /* Rating */
+    .watchlist-page .movie-rating {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: #000000c7;
+        padding: 4px 8px;
+        border-radius: 8px;
+    }
+
+    /* Al cargar */
+    .watchlist-page .movie-card.loaded {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    /* Botones */
+    .watchlist-page .btn-primary {
+        border-radius: 10px;
+    }
+
+    .watchlist-page .btn-outline-danger {
+        border-radius: 10px;
+    }
+
+    /* Estado vacío */
+    .watchlist-page .empty-favorites,
+    .watchlist-page .empty-text {
+        opacity: .85;
+    }

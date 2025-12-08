@@ -1,31 +1,36 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-
-
-@model IEnumerable<CINE_PRIME.Models.Tmdb.TmdbMovieDTO>
+﻿@model IEnumerable<CINE_PRIME.Models.Tmdb.TmdbMovieDTO>
 
 @{
-	ViewData["Title"] = "Peliculas Populares";
+    ViewData["Title"] = "Películas Populares";
 }
 
-<h2 class="mb-4">🎬 Películas Populares</h2>
+@section Styles {
+    <link rel="stylesheet" href="~/css/Index.css" />
+}
 
-<div class="row">
+<h2 class="page-title mb-4">🎬 Películas Populares</h2>
+
+<div class="movie-grid">
     @foreach (var movie in Model)
     {
-        <div class="col-md-3 mb-4">
-            <div class="card h-100 shadow-sm">
+        <div class="movie-card">
+            <div class="poster-wrapper">
                 <img src="@($"https://image.tmdb.org/t/p/w500{movie.PosterPath}")"
-                     class="card-img-top" alt="@movie.Title" />
-                <div class="card-body">
-                    <h5 class="card-title">@movie.Title</h5>
-                    <p class="card-text text-muted">
-                        ⭐ @movie.VoteAverage.ToString("0.0") |
-                        @movie.ReleaseDate
-                    </p>
-                    <a asp-action="Details" asp-route-id="@movie.Id" class="btn btn-sm btn-primary">Ver detalles</a>
+                     alt="@movie.Title" class="movie-poster" />
+                <div class="poster-overlay">
+                    <a asp-action="Details" asp-route-id="@movie.Id" class="btn-view">
+                        Ver detalles
+                    </a>
                 </div>
+            </div>
+
+            <div class="movie-info">
+                <h4 class="movie-title">@movie.Title</h4>
+                <p class="meta">
+                    ⭐ @movie.VoteAverage.ToString("0.0")
+                    ·
+                    @movie.ReleaseDate
+                </p>
             </div>
         </div>
     }

@@ -1,0 +1,59 @@
+﻿/* Scope para evitar conflicto con watch.css */
+.favorites-page {
+    --card-bg: #0f0f10;
+}
+
+    /* Card */
+    .favorites-page .fav-card {
+        background-color: var(--card-bg) !important;
+        border: none;
+        border-radius: 16px;
+        overflow: hidden;
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+        /* Imagen */
+        .favorites-page .fav-card img {
+            height: 360px !important;
+            object-fit: cover !important;
+            border-bottom: 1px solid #222;
+        }
+
+    /* Wrapper fade anim */
+    .favorites-page .fav-wrapper {
+        transition: opacity .4s ease, transform .4s ease;
+    }
+
+        .favorites-page .fav-wrapper.remove-anim {
+            opacity: 0;
+            transform: scale(0.85);
+        }
+
+    /* Rating */
+    .favorites-page .movie-rating {
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        background: #000000c7;
+        padding: 4px 8px;
+        border-radius: 8px;
+    }
+
+
+    /* Animación entrada */
+    .favorites-page .movie-card.loaded {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    /* Estado vacío */
+    .favorites-page .empty-favorites {
+        opacity: .8;
+    }
+
+    .favorites-page .btn-cta {
+        background: #0066ff;
+        color: white;
+        padding: 10px 18px;
+        border-radius: 12px;
+    }

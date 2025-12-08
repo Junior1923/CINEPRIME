@@ -1,70 +1,70 @@
-﻿
-@model CINE_PRIME.ViewModels.MovieDetailsViewModel
+﻿@model CINE_PRIME.ViewModels.MovieDetailsViewModel
 
 @{
     ViewData["Title"] = Model.Movie.Title;
 
-    var backgroundUrl = $"https://image.tmdb.org/t/p/original{Model.Movie.BackdropPath}";
-	var posterUrl = $"https://image.tmdb.org/t/p/w500{Model.Movie.PosterPath}";
+    var bg = $"https://image.tmdb.org/t/p/original{Model.Movie.BackdropPath}";
+    var poster = $"https://image.tmdb.org/t/p/w500{Model.Movie.PosterPath}";
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/peliculas.css" />
+    <link rel="stylesheet" href="~/css/Details.css" />
 }
 
+<div class="details-hero" style="background-image: url('@bg');">
+    <div class="overlay"></div>
 
-<div class="movie-hero mb-5" style="background-image: url('@backgroundUrl');">
-    <div class="container movie-content">
-        <div class="row align-items-center">
-            <div class="col-md-3 text-center mb-3">
-                <img src="@posterUrl" alt="@Model.Movie.Title" class="poster" />
-            </div>
-            <div class="col-md-9">
-                <h1 class="display-5 fw-bold">@Model.Movie.Title</h1>
-                <p class="text-warning fs-5">⭐ @Model.Movie.VoteAverage.ToString("0.0")</p>
-                <p class="text-light mb-3 me-5 overview-text">@Model.Movie.Overview</p>
-                <p class="text-light">📅 Estreno: @Model.Movie.ReleaseDate</p>
+    <div class="details-content container">
+        <div class="poster-box">
+            <img src="@poster" alt="@Model.Movie.Title" class="poster-img" />
+        </div>
 
-                @if (User.Identity.IsAuthenticated)
-                {
-                    <div class="mt-3">
-                        <form asp-controller="Favorites" asp-action="Add" method="post" class="d-inline">
-                            <input type="hidden" name="movieId" value="@Model.Movie.Id" />
-                            <button type="submit" class="btn btn-primary btn-action me-2">
-                                ❤️ Agregar a Favoritos
-                            </button>
-                        </form>
-                        <form asp-controller="Watchlist" asp-action="Add" method="post" class="d-inline">
-                            <input type="hidden" name="movieId" value="@Model.Movie.Id" />
-                             <button class="btn btn-outline-light btn-action">
-                                🕒 Agregar a lista pendiente
-                            </button>
-                        </form>
-                    </div>
-                }
-                else
-                {
-                    <div class="mt-3">
-                        <a asp-controller="Account" asp-action="Login" class="btn btn-light btn-action">Inicia sesión para marcar esta película</a>
-                    </div>
-                }
+        <div class="info">
+            <h1 class="movie-title">@Model.Movie.Title</h1>
+
+            <div class="meta">
+                <span class="rating">⭐ @Model.Movie.VoteAverage.ToString("0.0")</span>
+                <span class="date">📅 @Model.Movie.ReleaseDate</span>
             </div>
+
+            <p class="overview">@Model.Movie.Overview</p>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <div class="actions">
+                    <form asp-controller="Favorites" asp-action="Add" method="post">
+                        <input type="hidden" name="movieId" value="@Model.Movie.Id" />
+                        <button class="btn-main">❤️ Añadir a Favoritos</button>
+                    </form>
+
+                    <form asp-controller="Watchlist" asp-action="Add" method="post">
+                        <input type="hidden" name="movieId" value="@Model.Movie.Id" />
+                        <button class="btn-outline">🕒 Guardar para ver luego</button>
+                    </form>
+                </div>
+            }
+            else
+            {
+                <a asp-controller="Account" asp-action="Login" class="btn-login">
+                    Inicia sesión para marcar esta película
+                </a>
+            }
         </div>
     </div>
 </div>
 
-<div class="container">
+<div class="container trailer-section text-light mt-5">
     @if (!string.IsNullOrEmpty(Model.TrailerKey))
     {
-        <h3 class="mb-3">🎞️ Tráiler Oficial</h3>
-        <div class="ratio ratio-16x9 mb-4">
+        <h2 class="trailer-title">🎞️ Tráiler Oficial</h2>
+        <div class="ratio ratio-16x9 trailer-box">
             <iframe src="@Model.TrailerKey" frameborder="0" allowfullscreen></iframe>
         </div>
     }
     else
     {
-        <p class="text-muted">No hay tráiler disponible para esta película.</p>
+        <p class="text-muted">No hay tráiler disponible.</p>
     }
 
-    <a asp-action="Index" class="btn btn-secondary mt-3">⬅ Volver al Catálogo</a>
+    <a asp-action="Index" class="btn-back mt-4">⬅ Volver</a>
 </div>

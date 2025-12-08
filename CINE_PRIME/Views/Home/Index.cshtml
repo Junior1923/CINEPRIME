@@ -1,16 +1,53 @@
 ﻿@{
-    // Obtener datos del usuario de la sesión
     var nombreUsuario = Context.Session.GetString("UsuarioNombre");
     var correoUsuario = Context.Session.GetString("UsuarioCorreo");
 }
 
-<header style="text-align: center; padding: 20px;">
-    @if (!string.IsNullOrEmpty(nombreUsuario))
-    {
-        <h2>Bienvenido, <strong>@nombreUsuario</strong> 👋</h2>
-    }
-    else
-    {
-        <h2>CINE PRIME MOVIE</h2>
-    }
-</header>
+<link rel="stylesheet" href="~/css/home.css" />
+
+<div class="home-container">
+
+    <!-- Encabezado Hero -->
+    <section class="hero" style="background-image: url('/img/CINEPRIME.png');">
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            @if (!string.IsNullOrEmpty(nombreUsuario))
+            {
+                <h1>Bienvenido, <strong>@nombreUsuario</strong> 👋</h1>
+            }
+            else
+            {
+                <h1>CINE PRIME MOVIES 🎬</h1>
+            }
+
+            <p>Tu universo de películas, reseñas, tráilers y mucho más.</p>
+
+            <a href="/Movies" class="btn-explorar">Explorar Películas 🚀</a>
+        </div>
+    </section>
+
+    <!-- Lo más visto -->
+    <section class="trending-section">
+        <h2 class="title">🔥 Lo más visto esta semana</h2>
+
+        <div class="trending-grid">
+            <!-- Ejemplo de tarjetas (puedes repetir o renderizar dinámico) -->
+            <div class="card">
+                <img src="/img/OTRA-PELI.png" alt="movie" />
+                <h3>La Sombra del Monte Draconis</h3>
+            </div>
+
+            <div class="card">
+                <img src="/IMG/fondo-home.png" alt="movie" />
+                <h3>La Identidad Oculta de Adam</h3>
+            </div>
+
+            <div class="card">
+                <img src="/img/PELI-3.png" alt="movie" />
+                <h3>Contenido Popular</h3>
+            </div>
+        </div>
+    </section>
+
+</div>
