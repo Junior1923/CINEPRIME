@@ -4886,23 +4886,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\engel\\.nuget\\packages\\": {},
+    "C:\\Users\\braya\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\engel\\Desktop\\Nueva carpeta\\CINE_PRIME\\CINE_PRIME.csproj",
+      "projectUniqueName": "C:\\Users\\braya\\source\\repos\\CineSubida\\CINE_PRIME\\CINE_PRIME.csproj",
       "projectName": "CINE_PRIME",
-      "projectPath": "C:\\Users\\engel\\Desktop\\Nueva carpeta\\CINE_PRIME\\CINE_PRIME.csproj",
-      "packagesPath": "C:\\Users\\engel\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\engel\\Desktop\\Nueva carpeta\\CINE_PRIME\\obj\\",
+      "projectPath": "C:\\Users\\braya\\source\\repos\\CineSubida\\CINE_PRIME\\CINE_PRIME.csproj",
+      "packagesPath": "C:\\Users\\braya\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\braya\\source\\repos\\CineSubida\\CINE_PRIME\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\engel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\braya\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -4911,7 +4911,6 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4980,7 +4979,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.308/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.307/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
