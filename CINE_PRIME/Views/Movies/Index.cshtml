@@ -1,75 +1,112 @@
 ﻿@model CINE_PRIME.ViewModels.MoviesHomeViewModel
 @{
-    ViewData["Title"] = "Películas - CinePrime";
+	ViewData["Title"] = "Películas";
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/peliculas.css" />
+	<link rel="stylesheet" href="~/css/peliculas.css" />
+	<link rel="stylesheet" href="~/css/hero-carousel.css" />
 }
 
-<h2 class="text-light mb-4 fw-bold">🎬 Películas</h2>
+<h2 class="movies-main-title mb-4">Películas Increíbles</h2>
+
+
+<!-- HERO CARRUSEL PRIME VIDEO -->
+<div class="swiper hero-carousel">
+	<div class="swiper-wrapper">
+
+		@foreach (var movie in Model.NowPlaying.Take(10))
+		{
+			<div class="swiper-slide hero-slide">
+				<img src="@($"https://image.tmdb.org/t/p/original{movie.BackdropPath}")" alt="@movie.Title" />
+
+				<div class="hero-gradient"></div>
+
+				<div class="hero-content">
+					<h2 class="hero-title">@movie.Title</h2>
+
+					<div class="hero-btns mt-4">
+						<a asp-controller="Movies" asp-route-id="@movie.Id" asp-action="Details" class="btn btn-primary">Ver Más</a>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+
+	<!-- Controles -->
+	<div class="swiper-button-next"></div>
+	<div class="swiper-button-prev"></div>
+
+	<!-- Pagination dots -->
+	<div class="swiper-pagination"></div>
+</div>
+
 
 <div class="movie-section mb-5">
-    <h3 class="section-title">🔥 Populares</h3>
-    <div class="movie-carousel">
-        @foreach (var movie in Model.Populares)
-        {
-            <a asp-action="Details" asp-route-id="@movie.Id" class="movie-item">
-                <img src="@($"https://image.tmdb.org/t/p/w500{movie.PosterPath}")" alt="@movie.Title" />
-                <div class="movie-overlay">
-                    <h6>@movie.Title</h6>
-                    <span>⭐ @movie.VoteAverage.ToString("0.0")</span>
-                </div>
-            </a>
-        }
-    </div>
+	<h3 class="section-title">Más Populares</h3>
+	<div class="movie-carousel">
+		@foreach (var movie in Model.Populares)
+		{
+			<a asp-action="Details" asp-route-id="@movie.Id" class="movie-item">
+				<img src="@($"https://image.tmdb.org/t/p/w500{movie.PosterPath}")" alt="@movie.Title" />
+				<div class="movie-overlay">
+					<h6>@movie.Title</h6>
+					<span>⭐ @movie.VoteAverage.ToString("0.0")</span>
+				</div>
+			</a>
+		}
+	</div>
 </div>
 
 <div class="movie-section mb-5">
-    <h3 class="section-title">🏆 Más valoradas</h3>
-    <div class="movie-carousel">
-        @foreach (var movie in Model.TopRated)
-        {
-            <a asp-action="Details" asp-route-id="@movie.Id" class="movie-item">
-                <img src="@($"https://image.tmdb.org/t/p/w500{movie.PosterPath}")" alt="@movie.Title" />
-                <div class="movie-overlay">
-                    <h6>@movie.Title</h6>
-                    <span>⭐ @movie.VoteAverage.ToString("0.0")</span>
-                </div>
-            </a>
-        }
-    </div>
+	<h3 class="section-title">Mejor valoradas</h3>
+	<div class="movie-carousel">
+		@foreach (var movie in Model.TopRated)
+		{
+			<a asp-action="Details" asp-route-id="@movie.Id" class="movie-item">
+				<img src="@($"https://image.tmdb.org/t/p/w500{movie.PosterPath}")" alt="@movie.Title" />
+				<div class="movie-overlay">
+					<h6>@movie.Title</h6>
+					<span>⭐ @movie.VoteAverage.ToString("0.0")</span>
+				</div>
+			</a>
+		}
+	</div>
 </div>
 
 <div class="movie-section mb-5">
-    <h3 class="section-title">🎥 En cartelera</h3>
-    <div class="movie-carousel">
-        @foreach (var movie in Model.NowPlaying)
-        {
-            <a asp-action="Details" asp-route-id="@movie.Id" class="movie-item">
-                <img src="@($"https://image.tmdb.org/t/p/w500{movie.PosterPath}")" alt="@movie.Title" />
-                <div class="movie-overlay">
-                    <h6>@movie.Title</h6>
-                    <span>⭐ @movie.VoteAverage.ToString("0.0")</span>
-                </div>
-            </a>
-        }
-    </div>
+	<h3 class="section-title">En cartelera</h3>
+	<div class="movie-carousel">
+		@foreach (var movie in Model.NowPlaying)
+		{
+			<a asp-action="Details" asp-route-id="@movie.Id" class="movie-item">
+				<img src="@($"https://image.tmdb.org/t/p/w500{movie.PosterPath}")" alt="@movie.Title" />
+				<div class="movie-overlay">
+					<h6>@movie.Title</h6>
+					<span>⭐ @movie.VoteAverage.ToString("0.0")</span>
+				</div>
+			</a>
+		}
+	</div>
 </div>
 
 <div class="movie-section mb-5">
-    <h3 class="section-title">⏳ Próximos estrenos</h3>
-    <div class="movie-carousel">
-        @foreach (var movie in Model.Upcoming)
-        {
-            <a asp-action="Details" asp-route-id="@movie.Id" class="movie-item">
-                <img src="@($"https://image.tmdb.org/t/p/w500{movie.PosterPath}")" alt="@movie.Title" />
-                <div class="movie-overlay">
-                    <h6>@movie.Title</h6>
-                    <span>⭐ @movie.VoteAverage.ToString("0.0")</span>
-                </div>
-            </a>
-        }
-    </div>
+	<h3 class="section-title">Próximos estrenos</h3>
+	<div class="movie-carousel">
+		@foreach (var movie in Model.Upcoming)
+		{
+			<a asp-action="Details" asp-route-id="@movie.Id" class="movie-item">
+				<img src="@($"https://image.tmdb.org/t/p/w500{movie.PosterPath}")" alt="@movie.Title" />
+				<div class="movie-overlay">
+					<h6>@movie.Title</h6>
+					<span>⭐ @movie.VoteAverage.ToString("0.0")</span>
+				</div>
+			</a>
+		}
+	</div>
 </div>
+
+@section Scripts {
+	<script src="~/js/hero-carousel.js"></script>
+}
 

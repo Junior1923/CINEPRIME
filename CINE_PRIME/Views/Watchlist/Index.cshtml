@@ -10,14 +10,14 @@
 
 <section class="watchlist-container">
 
-	<h2 class="section-title">🕒 Mis Pendientes</h2>
+	<h2 class="section-title">Pendientes Por Ver</h2>
 
 	@if (!Model.Any())
 	{
-		<div class="empty-section text-center text-muted">
+		<div class="empty-section text-center text-muted mt-5">
 			<h3>No tienes contenido pendiente.</h3>
 			<p>Explora películas y series para agregarlas aquí.</p>
-			<a asp-controller="Movies" asp-action="Index" class="btn btn-explore btn-info">Explorar contenido</a>
+			<a asp-controller="Movies" asp-action="Index" class="btn btn-explore btn-info text-light">Explorar contenido</a>
 		</div>
 	}
 	else

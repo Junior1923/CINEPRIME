@@ -49,13 +49,13 @@
 						<form asp-controller="Favorites" asp-action="Add" method="post" class="d-inline">
 							<input type="hidden" name="mediaId" value="@Model.Serie.Id" />
 							<input type="hidden" name="mediaType" value="tv" />
-							<button type="submit" class="btn btn-large btn-accent">❤️ Favoritos</button>
+							<button type="submit" class="btn btn-large btn-accent">❤️ Favorita</button>
 						</form>
 
 						<form asp-controller="Watchlist" asp-action="Add" method="post" class="d-inline">
 							<input type="hidden" name="mediaId" value="@Model.Serie.Id" />
 							<input type="hidden" name="mediaType" value="tv" />
-							<button type="submit" class="btn btn-outline-light">➕ Guardar</button>
+							<button type="submit" class="btn btn-outline-light">➕ Ver más tarde</button>
 						</form>
 					}
 					else
@@ -116,13 +116,13 @@
 								<form asp-controller="Favorites" asp-action="Add" method="post">
 									<input type="hidden" name="mediaId" value="@Model.Serie.Id" />
 									<input type="hidden" name="mediaType" value="tv" />
-									<button type="submit" class="btn btn-accent w-100">❤️ Favoritos</button>
+									<button type="submit" class="btn btn-accent w-100">Añadir Favorita</button>
 								</form>
 
 								<form asp-controller="Watchlist" asp-action="Add" method="post">
 									<input type="hidden" name="mediaId" value="@Model.Serie.Id" />
 									<input type="hidden" name="mediaType" value="tv" />
-									<button type="submit" class="btn btn-outline w-100">➕ Guardar</button>
+									<button type="submit" class="btn btn-outline w-100">Ver más tarde</button>
 								</form>
 							</div>
 						}
@@ -136,7 +136,7 @@
 		</div>
 
 		<div class="mt-4">
-			<a asp-action="Index" class="btn btn-secondary">⬅ Volver al catálogo</a>
+			<a asp-action="Index" class="btn btn-secondary">Volver al catálogo</a>
 		</div>
 	</main>
 </div>

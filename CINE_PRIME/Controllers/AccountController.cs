@@ -2,6 +2,7 @@
 using CINE_PRIME.ViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace CINE_PRIME.Controllers
 {
@@ -43,17 +44,30 @@ namespace CINE_PRIME.Controllers
             if (result.Succeeded)
             {
 
-                ViewBag.SuccessMessage = "✅ Tu cuenta ha sido creada correctamente. Ahora puedes iniciar sesión.";
+                ViewBag.SuccessMessage = "Tu cuenta ha sido creada correctamente. Ahora puedes iniciar sesión.";
                 ModelState.Clear(); // limpia el formulario
                 return View(); // se queda en la misma página de registro
 
             }
 
+            //foreach (var error in result.Errors)
+            //{
+            //    Console.WriteLine($"{error.Description}");
+            //    ModelState.AddModelError("", error.Description);
+
+            //}
             foreach (var error in result.Errors)
             {
-                Console.WriteLine($"{error.Description}");
-                ModelState.AddModelError("", error.Description);
+                string customMessage = error.Code switch
+                {
+                    "DuplicateUserName" => "Usuario o Correo ya existe.",
+                    "DuplicateEmail" => "Usuario o Correo ya existe",
+                    "PasswordTooShort" => "La contraseña es muy corta.",
+                    "PasswordRequiresDigit" => "La contraseña necesita al menos una letra mayúscula y minúscula.",
+                    _ => error.Description // mensaje por defecto
+                };
 
+                ModelState.AddModelError("", customMessage);
             }
 
             return View(model);
@@ -68,17 +82,38 @@ namespace CINE_PRIME.Controllers
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
+
             if (!ModelState.IsValid)
                 return View(model);
 
-            var result = await _signInManager.PasswordSignInAsync(
-                model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+            // Buscar usuario
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "Credenciales inválidas");
+                return View(model);
+            }
 
-            if (result.Succeeded)
-                return RedirectToAction("Index", "Movies");
+            // Validar password
+            var result = await _signInManager.CheckPasswordSignInAsync(user, model.Password, lockoutOnFailure: false);
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", "Credenciales inválidas");
+                return View(model);
+            }
 
-            ModelState.AddModelError("", "Credenciales inválidas");
-            return View(model);
+            // Crear claims personalizados
+            var claims = new List<Claim>
+            {
+            new Claim("Nombre", user.Nombre),
+            new Claim("Apellido", user.Apellido)
+            };
+
+            // Hacer login generando cookie con claims
+            await _signInManager.SignInWithClaimsAsync(user, model.RememberMe, claims);
+
+            return RedirectToAction("Index", "Movies");
+
         }
 
         [HttpPost]

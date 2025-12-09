@@ -2,6 +2,12 @@
    🎬 CINE_PRIME - Módulo de Películas (Estilo Prime Video)
    ============================================================ */
 
+.movies-main-title {
+    color: #fff;
+    font-size: 2rem;
+    font-weight: 800;
+}
+
 /* 🔹 SECCIÓN DE LISTADO (INDEX) */
 .movie-card {
     background-color: #1a242f;
@@ -57,107 +63,180 @@
         }
 
 
+/* ===== MOVIE DETAILS ===== */
+.movie-details-page {
+    background: transparent;
+    color: #fff;
+    padding-bottom: 60px;
+}
 
-/* 🔹 HERO CON TODO DENTRO */
+/* HERO */
 .movie-hero {
-    position: relative;
-    min-height: 100vh;
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
+    padding: 5.2rem 0;
+    margin-left: 5rem;
+    border-radius: 10px;
+    box-shadow: inset 0 -80px 60px -60px rgba(0,0,0,0.6);
+}
+
+.movie-hero-inner {
     display: flex;
+    align-items: flex-start;
+    padding: 1rem 0;
+    gap: 2rem;
+}
+
+.movie-hero-poster {
+    flex: 0 0 260px;
+    margin-left: -80px;
+}
+
+.movie-poster-img {
+    width: 260px;
+    border-radius: 12px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+}
+
+.movie-hero-content {
+    flex: 1 1 auto;
+    padding-right: 40px;
+}
+
+.movie-title {
+    color: var(--accent);
+    font-size: 2.2rem;
+    margin: 0 0 .6rem 0;
+    font-weight: 800;
+}
+
+/* META */
+.movie-meta-row {
+    color: var(--muted);
+    display: flex;
+    gap: 12px;
     align-items: center;
-    justify-content: center;
-    padding: 5rem 0;
+    font-weight: 600;
+}
+
+    .movie-meta-row .dot {
+        opacity: .6;
+    }
+
+/* BUTTONS */
+.btn {
+    border-radius: 999px;
+    padding: 10px 18px;
+    font-weight: 700;
+}
+
+.btn-accent {
+    background: linear-gradient(90deg,var(--accent),var(--accent-2));
     color: #fff;
-    overflow: hidden;
+    border: none;
 }
 
-    .movie-hero .overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(180deg, rgba(15, 23, 30, 0.4) 0%, rgba(15, 23, 30, 0.9) 90%);
-        z-index: 1;
-        pointer-events: none; /* ✅ Esto permite que los clics pasen al contenido */
-    }
-
-.movie-container {
-    position: relative;
-    z-index: 2; /* ✅ Esto garantiza que los botones estén por encima del overlay */
+.btn-outline {
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #fff;
 }
 
-.poster {
-    max-width: 280px;
-    border-radius: 14px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
-    transition: transform 0.3s ease;
+.btn-large {
+    padding: 12px 22px;
+    font-size: 1rem;
 }
 
-    .poster:hover {
-        transform: scale(1.05);
-    }
-
-.overview-text {
-    font-size: 1.05rem;
-    color: #d1d5db;
-    text-align: justify;
-    line-height: 1.6;
+/* BODY */
+.movie-main-body {
+    padding-top: 2rem;
 }
 
-.btn-action {
-    border-radius: 50px;
-    padding: 10px 22px;
-    font-weight: bold;
-    transition: all 0.3s ease;
+.movie-section-title {
+    font-weight: 800;
+    margin-bottom: .6rem;
 }
 
-    .btn-action:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 12px rgba(0, 168, 225, 0.4);
-    }
-
-/* 🔹 TRAILER DENTRO DEL HERO */
-.trailer-container {
+/* TRAILER */
+.movie-trailer-box iframe {
     width: 100%;
-    max-width: 800px;
+    height: 420px;
+    border-radius: 10px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
 }
 
-    .trailer-container iframe {
-        border-radius: 12px;
-        width: 100%;
-        height: 450px;
+/* SIDEBAR */
+.movie-sticky-box {
+    position: sticky;
+    top: 110px;
+}
+
+.movie-info-card {
+    background: var(--card);
+    padding: 18px;
+    border-radius: 12px;
+    box-shadow: 0 8px 30px rgba(2,8,12,0.6);
+    color: var(--muted);
+}
+
+    .movie-info-card h4 {
+        color: #fff;
+        margin-bottom: .75rem;
     }
 
-/* 🔹 RESPONSIVE */
-@media (max-width: 992px) {
-    .movie-hero {
+/* RESPONSIVE */
+@media (max-width: 1200px) {
+    .movie-hero-poster {
+        flex: 0 0 220px;
+        margin-left: -20px;
+    }
+
+    .movie-poster-img {
+        width: 220px;
+    }
+
+    .movie-trailer-box iframe {
+        height: 360px;
+    }
+}
+
+@media (max-width: 768px) {
+    .movie-hero-inner {
+        flex-direction: column;
+        align-items: center;
         text-align: center;
-        padding: 4rem 1rem;
+        gap: 1.2rem;
     }
 
-    .poster {
-        margin-bottom: 1.5rem;
-        max-width: 200px;
+    .movie-hero-poster {
+        margin-left: 0;
+        order: -1;
     }
 
-    .trailer-container iframe {
-        height: 320px;
-    }
-}
-
-@media (max-width: 576px) {
-    .movie-hero {
-        padding: 3rem 1rem;
+    .movie-poster-img {
+        width: 180px;
     }
 
-    .poster {
-        max-width: 160px;
+    .movie-hero-content {
+        padding-right: 0;
     }
 
-    .trailer-container iframe {
+    .movie-trailer-box iframe {
         height: 240px;
     }
 }
+
+@media (max-width: 480px) {
+    .movie-poster-img {
+        width: 160px;
+    }
+
+    .movie-title {
+        font-size: 1.4rem;
+    }
+}
+
+
 
 /* ============================================================
    🎞️ CARRUSELES TIPO PRIME VIDEO
@@ -178,7 +257,7 @@
     overflow-x: auto;
     scroll-behavior: smooth;
     gap: 15px;
-    padding-bottom: 10px;
+    padding: 15px;
 }
 
     .movie-carousel::-webkit-scrollbar {
@@ -194,7 +273,7 @@
     position: relative;
     flex: 0 0 auto;
     width: 160px;
-    border-radius: 8px;
+    border-radius: 20px;
     overflow: hidden;
     transition: transform 0.3s ease;
 }
