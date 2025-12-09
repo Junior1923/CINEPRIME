@@ -69,7 +69,6 @@ wwwroot\lib\jquery\dist\jquery.slim.js
 wwwroot\lib\jquery\dist\jquery.slim.min.js
 wwwroot\lib\jquery\dist\jquery.slim.min.map
 wwwroot\lib\jquery\LICENSE.txt
-C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\wwwroot\css\home.css
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\wwwroot\favicon.ico
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\wwwroot\js\site.js
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\wwwroot\lib\bootstrap\dist\css\bootstrap-grid.css
@@ -132,6 +131,7 @@ C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\wwwroot\lib\jquery\dist\jquery.
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\wwwroot\lib\jquery\dist\jquery.slim.min.map
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\wwwroot\lib\jquery\LICENSE.txt
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\wwwroot\css\favoritos.css
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\wwwroot\css\home.css
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\wwwroot\css\peliculas.css
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\wwwroot\css\profile.css
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\wwwroot\css\series.css
