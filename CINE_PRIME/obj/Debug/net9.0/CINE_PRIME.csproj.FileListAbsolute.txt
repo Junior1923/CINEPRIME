@@ -466,11 +466,12 @@ C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\bin\Debug\net9.0\Microsoft.AspN
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\bin\Debug\net9.0\Microsoft.Extensions.Identity.Core.dll
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\bin\Debug\net9.0\Microsoft.Extensions.Identity.Stores.dll
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\p3jjffyhsx-bu1pk3dj3t.gz
-C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\4a1d4lzd7o-pkbx95pmki.gz
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\81ousehv74-9d3knwbew0.gz
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\10ysjon1ir-08h08hsyxd.gz
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\zby59aawzd-r5prsdh9p1.gz
-C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\tod3umsrar-ykhiuv8dm0.gz
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\cbyqh9mnjk-0d10khzuzs.gz
 C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\36n8e5fy21-m8zcaxkzh3.gz
-C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\kf8tg9i8hy-x12a0zznoo.gz
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\7rk1b6lpfz-0c139rfe0d.gz
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\czjmd51fo9-wuy0yagd0y.gz
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\4a1d4lzd7o-0szl7qdskg.gz
+C:\Users\jeanl\Source\Repos\CINEPRIME\CINE_PRIME\obj\Debug\net9.0\compressed\tod3umsrar-vmfgcwa8ay.gz

@@ -1,8 +1,8 @@
 ﻿/* ===========================================================
-   prime-series.css — Diseño Prime-like elegante para Series
+        series.css — Diseño Prime-like elegante para Series
    =========================================================== */
 
-/* Variables (puedes mover a :root si lo deseas) */
+/* Variables */
 :root {
     --bg: #06090b;
     --card: #11171b;
@@ -35,8 +35,8 @@
 /* ===== Grid ===== */
 .series-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    gap: 22px;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 25px;
     margin-top: 1.5rem;
 }
 
@@ -57,7 +57,7 @@
 /* Poster */
 .series-poster-wrap {
     position: relative;
-    border-radius: 10px;
+    border-radius: 20px;
     overflow: hidden;
 }
 

@@ -1,17 +1,52 @@
 ﻿@model IEnumerable<CINE_PRIME.Models.Tmdb.TmdbSeriesDTO>
 
 @{
-    ViewData["Title"] = "Series - CinePrime";
+    ViewData["Title"] = "Series";
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/css/series.css" />
+    <link rel="stylesheet" href="~/css/hero-carousel.css" />
 }
 
 <div class="series-page container-fluid">
     <header class="series-header">
-        <h2 class="series-main-title">📺 Series Populares</h2>
+        <h2 class="series-main-title mb-4">Series Populares</h2>
     </header>
+
+
+    <!-- HERO CARRUSEL PRIME VIDEO -->
+    <div class="swiper hero-carousel mb-5">
+        <div class="swiper-wrapper">
+
+            @foreach (var serie in Model.Take(10))
+            {
+                <div class="swiper-slide hero-slide">
+                    <img src="@($"https://image.tmdb.org/t/p/original{serie.BackdropPath}")" alt="@serie.Name" />
+
+                    <div class="hero-gradient"></div>
+
+                    <div class="hero-content">
+                        <h2 class="hero-title">@serie.Name</h2>
+
+                        <div class="hero-btns mt-4">
+                            <a asp-controller="Series" asp-route-id="@serie.Id" asp-action="Details" class="btn btn-primary">Más info</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <!-- Controles -->
+        <div class="swiper-button-next"></div>
+        <div class="swiper-button-prev"></div>
+
+        <!-- Pagination dots -->
+        <div class="swiper-pagination"></div>
+    </div>
+
+
+
 
     <!-- Grid principal -->
     <div class="series-grid">
@@ -48,17 +83,8 @@
             </article>
         }
     </div>
-
-    @* <!-- Paginación mínima (si en el futuro agregas paginado) -->
-    <div class="d-flex justify-content-center mt-5">
-        <!-- Placeholder: reemplazar por paginador real si aplica -->
-        <nav aria-label="Paginación">
-            <ul class="pagination">
-                <li class="page-item disabled"><a class="page-link">Anterior</a></li>
-                <li class="page-item active"><a class="page-link">1</a></li>
-                <li class="page-item"><a class="page-link">2</a></li>
-                <li class="page-item"><a class="page-link">Siguiente</a></li>
-            </ul>
-        </nav>
-    </div> *@
 </div>
+
+@section Scripts {
+    <script src="~/js/hero-carousel.js"></script>
+}

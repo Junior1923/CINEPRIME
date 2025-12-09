@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<CINE_PRIME.ViewModels.FavoriteItemVM>
 
 @{
-    ViewData["Title"] = "Mis Favoritos";
+    ViewData["Title"] = "Mis Favoritas";
 }
 
 @section Styles {
@@ -9,14 +9,14 @@
 }
 
 <div class="favorites-header mb-4">
-    <h2 class="fw-bold text-light">❤️ Mis Favoritos</h2>
+    <h2 class="fw-bold text-light">Mis Favoritas</h2>
 </div>
 
 @if (!Model.Any())
 {
     <div class="empty-state text-center text-muted mt-5">
-        <h4 class="mt-3">No tienes Favoritos</h4>
-        <p>Agrega películas o series para verlas aquí.</p>
+        <h3 class="mt-3">No tienes Favoritas</h3>
+        <p>Agrega tus películas o series favoritas aquí.</p>
         <a asp-controller="Movies" asp-action="Index" class="btn btn-info">Explorar contenido</a>
     </div>
 }

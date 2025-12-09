@@ -14,10 +14,14 @@ namespace CINE_PRIME.Controllers
     public class ProfileController : Controller
     {
         private readonly IProfileService _profileService;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
 
-        public ProfileController(IProfileService profileService)
+        public ProfileController(IProfileService profileService, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
         {
             _profileService = profileService;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
         public async Task<IActionResult> Index()
@@ -41,6 +45,28 @@ namespace CINE_PRIME.Controllers
                 TempData["ErrorProfile"] = result.ErrorMessage;
                 return RedirectToAction("Index");
             }
+
+           
+            // REGENERAR CLAIMS SIN LOGOUT
+       
+            var user = await _userManager.GetUserAsync(User);
+
+            // Limpiar claims antiguos
+            var existingClaims = await _userManager.GetClaimsAsync(user);
+
+            foreach (var claim in existingClaims.Where(c => c.Type == "Nombre" || c.Type == "Apellido"))
+            {
+                await _userManager.RemoveClaimAsync(user, claim);
+            }
+
+            // Agregar claims nuevos
+            await _userManager.AddClaimAsync(user, new Claim("Nombre", user.Nombre));
+            await _userManager.AddClaimAsync(user, new Claim("Apellido", user.Apellido));
+
+            // Regenerar cookie sin cerrar sesión
+            await _signInManager.RefreshSignInAsync(user);
+            // ================================
+
 
             TempData["ProfileUpdated"] = "Perfil actualizado correctamente.";
             return RedirectToAction("Index");
