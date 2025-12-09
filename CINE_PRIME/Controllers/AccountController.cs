@@ -44,17 +44,30 @@ namespace CINE_PRIME.Controllers
             if (result.Succeeded)
             {
 
-                ViewBag.SuccessMessage = "✅ Tu cuenta ha sido creada correctamente. Ahora puedes iniciar sesión.";
+                ViewBag.SuccessMessage = "Tu cuenta ha sido creada correctamente. Ahora puedes iniciar sesión.";
                 ModelState.Clear(); // limpia el formulario
                 return View(); // se queda en la misma página de registro
 
             }
 
+            //foreach (var error in result.Errors)
+            //{
+            //    Console.WriteLine($"{error.Description}");
+            //    ModelState.AddModelError("", error.Description);
+
+            //}
             foreach (var error in result.Errors)
             {
-                Console.WriteLine($"{error.Description}");
-                ModelState.AddModelError("", error.Description);
+                string customMessage = error.Code switch
+                {
+                    "DuplicateUserName" => "Usuario o Correo ya existe.",
+                    "DuplicateEmail" => "Usuario o Correo ya existe",
+                    "PasswordTooShort" => "La contraseña es muy corta.",
+                    "PasswordRequiresDigit" => "La contraseña necesita al menos una letra mayúscula y minúscula.",
+                    _ => error.Description // mensaje por defecto
+                };
 
+                ModelState.AddModelError("", customMessage);
             }
 
             return View(model);
