@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "bpsHvXqoUBA=",
+  "dgSpecHash": "RW86xuJ0IFI=",
   "success": true,
-  "projectFilePath": "C:\\Users\\jeanl\\Source\\Repos\\CINEPRIME\\CINE_PRIME\\CINE_PRIME.csproj",
+  "projectFilePath": "C:\\Users\\jeanl\\source\\repos\\CINEPRIME\\CINE_PRIME\\CINE_PRIME.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jeanl\\.nuget\\packages\\azure.core\\1.38.0\\azure.core.1.38.0.nupkg.sha512",
     "C:\\Users\\jeanl\\.nuget\\packages\\azure.identity\\1.11.4\\azure.identity.1.11.4.nupkg.sha512",
